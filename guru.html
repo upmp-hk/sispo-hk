@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SISPO HK - Guru</title>
+  <link rel="stylesheet" href="sispo.css" />
+  <style>
+    :root {
+      --blue: #1d4ed8;
+      --blue-soft: #bfdbfe;
+      --blue-soft2: #dbeafe;
+      --green: #10b981;
+      --green-soft: #bbf7d0;
+      --green-soft2: #dcfce7;
+      --white: #ffffff;
+      --text: #000000;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #dcfce7);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      color: var(--text);
+    }
+    .app-shell {
+      width: 100%;
+      max-width: 1280px;
+      min-height: 620px;
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    }
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+    }
+    .main-header {
+      padding: 12px 18px;
+      border-bottom: 2px solid var(--blue-soft2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-header-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .main-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .main-subtitle {
+      font-size: 11px;
+      opacity: 0.75;
+    }
+    .main-header-right {
+      font-size: 11px;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--green);
+      background: var(--green);
+      color: var(--white);
+      font-size: 11.5px;
+    }
+    .main-body {
+      flex: 1;
+      padding: 14px 18px 16px;
+      background: linear-gradient(135deg, #ffffff, #eff6ff);
+      overflow-y: auto;
+    }
+    /* LOGIN GURU */
+    .login-page {
+      max-width: 420px;
+      margin: 32px auto;
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--blue-soft2);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      padding: 20px 18px 18px;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .login-badge {
+      display: inline-flex;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+    .login-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
+    .login-subtitle {
+      font-size: 12px;
+      opacity: 0.75;
+    }
+    .login-form-group {
+      text-align: left;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .login-form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .login-form-group input {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 13px;
+      outline: none;
+    }
+    .login-form-group input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 70px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 4px;
+    }
+    .login-button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--green);
+      background: var(--green);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .login-button:hover {
+      background: #059669;
+      border-color: #059669;
+    }
+    .login-error {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #b91c1c;
+      min-height: 16px;
+    }
+    .login-footer {
+      margin-top: 10px;
+      font-size: 11px;
+      text-align: center;
+      opacity: 0.8;
+    }
+    /* GURU MODE */
+    .guru-header {
+      margin-bottom: 10px;
+    }
+    .guru-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .guru-subtitle {
+      font-size: 11px;
+      opacity: 0.75;
+    }
+    .guru-form-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .guru-filter-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 10px 11px;
+      border: 1px solid var(--blue-soft2);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      font-size: 12px;
+    }
+    .guru-filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px 12px;
+    }
+    @media (max-width: 820px) {
+      .guru-filter-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .guru-filter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .guru-filter-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .guru-filter-item label {
+      font-size: 11px;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+    .guru-filter-item select {
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 12px;
+      background: var(--white);
+      outline: none;
+    }
+    .guru-filter-item select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
+    }
+    .guru-filter-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+    .guru-table-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 10px 11px 9px;
+      border: 1px solid var(--blue-soft2);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .guru-table-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .guru-table-title small {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+    .template-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 8px;
+      font-size: 11px;
+      flex-wrap: wrap;
+    }
+    .template-left {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .template-right {
+      font-style: italic;
+      opacity: 0.8;
+    }
+    .template-btn {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--white);
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .template-btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .template-btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .template-btn:hover {
+      opacity: 0.92;
+    }
+    .template-btn input[type="file"] {
+      display: none;
+    }
+    .guru-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+    .guru-table th,
+    .guru-table td {
+      border: 1px solid var(--blue-soft2);
+      padding: 4px 5px;
+      text-align: center;
+    }
+    .guru-table th {
+      background: var(--blue-soft2);
+      font-weight: 600;
+    }
+    .guru-table td.label-left {
+      text-align: left;
+    }
+    .guru-table input {
+      width: 70px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 11px;
+      text-align: center;
+      outline: none;
+    }
+    .guru-table input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
+    }
+    .guru-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .btn:hover { opacity: 0.92; }
+    .guru-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-box">
+          <img src="https://uploads.onecompiler.io/444e96suz/444e96fm2/cropped-00_Logo-HK-Utama.webp" alt="Logo HK">
+        </div>
+        <div class="sidebar-title">
+          <strong>SISPO HK</strong>
+          <span>Sistem Informasi Santri</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Mode Akses</div>
+
+        <div class="nav-item">
+          <a href="index.html">
+            <span>Santri &amp; Wali Santri</span>
+            <span class="nav-tag">Rapot</span>
+          </a>
+        </div>
+
+        <div class="nav-item active">
+          <span>Guru</span>
+          <span class="nav-tag">Akademik</span>
+        </div>
+
+        <div class="nav-item">
+          <a href="musyrif.html">
+            <span>Musyrif</span>
+            <span class="nav-tag">TTQ</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="murobbi.html">
+            <span>Murobbi</span>
+            <span class="nav-tag">Mutabaah</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="bahasa.html">
+            <span>Bahasa</span>
+            <span class="nav-tag">Arab &amp; Inggris</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="pengasuhan.html">
+            <span>Pengasuhan</span>
+            <span class="nav-tag">Poin Pelanggaran</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="admin.html">
+            <span>Admin</span>
+            <span class="nav-tag">Data Profil</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        Pontren Husnul Khotimah
+        <span>Dashboard Rapot Terintegrasi</span>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="main-header">
+        <div class="main-header-left">
+          <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
+          <div class="main-subtitle">
+            Form input Nilai Akademik (Pengetahuan &amp; keterampilan) Santri oleh Guru.
+          </div>
+        </div>
+        <div class="main-header-right">
+          Mode: <span>Guru</span>
+          <span class="badge" id="statusBadgeGuru">Login diperlukan</span>
+          <button type="button"
+                  id="logoutGuruBtn"
+                  class="btn"
+                  onclick="handleLogoutGuru()"
+                  style="display:none;">
+            Logout
+          </button>
+        </div>
+      </header>
+
+      <main class="main-body">
+        <!-- LOGIN GURU -->
+        <div id="guruLoginContainer" class="login-page">
+          <div class="login-header">
+            <div class="login-badge">🔑 Login</div>
+            <div class="login-title">Guru</div>
+            <div class="login-subtitle">
+              Gunakan akun Guru untuk mengisi Nilai Akademik Santri.
+            </div>
+          </div>
+
+          <form id="loginGuruForm" onsubmit="handleLoginGuru(event)">
+            <div class="login-form-group">
+              <label for="loginGuruID">Username</label>
+              <input type="text" id="loginGuruID" placeholder="admin" autocomplete="username" />
+            </div>
+            <div class="login-form-group">
+              <label for="loginGuruPassword">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="loginGuruPassword" placeholder="admin" autocomplete="current-password" />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  data-target="loginGuruPassword"
+                  onclick="togglePassword(this)">
+                  Show
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="login-button">Masuk</button>
+          </form>
+
+          <div id="loginGuruError" class="login-error"></div>
+
+          <div class="login-footer">
+            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+          </div>
+        </div>
+
+        <!-- FORM NILAI -->
+        <div id="guruFormContainer" style="display:none;">
+          <div class="guru-header">
+            <div class="guru-title">Input Nilai Akademik oleh Guru</div>
+            <div class="guru-subtitle">
+              Guru mengisi Nilai Pengetahuan dan Keterampilan sesuai Mata Pelajaran yang diampu.
+            </div>
+          </div>
+
+          <div class="guru-form-wrapper">
+            <!-- FILTER -->
+            <div class="guru-filter-card">
+              <div class="guru-filter-grid">
+                <!-- 1. Tahun Ajaran -->
+                <div class="guru-filter-item">
+                  <label for="guruTahun">Tahun Ajaran</label>
+                  <select id="guruTahun">
+                    <option value="2023_2024">2023/2024</option>
+                    <option value="2024_2025" selected>2024/2025</option>
+                    <option value="2025_2026">2025/2026</option>
+                  </select>
+                </div>
+                <!-- 2. Semester -->
+                <div class="guru-filter-item">
+                  <label for="guruSemester">Semester</label>
+                  <select id="guruSemester">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                  </select>
+                </div>
+                <!-- 3. Jenjang -->
+                <div class="guru-filter-item">
+                  <label for="guruJenjang">Jenjang</label>
+                  <select id="guruJenjang">
+                    <option value="MTs (HK1)">MTs (HK1)</option>
+                    <option value="MTs (HK2)">MTs (HK2)</option>
+                    <option value="MA" selected>MA</option>
+                  </select>
+                </div>
+                <!-- 4. Kelas -->
+                <div class="guru-filter-item">
+                  <label for="guruKelas">Kelas</label>
+                  <select id="guruKelas">
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                    <option value="IX">IX</option>
+                    <option value="X">X</option>
+                    <option value="XI" selected>XI</option>
+                    <option value="XII">XII</option>
+                  </select>
+                </div>
+                <!-- 5. Paralel / Rombel -->
+                <div class="guru-filter-item">
+                  <label for="guruParalel">Paralel / Rombel</label>
+                  <select id="guruParalel">
+                    <!-- A-Z -->
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="N">N</option>
+                    <option value="O">O</option>
+                    <option value="P">P</option>
+                    <option value="Q">Q</option>
+                    <option value="R">R</option>
+                    <option value="S">S</option>
+                    <option value="T">T</option>
+                    <option value="U">U</option>
+                    <option value="V">V</option>
+                    <option value="W">W</option>
+                    <option value="X">X</option>
+                    <option value="Y">Y</option>
+                    <option value="Z">Z</option>
+                    <!-- IPA -->
+                    <option value="IPA 1">IPA 1</option>
+                    <option value="IPA 2">IPA 2</option>
+                    <option value="IPA 3">IPA 3</option>
+                    <option value="IPA 4">IPA 4</option>
+                    <option value="IPA 5">IPA 5</option>
+                    <option value="IPA 6">IPA 6</option>
+                    <option value="IPA 7">IPA 7</option>
+                    <option value="IPA 8">IPA 8</option>
+                    <option value="IPA 9">IPA 9</option>
+                    <option value="IPA 10">IPA 10</option>
+                    <option value="IPA 11">IPA 11</option>
+                    <option value="IPA 12">IPA 12</option>
+                    <option value="IPA 13">IPA 13</option>
+                    <option value="IPA 14">IPA 14</option>
+                    <option value="IPA 15">IPA 15</option>
+                    <!-- IPS -->
+                    <option value="IPS 1">IPS 1</option>
+                    <option value="IPS 2">IPS 2</option>
+                    <option value="IPS 3">IPS 3</option>
+                    <option value="IPS 4">IPS 4</option>
+                    <option value="IPS 5">IPS 5</option>
+                    <option value="IPS 6">IPS 6</option>
+                    <option value="IPS 7">IPS 7</option>
+                    <option value="IPS 8">IPS 8</option>
+                    <option value="IPS 9">IPS 9</option>
+                    <option value="IPS 10">IPS 10</option>
+                    <!-- PK -->
+                    <option value="PK 1">PK 1</option>
+                    <option value="PK 2">PK 2</option>
+                    <option value="PK 3">PK 3</option>
+                    <option value="PK 4">PK 4</option>
+                    <option value="PK 5">PK 5</option>
+                    <option value="PK 6">PK 6</option>
+                    <option value="PK 7">PK 7</option>
+                    <option value="PK 8">PK 8</option>
+                    <option value="PK 9">PK 9</option>
+                    <option value="PK 10">PK 10</option>
+                  </select>
+                </div>
+                <!-- 6. Mata Pelajaran -->
+                <div class="guru-filter-item">
+                  <label for="guruMapel">Mata Pelajaran</label>
+                  <select id="guruMapel">
+                    <option value="Al-Qur'an Hadits (Tafsir)">Al-Qur'an Hadits (Tafsir)</option>
+                    <option value="Akidah Akhlak">Akidah Akhlak</option>
+                    <option value="Fikih">Fikih</option>
+                    <option value="Sejarah Kebudayaan Islam">Sejarah Kebudayaan Islam</option>
+                    <option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
+                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                    <option value="Bahasa Arab">Bahasa Arab</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Sejarah Indonesia">Sejarah Indonesia</option>
+                    <option value="Bahasa Inggris">Bahasa Inggris</option>
+                    <option value="Fisika">Fisika</option>
+                    <option value="Kimia">Kimia</option>
+                    <option value="Biologi">Biologi</option>
+                    <option value="Ekonomi">Ekonomi</option>
+                    <option value="Geografi">Geografi</option>
+                    <option value="Sosiologi">Sosiologi</option>
+                    <option value="Informatika">Informatika</option>
+                    <option value="Matematika Peminatan (IPA)">Matematika Peminatan (IPA)</option>
+                    <option value="Fisika Peminatan">Fisika Peminatan</option>
+                    <option value="Kimia Peminatan">Kimia Peminatan</option>
+                    <option value="Biologi Peminatan">Biologi Peminatan</option>
+                    <option value="Sejarah Peminatan">Sejarah Peminatan</option>
+                    <option value="Ekonomi Peminatan">Ekonomi Peminatan</option>
+                    <option value="Geografi Peminatan">Geografi Peminatan</option>
+                    <option value="Sosiologi Peminatan">Sosiologi Peminatan</option>
+                    <option value="Tafsir - Ilmu Tafsir">Tafsir - Ilmu Tafsir</option>
+                    <option value="Hadis - Ilmu Hadis">Hadis - Ilmu Hadis</option>
+                    <option value="Fiqih - Ushul Fiqih">Fiqih - Ushul Fiqih</option>
+                    <option value="Bahasa Arab Peminatan (Balaghoh)">Bahasa Arab Peminatan (Balaghoh)</option>
+                    <option value="Tahfidz Al-Qur'an">Tahfidz Al-Qur'an</option>
+                    <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
+                    <option value="Nahwu (Qawaid)">Nahwu (Qawaid)</option>
+                    <option value="Hadits (Pesantren)">Hadits (Pesantren)</option>
+                    <option value="Faroidh">Faroidh</option>
+                    <option value="Bimbingan Konseling (BK)">Bimbingan Konseling (BK)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="guru-filter-note">
+                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
+              </div>
+            </div>
+
+            <!-- TABEL NILAI -->
+            <div class="guru-table-card">
+              <div class="guru-table-title">
+                <span>Daftar Nilai Santri</span>
+                <small>
+                  Mapel: <span id="labelGuruMapel">Al-Qur'an Hadits (Tafsir)</span> &mdash;
+                  Kelas: <span id="labelGuruKelas">XI</span> /
+                  TA <span id="labelGuruTahun">2024/2025</span> /
+                  Sem <span id="labelGuruSemester">1</span>
+                </small>
+              </div>
+
+              <!-- TOOLS TEMPLATE -->
+              <div class="template-tools">
+                <div class="template-left">
+                  <button type="button" class="template-btn" onclick="downloadTemplate()">
+                    ⬇ Download Template (.xls)
+                  </button>
+                  <label class="template-btn secondary">
+                    ⬆ Upload Template (.xls/.xlsx)
+                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
+                  </label>
+                </div>
+                <div class="template-right">
+                  Guru bisa mengisi nilai di template Excel lalu upload kembali (simulasi).
+                </div>
+              </div>
+
+              <table class="guru-table" id="tabelGuruNilai">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>NIS</th>
+                    <th>Nama Santri</th>
+                    <th>Pengetahuan</th>
+                    <th>Keterampilan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- filled by JS -->
+                </tbody>
+              </table>
+
+              <div class="guru-actions">
+                <button class="btn secondary" type="button" onclick="resetGuruNilai()">🔄 Reset</button>
+                <button class="btn" type="button" onclick="simpanGuruNilai()">💾 Simpan Nilai (Simulasi)</button>
+              </div>
+              <div class="guru-footer-note">
+                *Download Template: file .xls dengan kolom NIS, Nama Santri, Pengetahuan, Keterampilan.  
+                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // LOGIN GURU (TESTING): username: admin, password: admin
+    const VALID_GURU_ID = "admin";
+    const VALID_GURU_PASSWORD = "admin";
+    const GURU_SESSION_KEY = "sispo_guru_session";
+    const SESSION_DURATION_MS = 5 * 60 * 1000;
+    let guruLogoutTimer = null;
+    
+    function handleLoginGuru(event) {
+      event.preventDefault();
+      const id = document.getElementById("loginGuruID").value.trim();
+      const pass = document.getElementById("loginGuruPassword").value;
+      const errorEl = document.getElementById("loginGuruError");
+    
+      if (!id || !pass) {
+        errorEl.textContent = "ID guru dan password wajib diisi.";
+        return;
+      }
+    
+      if (id === VALID_GURU_ID && pass === VALID_GURU_PASSWORD) {
+        errorEl.textContent = "";
+        setGuruSession();
+        applyGuruLoginUI();
+        initGuruTable();
+        scheduleGuruAutoLogout();
+      } else {
+        errorEl.textContent = "ID guru atau password tidak sesuai.";
+      }
+    }
+
+    function applyGuruLoginUI() {
+      document.getElementById("guruLoginContainer").style.display = "none";
+      document.getElementById("guruFormContainer").style.display = "block";
+      document.getElementById("statusBadgeGuru").textContent = "Login";
+      const btn = document.getElementById("logoutGuruBtn");
+      if (btn) btn.style.display = "inline-block";
+    }
+    
+    function applyGuruLogoutUI() {
+      document.getElementById("guruLoginContainer").style.display = "block";
+      document.getElementById("guruFormContainer").style.display = "none";
+      document.getElementById("statusBadgeGuru").textContent = "Login diperlukan";
+      const btn = document.getElementById("logoutGuruBtn");
+      if (btn) btn.style.display = "none";
+    }
+    
+    function setGuruSession() {
+      const expiresAt = Date.now() + SESSION_DURATION_MS;
+      localStorage.setItem(GURU_SESSION_KEY, JSON.stringify({ expiresAt }));
+    }
+    
+    function clearGuruSession() {
+      localStorage.removeItem(GURU_SESSION_KEY);
+      if (guruLogoutTimer) {
+        clearTimeout(guruLogoutTimer);
+        guruLogoutTimer = null;
+      }
+    }
+    
+    function scheduleGuruAutoLogout() {
+      const raw = localStorage.getItem(GURU_SESSION_KEY);
+      if (!raw) return;
+    
+      try {
+        const { expiresAt } = JSON.parse(raw);
+        const remaining = expiresAt - Date.now();
+        if (remaining <= 0) {
+          handleLogoutGuru();
+        } else {
+          if (guruLogoutTimer) clearTimeout(guruLogoutTimer);
+          guruLogoutTimer = setTimeout(handleLogoutGuru, remaining);
+        }
+      } catch (e) {
+        handleLogoutGuru();
+      }
+    }
+    
+    function handleLogoutGuru() {
+      clearGuruSession();
+      applyGuruLogoutUI();
+    
+      const form = document.getElementById("loginGuruForm");
+      if (form) form.reset();
+      const errorEl = document.getElementById("loginGuruError");
+      if (errorEl) errorEl.textContent = "";
+    }
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const raw = localStorage.getItem(GURU_SESSION_KEY);
+      if (!raw) return;
+    
+      try {
+        const { expiresAt } = JSON.parse(raw);
+        if (expiresAt && expiresAt > Date.now()) {
+          applyGuruLoginUI();
+          initGuruTable();
+          scheduleGuruAutoLogout();
+        } else {
+          clearGuruSession();
+          applyGuruLogoutUI();
+        }
+      } catch (e) {
+        clearGuruSession();
+        applyGuruLogoutUI();
+      }
+    });
+
+    function togglePassword(btn) {
+      const targetId = btn.getAttribute("data-target");
+      const input = document.getElementById(targetId);
+      if (!input) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+      } else {
+        input.type = "password";
+        btn.textContent = "Show";
+      }
+    }
+
+    // DATA DUMMY SANTRI
+    const guruSantriDummy = [
+      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
+      { nis: "2023.001235", nama: "Muhammad Fauzan" },
+      { nis: "2023.001236", nama: "Ridwan Hidayat" },
+      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
+      { nis: "2023.001238", nama: "Zaki Maulana" }
+    ];
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function initGuruTable() {
+      const tbody = document.querySelector("#tabelGuruNilai tbody");
+      tbody.innerHTML = "";
+      guruSantriDummy.forEach((s, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${s.nis}</td>
+          <td class="label-left">${s.nama}</td>
+          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="pengetahuan"></td>
+          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="keterampilan"></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      updateGuruLabels();
+      setupGuruFilterListeners();
+    }
+
+    function setupGuruFilterListeners() {
+      ["guruTahun","guruKelas","guruSemester","guruMapel"].forEach(id=>{
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updateGuruLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
+    }
+
+    function updateGuruLabels() {
+      const tahun = document.getElementById("guruTahun").value;
+      const kelas = document.getElementById("guruKelas").value;
+      const semester = document.getElementById("guruSemester").value;
+      const mapel = document.getElementById("guruMapel").value;
+
+      document.getElementById("labelGuruTahun").textContent = tahun.replace("_","/");
+      document.getElementById("labelGuruKelas").textContent = kelas;
+      document.getElementById("labelGuruSemester").textContent = semester;
+      document.getElementById("labelGuruMapel").textContent = mapel;
+    }
+
+    function resetGuruNilai() {
+      initGuruTable();
+      alert("Nilai dikembalikan ke nilai acak (simulasi).");
+    }
+
+    function simpanGuruNilai() {
+      const rows = document.querySelectorAll("#tabelGuruNilai tbody tr");
+      const hasil = [];
+      rows.forEach((tr, idx) => {
+        const nis = tr.children[1].textContent.trim();
+        const nama = tr.children[2].textContent.trim();
+        const pengetahuan = tr.querySelector('input[data-field="pengetahuan"]').value;
+        const keterampilan = tr.querySelector('input[data-field="keterampilan"]').value;
+        hasil.push({ no: idx+1, nis, nama, pengetahuan, keterampilan });
+      });
+      console.log("Data nilai guru (simulasi):", hasil);
+      alert("Nilai tersimpan (simulasi). Cek console browser untuk melihat data.");
+    }
+
+    // DOWNLOAD TEMPLATE XLS (CSV-format dengan ekstensi .xls agar mudah dibuka di Excel)
+    function downloadTemplate() {
+      const tahun = document.getElementById("guruTahun").value.replace("_","/");
+      const kelas = document.getElementById("guruKelas").value;
+      const semester = document.getElementById("guruSemester").value;
+      const mapel = document.getElementById("guruMapel").value;
+      const paralel = document.getElementById("guruParalel").value;
+
+      let csv = "";
+      csv += `Tahun Ajaran,${tahun}\r\n`;
+      csv += `Semester,${semester}\r\n`;
+      csv += `Kelas,${kelas}\r\n`;
+      csv += `Paralel/Rombel,${paralel}\r\n`;
+      csv += `Mata Pelajaran,${mapel}\r\n\r\n`;
+      csv += "NIS,Nama Santri,Pengetahuan,Keterampilan\r\n";
+
+      guruSantriDummy.forEach(s => {
+        csv += `${s.nis},${s.nama},,\r\n`;
+      });
+
+      const blob = new Blob([csv], {
+        type: "application/vnd.ms-excel"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeMapel = mapel.replace(/\s+/g,"_").replace(/[^a-zA-Z0-9_]/g,"");
+      a.href = url;
+      a.download = `template_nilai_${safeMapel}_kelas_${kelas}_${paralel}.xls`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // UPLOAD TEMPLATE (simulasi)
+    function handleUploadTemplate(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const ext = file.name.toLowerCase().split(".").pop();
+      const reader = new FileReader();
+
+      if (ext === "xls" || ext === "xlsx") {
+        reader.onload = function(e) {
+          const buffer = e.target.result;
+          console.log("File Excel ter-upload (simulasi), size:", buffer.byteLength, "bytes");
+          alert("Template .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        alert("Format file tidak dikenali. Gunakan file .xls atau .xlsx.");
+      }
+    }
+  </script>
+</body>
+</html>
