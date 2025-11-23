@@ -1152,11 +1152,11 @@
             // tangani tanggal lahir: bisa string, bisa Date, bisa kosong
             let tgl = row[6];
             if (tgl instanceof Date) {
-              // format: yyyy-mm-dd agar cocok dengan <input type="date">
-              const yyyy = tgl.getFullYear();
-              const mm = String(tgl.getMonth() + 1).padStart(2, "0");
+              // format: dd-mm-yyyy agar cocok dengan <input type="date">
               const dd = String(tgl.getDate()).padStart(2, "0");
-              tgl = `${yyyy}-${mm}-${dd}`;
+              const mm = String(tgl.getMonth() + 1).padStart(2, "0");
+              const yyyy = tgl.getFullYear();
+              tgl = `${dd}-${mm}-${yyyy}`;
             }
             setField("tanggal_lahir", tgl);
       
@@ -1178,6 +1178,7 @@
   </script>
 </body>
 </html>
+
 
 
 
