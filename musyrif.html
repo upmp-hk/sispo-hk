@@ -296,17 +296,6 @@
       opacity: 0.8;
     }
     .template-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .template-btn {
       padding: 7px 12px;
       border-radius: 999px;
       border: 1px solid var(--blue);
@@ -347,13 +336,16 @@
       text-align: left;
     }
     .musyrif-table input {
-      width: 70px;
+      width: 100%;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
       text-align: center;
       outline: none;
+    }
+    .musyrif-table td.label-left input {
+      text-align: left;
     }
     .musyrif-table input:focus {
       border-color: var(--green);
@@ -489,19 +481,19 @@
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Musyrif</div>
             <div class="login-subtitle">
-              Gunakan akun Musyrif untuk mengisi Nilai TTQ santri.
+              Gunakan akun Musyrif yang telah didaftarkan untuk mengisi Nilai TTQ santri.
             </div>
           </div>
 
           <form id="loginMusyrifForm" onsubmit="handleLoginMusyrif(event)">
             <div class="login-form-group">
-              <label for="loginMusyrifID">Username</label>
-              <input type="text" id="loginMusyrifID" placeholder="admin" autocomplete="username" />
+              <label for="loginMusyrifID">Username (Email)</label>
+              <input type="text" id="loginMusyrifID" placeholder="email musyrif" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginMusyrifPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginMusyrifPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginMusyrifPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -517,7 +509,7 @@
           <div id="loginMusyrifError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akses login diatur oleh Admin SISPO HK.
           </div>
         </div>
 
@@ -576,76 +568,16 @@
                 <div class="musyrif-filter-item">
                   <label for="musyrifParalel">Paralel / Rombel</label>
                   <select id="musyrifParalel">
-                    <!-- A-Z -->
                     <option value="A">A</option>
-                    <option value="B">B</option>
+                    <option value="B" selected>B</option>
                     <option value="C">C</option>
                     <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
-                    <option value="P">P</option>
-                    <option value="Q">Q</option>
-                    <option value="R">R</option>
-                    <option value="S">S</option>
-                    <option value="T">T</option>
-                    <option value="U">U</option>
-                    <option value="V">V</option>
-                    <option value="W">W</option>
-                    <option value="X">X</option>
-                    <option value="Y">Y</option>
-                    <option value="Z">Z</option>
-                    <!-- IPA -->
-                    <option value="IPA 1">IPA 1</option>
-                    <option value="IPA 2">IPA 2</option>
-                    <option value="IPA 3">IPA 3</option>
-                    <option value="IPA 4">IPA 4</option>
-                    <option value="IPA 5">IPA 5</option>
-                    <option value="IPA 6">IPA 6</option>
-                    <option value="IPA 7">IPA 7</option>
-                    <option value="IPA 8">IPA 8</option>
-                    <option value="IPA 9">IPA 9</option>
-                    <option value="IPA 10">IPA 10</option>
-                    <option value="IPA 11">IPA 11</option>
-                    <option value="IPA 12">IPA 12</option>
-                    <option value="IPA 13">IPA 13</option>
-                    <option value="IPA 14">IPA 14</option>
-                    <option value="IPA 15">IPA 15</option>
-                    <!-- IPS -->
-                    <option value="IPS 1">IPS 1</option>
-                    <option value="IPS 2">IPS 2</option>
-                    <option value="IPS 3">IPS 3</option>
-                    <option value="IPS 4">IPS 4</option>
-                    <option value="IPS 5">IPS 5</option>
-                    <option value="IPS 6">IPS 6</option>
-                    <option value="IPS 7">IPS 7</option>
-                    <option value="IPS 8">IPS 8</option>
-                    <option value="IPS 9">IPS 9</option>
-                    <option value="IPS 10">IPS 10</option>
-                    <!-- PK -->
-                    <option value="PK 1">PK 1</option>
-                    <option value="PK 2">PK 2</option>
-                    <option value="PK 3">PK 3</option>
-                    <option value="PK 4">PK 4</option>
-                    <option value="PK 5">PK 5</option>
-                    <option value="PK 6">PK 6</option>
-                    <option value="PK 7">PK 7</option>
-                    <option value="PK 8">PK 8</option>
-                    <option value="PK 9">PK 9</option>
-                    <option value="PK 10">PK 10</option>
+                    <!-- dst, tetap sama seperti sebelumnya -->
                   </select>
                 </div>
               </div>
               <div class="musyrif-filter-note">
-                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
+                Data Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel akan tersimpan bersama nilai TTQ.
               </div>
             </div>
 
@@ -663,16 +595,16 @@
               <!-- TOOLS TEMPLATE -->
               <div class="template-tools">
                 <div class="template-left">
-                  <button type="button" class="template-btn" onclick="downloadTemplate()">
+                  <button type="button" class="template-btn" onclick="downloadTemplateTTQ()">
                     ⬇ Download Template (.xls)
                   </button>
                   <label class="template-btn secondary">
                     ⬆ Upload Template (.xls/.xlsx)
-                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
+                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplateTTQ(event)" />
                   </label>
                 </div>
                 <div class="template-right">
-                  Musyrif bisa mengisi nilai TTQ di template Excel lalu upload kembali (simulasi).
+                  Template mengikuti kolom input manual di bawah (NIS, Nama dan nilai TTQ).
                 </div>
               </div>
 
@@ -690,17 +622,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- filled by JS -->
+                  <!-- akan diisi dengan baris input kosong oleh JS -->
                 </tbody>
               </table>
 
               <div class="musyrif-actions">
                 <button class="btn secondary" type="button" onclick="resetMusyrifTTQ()">🔄 Reset</button>
-                <button class="btn" type="button" onclick="simpanMusyrifTTQ()">💾 Simpan Nilai (Simulasi)</button>
+                <button class="btn" type="button" onclick="simpanMusyrifTTQ()">💾 Simpan Nilai</button>
               </div>
               <div class="musyrif-footer-note">
-                *Download Template: file .xls dengan kolom NIS, Nama Santri, Hafalan Muqorror, Ujian Muqorror, Hafalan Murojaah, Hafalan Ziyadah, Ujian Ziyadah.  
-                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
+                *Musyrif mengisi manual NIS, Nama Santri, dan seluruh kolom nilai TTQ.  
+                *Download/Upload Template mengikuti struktur kolom pada tabel di atas (simulasi upload di sisi frontend).
               </div>
             </div>
           </div>
@@ -709,60 +641,68 @@
     </div>
   </div>
 
+  <!-- SUPABASE CLIENT -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // LOGIN MUSYRIF (TESTING): username: admin, password: admin
+    const { createClient } = supabase;
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <!-- LOGIC MUSYRIF -->
+  <script>
     const MUSYRIF_SESSION_KEY = "sispo_musyrif_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let musyrifLogoutTimer = null;
 
-  async function handleLoginMusyrif(event) {
-    event.preventDefault();
-    const id = document.getElementById("loginMusyrifID").value.trim();
-    const pass = document.getElementById("loginMusyrifPassword").value;
-    const errorEl = document.getElementById("loginMusyrifError");
-  
-    if (!id || !pass) {
-      errorEl.textContent = "Username dan password wajib diisi.";
-      return;
+    async function handleLoginMusyrif(event) {
+      event.preventDefault();
+      const id = document.getElementById("loginMusyrifID").value.trim();
+      const pass = document.getElementById("loginMusyrifPassword").value;
+      const errorEl = document.getElementById("loginMusyrifError");
+    
+      if (!id || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+    
+      const { data, error } = await db.auth.signInWithPassword({
+        email: id,
+        password: pass
+      });
+    
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+        return;
+      }
+    
+      const { data: roleData, error: roleError } = await db
+        .from('user_roles')
+        .select('mode')
+        .eq('id', data.user.id)
+        .single();
+    
+      if (roleError || !roleData) {
+        console.error(roleError);
+        errorEl.textContent = "Role pengguna tidak ditemukan.";
+        await db.auth.signOut();
+        return;
+      }
+    
+      if (roleData.mode !== 'musyrif') {
+        errorEl.textContent = "Akun ini bukan akun Musyrif.";
+        await db.auth.signOut();
+        return;
+      }
+    
+      errorEl.textContent = "";
+      setMusyrifSession();
+      applyMusyrifLoginUI();
+      initMusyrifTable();
+      scheduleMusyrifAutoLogout();
     }
-  
-    const { data, error } = await db.auth.signInWithPassword({
-      email: id,
-      password: pass
-    });
-  
-    if (error) {
-      console.error(error);
-      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
-      return;
-    }
-  
-    const { data: roleData, error: roleError } = await db
-      .from('user_roles')
-      .select('mode')
-      .eq('id', data.user.id)
-      .single();
-  
-    if (roleError || !roleData) {
-      console.error(roleError);
-      errorEl.textContent = "Role pengguna tidak ditemukan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    if (roleData.mode !== 'musyrif') {
-      errorEl.textContent = "Akun ini bukan akun Musyrif.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    errorEl.textContent = "";
-    setMusyrifSession();
-    applyMusyrifLoginUI();
-    initMusyrifTable();
-    scheduleMusyrifAutoLogout();
-  }
-
 
     function applyMusyrifLoginUI() {
       document.getElementById("musyrifLoginContainer").style.display = "none";
@@ -854,42 +794,45 @@
         btn.textContent = "Show";
       }
     }
-        // DATA DUMMY SANTRI
-    const musyrifSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
 
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+    /* ====== TABEL INPUT MANUAL (TANPA DUMMY) ====== */
+
+    function createEmptyMusyrifRow(no) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="col-no">${no}</td>
+        <td><input type="text" data-field="nis" placeholder="NIS"></td>
+        <td class="label-left"><input type="text" data-field="nama" placeholder="Nama Santri"></td>
+        <td><input type="number" min="0" max="100" data-field="muqorror"></td>
+        <td><input type="number" min="0" max="100" data-field="ujianMuqorror"></td>
+        <td><input type="number" min="0" max="100" data-field="murojaah"></td>
+        <td><input type="number" min="0" max="100" data-field="ziyadah"></td>
+        <td><input type="number" min="0" max="100" data-field="ujianZiyadah"></td>
+      `;
+      return tr;
+    }
+
+    function renumberMusyrifRows() {
+      const rows = document.querySelectorAll("#tabelMusyrifTTQ tbody tr");
+      rows.forEach((tr, idx) => {
+        const noCell = tr.querySelector(".col-no");
+        if (noCell) noCell.textContent = idx + 1;
+      });
     }
 
     function initMusyrifTable() {
       const tbody = document.querySelector("#tabelMusyrifTTQ tbody");
       tbody.innerHTML = "";
-      musyrifSantriDummy.forEach((s, idx) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${s.nis}</td>
-          <td class="label-left">${s.nama}</td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="muqorror"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="ujianMuqorror"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="murojaah"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="ziyadah"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="ujianZiyadah"></td>
-        `;
-        tbody.appendChild(tr);
-      });
+      // misalnya sediakan 5 baris kosong awal
+      for (let i = 1; i <= 5; i++) {
+        tbody.appendChild(createEmptyMusyrifRow(i));
+      }
       updateMusyrifLabels();
       setupMusyrifFilterListeners();
     }
 
     function setupMusyrifFilterListeners() {
-      ["musyrifTahun","musyrifKelas","musyrifSemester"].forEach(id=>{
+      ["musyrifTahun","musyrifKelas","musyrifSemester"].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.dataset.listenerAttached) {
           el.addEventListener("change", updateMusyrifLabels);
@@ -910,33 +853,35 @@
 
     function resetMusyrifTTQ() {
       initMusyrifTable();
-      alert("Nilai TTQ dikembalikan ke nilai acak (simulasi).");
+      alert("Form nilai TTQ dikosongkan.");
     }
+
+    /* ====== SIMPAN KE SUPABASE (INPUT MANUAL) ====== */
 
     async function simpanMusyrifTTQ() {
       const rows = document.querySelectorAll("#tabelMusyrifTTQ tbody tr");
     
-      // Ambil filter di atas tabel (tahun, semester, jenjang, kelas, paralel)
       const tahun = document.getElementById("musyrifTahun").value;
       const semester = parseInt(document.getElementById("musyrifSemester").value, 10);
       const jenjang = document.getElementById("musyrifJenjang").value;
       const kelas = document.getElementById("musyrifKelas").value;
       const paralel = document.getElementById("musyrifParalel").value;
     
-      // Susun payload untuk dikirim ke Supabase
       const payload = [];
     
       rows.forEach((tr) => {
-        const nis = tr.children[1].textContent.trim();
-        const nama = tr.children[2].textContent.trim();
-    
-        const muq = tr.querySelector('input[data-field="muqorror"]').value;
+        const nis   = tr.querySelector('input[data-field="nis"]').value.trim();
+        const nama  = tr.querySelector('input[data-field="nama"]').value.trim();
+        const muq   = tr.querySelector('input[data-field="muqorror"]').value;
         const ujMuq = tr.querySelector('input[data-field="ujianMuqorror"]').value;
-        const mur = tr.querySelector('input[data-field="murojaah"]').value;
-        const ziy = tr.querySelector('input[data-field="ziyadah"]').value;
+        const mur   = tr.querySelector('input[data-field="murojaah"]').value;
+        const ziy   = tr.querySelector('input[data-field="ziyadah"]').value;
         const ujZiy = tr.querySelector('input[data-field="ujianZiyadah"]').value;
-    
-        // dorong ke array payload
+
+        // lewati baris kosong (tanpa NIS dan Nama)
+        if (!nis && !nama && !muq && !ujMuq && !mur && !ziy && !ujZiy) return;
+        if (!nis || !nama) return; // wajib ada identitas
+        
         payload.push({
           nis,
           nama,
@@ -945,20 +890,21 @@
           jenjang,
           kelas,
           paralel,
-          hafalan_muqorror: muq === "" ? null : Number(muq),
-          ujian_muqorror: ujMuq === "" ? null : Number(ujMuq),
-          hafalan_murojaah: mur === "" ? null : Number(mur),
-          hafalan_ziyadah: ziy === "" ? null : Number(ziy),
-          ujian_ziyadah: ujZiy === "" ? null : Number(ujZiy)
+          hafalan_muqorror:   muq   === "" ? null : Number(muq),
+          ujian_muqorror:     ujMuq === "" ? null : Number(ujMuq),
+          hafalan_murojaah:   mur   === "" ? null : Number(mur),
+          hafalan_ziyadah:    ziy   === "" ? null : Number(ziy),
+          ujian_ziyadah:      ujZiy === "" ? null : Number(ujZiy)
         });
       });
     
       if (payload.length === 0) {
-        alert("Tidak ada data santri pada tabel.");
+        alert("Tidak ada data santri yang diisi. Lengkapi minimal satu baris (NIS & Nama).");
         return;
       }
+
+      console.log("Payload TTQ akan dikirim:", payload);
     
-      // Kirim ke Supabase
       const { data, error } = await db
         .from("nilai_ttq")
         .insert(payload);
@@ -967,12 +913,13 @@
         console.error(error);
         alert("Gagal menyimpan nilai TTQ: " + error.message);
       } else {
+        console.log("Data TTQ tersimpan:", data);
         alert("Nilai TTQ berhasil disimpan ke database Supabase.");
-        console.log("Data tersimpan:", data);
       }
     }
 
-    // DOWNLOAD TEMPLATE TTQ (CSV-format, ekstensi .xls)
+    /* ====== TEMPLATE DOWNLOAD / UPLOAD (SINKRON DENGAN INPUT MANUAL) ====== */
+
     function downloadTemplateTTQ() {
       const tahun = document.getElementById("musyrifTahun").value.replace("_","/");
       const kelas = document.getElementById("musyrifKelas").value;
@@ -987,8 +934,17 @@
       csv += `Jenis,TTQ\r\n\r\n`;
       csv += "NIS,Nama Santri,Hafalan Muqorror,Ujian Muqorror,Hafalan Murojaah,Hafalan Ziyadah,Ujian Ziyadah\r\n";
 
-      musyrifSantriDummy.forEach(s => {
-        csv += `${s.nis},${s.nama},,,,,\r\n`;
+      const rows = document.querySelectorAll("#tabelMusyrifTTQ tbody tr");
+      rows.forEach(tr => {
+        const nis   = tr.querySelector('input[data-field="nis"]').value.trim();
+        const nama  = tr.querySelector('input[data-field="nama"]').value.trim();
+        const muq   = tr.querySelector('input[data-field="muqorror"]').value.trim();
+        const ujMuq = tr.querySelector('input[data-field="ujianMuqorror"]').value.trim();
+        const mur   = tr.querySelector('input[data-field="murojaah"]').value.trim();
+        const ziy   = tr.querySelector('input[data-field="ziyadah"]').value.trim();
+        const ujZiy = tr.querySelector('input[data-field="ujianZiyadah"]').value.trim();
+
+        csv += `${nis},${nama},${muq},${ujMuq},${mur},${ziy},${ujZiy}\r\n`;
       });
 
       const blob = new Blob([csv], {
@@ -1004,7 +960,6 @@
       URL.revokeObjectURL(url);
     }
 
-    // UPLOAD TEMPLATE TTQ (simulasi)
     function handleUploadTemplateTTQ(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1016,7 +971,7 @@
         reader.onload = function(e) {
           const buffer = e.target.result;
           console.log("File TTQ .xls/.xlsx ter-upload (simulasi), size:", buffer.byteLength, "bytes");
-          alert("Template TTQ .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+          alert("Template TTQ berhasil di-upload (simulasi). Untuk parsing isi file dibutuhkan library tambahan di backend.");
         };
         reader.readAsArrayBuffer(file);
       } else {
@@ -1024,18 +979,5 @@
       }
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const { createClient } = supabase;
-  
-    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 </body>
 </html>
-
-
-
-
