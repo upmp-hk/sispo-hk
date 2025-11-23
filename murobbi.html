@@ -714,33 +714,57 @@
 
   <script>
     // LOGIN MUROBBI (TESTING): username: admin, password: admin
-    const VALID_MUROBBI_ID = "admin";
-    const VALID_MUROBBI_PASSWORD = "admin";
     const MUROBBI_SESSION_KEY = "sispo_murobbi_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let murobbiLogoutTimer = null;
 
-    function handleLoginMurobbi(event) {
-      event.preventDefault();
-      const id = document.getElementById("loginMurobbiID").value.trim();
-      const pass = document.getElementById("loginMurobbiPassword").value;
-      const errorEl = document.getElementById("loginMurobbiError");
-    
-      if (!id || !pass) {
-        errorEl.textContent = "Username dan password wajib diisi.";
-        return;
-      }
-    
-      if (id === VALID_MUROBBI_ID && pass === VALID_MUROBBI_PASSWORD) {
-        errorEl.textContent = "";
-        setMurobbiSession();
-        applyMurobbiLoginUI();
-        initMurobbiTable();
-        scheduleMurobbiAutoLogout();
-      } else {
-        errorEl.textContent = "Username atau password tidak sesuai.";
-      }
+  async function handleLoginMurobbi(event) {
+    event.preventDefault();
+    const id = document.getElementById("loginMurobbiID").value.trim();
+    const pass = document.getElementById("loginMurobbiPassword").value;
+    const errorEl = document.getElementById("loginMurobbiError");
+  
+    if (!id || !pass) {
+      errorEl.textContent = "Username dan password wajib diisi.";
+      return;
     }
+  
+    const { data, error } = await db.auth.signInWithPassword({
+      email: id,
+      password: pass
+    });
+  
+    if (error) {
+      console.error(error);
+      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+      return;
+    }
+  
+    const { data: roleData, error: roleError } = await db
+      .from('user_roles')
+      .select('mode')
+      .eq('id', data.user.id)
+      .single();
+  
+    if (roleError || !roleData) {
+      console.error(roleError);
+      errorEl.textContent = "Role pengguna tidak ditemukan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    if (roleData.mode !== 'murobbi') {
+      errorEl.textContent = "Akun ini bukan akun Murobbi.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    errorEl.textContent = "";
+    setMurobbiSession();
+    applyMurobbiLoginUI();
+    initMurobbiTable();
+    scheduleMurobbiAutoLogout();
+  }
 
     function applyMurobbiLoginUI() {
       document.getElementById("murobbiLoginContainer").style.display = "none";
@@ -987,4 +1011,5 @@
   </script>
 </body>
 </html>
+
 
