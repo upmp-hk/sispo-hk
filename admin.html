@@ -1017,8 +1017,8 @@
           return el ? el.value.trim() : "";
         };
 
-        const nis  = get("nis");
         const nama = get("nama_lengkap");
+        const nis  = get("nis");
 
         // lewati baris kosong / tidak lengkap
         if (!nis && !nama) continue;
@@ -1033,6 +1033,7 @@
         }
 
         payload.push({
+          foto_url: foto_url
           nama_lengkap: nama,
           nis,
           nisn: get("nisn") || null,
@@ -1049,7 +1050,6 @@
           jenjang,
           kelas,
           paralel,
-          foto_url: foto_url
         });
       }
 
@@ -1178,6 +1178,7 @@
   </script>
 </body>
 </html>
+
 
 
 
