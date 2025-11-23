@@ -666,32 +666,59 @@
 
   <script>
     // LOGIN ADMIN (testing): admin / admin
-    const ADMIN_USER = "admin";
-    const ADMIN_PASS = "admin";
     const ADMIN_SESSION_KEY = "sispo_admin_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let adminLogoutTimer = null;
 
-    function handleLoginAdmin(event) {
-      event.preventDefault();
-      const user = document.getElementById("loginAdminID").value.trim();
-      const pass = document.getElementById("loginAdminPassword").value.trim();
-      const errorEl = document.getElementById("loginAdminError");
-    
-      if (!user || !pass) {
-        errorEl.textContent = "Username dan password wajib diisi.";
-        return;
-      }
-    
-      if (user === ADMIN_USER && pass === ADMIN_PASS) {
-        errorEl.textContent = "";
-        setAdminSession();
-        applyAdminLoginUI();
-        scheduleAdminAutoLogout();
-      } else {
-        errorEl.textContent = "Username atau password tidak sesuai.";
-      }
+  async function handleLoginAdmin(event) {
+    event.preventDefault();
+    const user = document.getElementById("loginAdminID").value.trim();
+    const pass = document.getElementById("loginAdminPassword").value;
+    const errorEl = document.getElementById("loginAdminError");
+  
+    if (!user || !pass) {
+      errorEl.textContent = "Username dan password wajib diisi.";
+      return;
     }
+  
+    // 1) Login ke Supabase
+    const { data, error } = await db.auth.signInWithPassword({
+      email: user,
+      password: pass
+    });
+  
+    if (error) {
+      console.error(error);
+      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+      return;
+    }
+  
+    // 2) Cek role di user_roles
+    const { data: roleData, error: roleError } = await db
+      .from('user_roles')
+      .select('mode')
+      .eq('id', data.user.id)
+      .single();
+  
+    if (roleError || !roleData) {
+      console.error(roleError);
+      errorEl.textContent = "Role pengguna tidak ditemukan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    if (roleData.mode !== 'admin') {
+      errorEl.textContent = "Akun ini bukan akun Admin.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    // 3) Sukses
+    errorEl.textContent = "";
+    setAdminSession();
+    applyAdminLoginUI();
+    scheduleAdminAutoLogout();
+  }
 
     function applyAdminLoginUI() {
       document.getElementById("loginAdminContainer").style.display = "none";
@@ -830,4 +857,5 @@
   </script>
 </body>
 </html>
+
 
