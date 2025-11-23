@@ -717,33 +717,57 @@
 
   <script>
     // LOGIN PENGASUHAN (TESTING): username: admin, password: admin
-    const VALID_PENGASUHAN_ID = "admin";
-    const VALID_PENGASUHAN_PASSWORD = "admin";
     const PENGASUHAN_SESSION_KEY = "sispo_pengasuhan_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let pengasuhanLogoutTimer = null;
     
-    function handleLoginPengasuhan(event) {
-      event.preventDefault();
-      const id = document.getElementById("loginPengasuhanID").value.trim();
-      const pass = document.getElementById("loginPengasuhanPassword").value;
-      const errorEl = document.getElementById("loginPengasuhanError");
-    
-      if (!id || !pass) {
-        errorEl.textContent = "Username dan password wajib diisi.";
-        return;
-      }
-    
-      if (id === VALID_PENGASUHAN_ID && pass === VALID_PENGASUHAN_PASSWORD) {
-        errorEl.textContent = "";
-        setPengasuhanSession();
-        applyPengasuhanLoginUI();
-        initPengasuhanTable();
-        schedulePengasuhanAutoLogout();
-      } else {
-        errorEl.textContent = "Username atau password tidak sesuai.";
-      }
+  async function handleLoginPengasuhan(event) {
+    event.preventDefault();
+    const id = document.getElementById("loginPengasuhanID").value.trim();
+    const pass = document.getElementById("loginPengasuhanPassword").value;
+    const errorEl = document.getElementById("loginPengasuhanError");
+  
+    if (!id || !pass) {
+      errorEl.textContent = "Username dan password wajib diisi.";
+      return;
     }
+  
+    const { data, error } = await db.auth.signInWithPassword({
+      email: id,
+      password: pass
+    });
+  
+    if (error) {
+      console.error(error);
+      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+      return;
+    }
+  
+    const { data: roleData, error: roleError } = await db
+      .from('user_roles')
+      .select('mode')
+      .eq('id', data.user.id)
+      .single();
+  
+    if (roleError || !roleData) {
+      console.error(roleError);
+      errorEl.textContent = "Role pengguna tidak ditemukan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    if (roleData.mode !== 'pengasuhan') {
+      errorEl.textContent = "Akun ini bukan akun Pengasuhan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    errorEl.textContent = "";
+    setPengasuhanSession();
+    applyPengasuhanLoginUI();
+    initPengasuhanTable();
+    schedulePengasuhanAutoLogout();
+  }
 
     function applyPengasuhanLoginUI() {
       document.getElementById("pengasuhanLoginContainer").style.display = "none";
@@ -971,5 +995,6 @@
   </script>
 </body>
 </html>
+
 
 
