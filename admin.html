@@ -232,6 +232,70 @@
       font-weight: 700;
       margin-bottom: 8px;
     }
+        /* FILTER INPUT PROFIL SANTRI (ADMIN) */
+    .admin-filter-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 10px 11px;
+      border: 1px solid var(--blue-soft2);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      font-size: 12px;
+    }
+    .admin-filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px 12px;
+    }
+    @media (max-width: 820px) {
+      .admin-filter-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .admin-filter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .admin-filter-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-filter-item label {
+      font-size: 11px;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+    .admin-filter-item select {
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 12px;
+      background: var(--white);
+      outline: none;
+    }
+    .admin-filter-item select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
+    }
+    .admin-filter-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
+    .admin-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .admin-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
 
     /* Tombol template: selaras dengan .btn */
     .template-btn {
@@ -477,29 +541,129 @@
 
         <!-- ADMIN MODE -->
         <div id="adminWrapper" class="admin-wrapper">
-          <!-- Kartu template (Download/Upload) -->
-          <div class="admin-card">
-            <div class="admin-card-title">Master Data Profil Santri</div>
-            <p style="margin-bottom:8px;">
-              Download template, isi di Excel, lalu upload kembali untuk pembaruan master data santri (simulasi).
-            </p>
-            <button class="template-btn" type="button" onclick="downloadTemplateAdmin()">
-              ⬇ Download Template (.xls)
-            </button>
-            <label class="template-btn secondary">
-              ⬆ Upload Data (.xls / .xlsx)
-              <input type="file" id="adminUpload" accept=".xls,.xlsx" onchange="uploadTemplateAdmin(event)" />
-            </label>
+          <!-- FILTER PROFIL SANTRI -->
+          <div class="admin-filter-card">
+            <div style="font-weight:700; font-size:13.5px; margin-bottom:6px;">
+              Input Data Profil Santri
+            </div>
+
+            <div class="admin-filter-grid">
+              <!-- Tahun Ajaran -->
+              <div class="admin-filter-item">
+                <label for="adminTahun">Tahun Ajaran</label>
+                <select id="adminTahun">
+                  <option value="2023_2024">2023/2024</option>
+                  <option value="2024_2025" selected>2024/2025</option>
+                  <option value="2025_2026">2025/2026</option>
+                </select>
+              </div>
+
+              <!-- Semester -->
+              <div class="admin-filter-item">
+                <label for="adminSemester">Semester</label>
+                <select id="adminSemester">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+
+              <!-- Jenjang -->
+              <div class="admin-filter-item">
+                <label for="adminJenjang">Jenjang</label>
+                <select id="adminJenjang">
+                  <option value="MTs (HK1)">MTs (HK1)</option>
+                  <option value="MTs (HK2)">MTs (HK2)</option>
+                  <option value="MA" selected>MA</option>
+                </select>
+              </div>
+
+              <!-- Kelas -->
+              <div class="admin-filter-item">
+                <label for="adminKelas">Kelas</label>
+                <select id="adminKelas">
+                  <option value="VII">VII</option>
+                  <option value="VIII">VIII</option>
+                  <option value="IX">IX</option>
+                  <option value="X">X</option>
+                  <option value="XI" selected>XI</option>
+                  <option value="XII">XII</option>
+                </select>
+              </div>
+
+              <!-- Paralel -->
+              <div class="admin-filter-item">
+                <label for="adminParalel">Paralel / Rombel</label>
+                <select id="adminParalel">
+                  <!-- A-Z -->
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="K">K</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                  <option value="S">S</option>
+                  <option value="T">T</option>
+                  <option value="U">U</option>
+                  <option value="V">V</option>
+                  <option value="W">W</option>
+                  <option value="X">X</option>
+                  <option value="Y">Y</option>
+                  <option value="Z">Z</option>
+                  <!-- contoh rombel khusus (optional, bisa diteruskan) -->
+                  <option value="IPA 1">IPA 1</option>
+                  <option value="IPS 1">IPS 1</option>
+                  <option value="PK 1">PK 1</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-filter-note">
+              Data profil santri yang Anda isi di tabel bawah akan tersimpan untuk
+              Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel yang dipilih di sini.
+            </div>
           </div>
 
-          <!-- Kartu tabel input manual -->
+          <!-- TABEL PROFIL SANTRI -->
           <div class="admin-table-card">
             <div class="admin-table-title">
               <span>Input Data Profil Santri</span>
-              <small>Isikan beberapa baris sebagai contoh pengisian (simulasi, belum tersimpan ke database).</small>
+              <small>
+                Kelas: <span id="labelAdminKelas">XI</span> /
+                TA <span id="labelAdminTahun">2024/2025</span> /
+                Sem <span id="labelAdminSemester">1</span>
+              </small>
             </div>
 
-            <table class="admin-table">
+            <!-- TOOLS TEMPLATE dipindah ke sini -->
+            <div class="template-tools">
+              <div class="template-left">
+                <button class="template-btn" type="button" onclick="downloadTemplateAdmin()">
+                  ⬇ Download Template (.xls)
+                </button>
+                <label class="template-btn secondary">
+                  ⬆ Upload Data (.xls / .xlsx)
+                  <input type="file" id="adminUpload" accept=".xls,.xlsx" onchange="uploadTemplateAdmin(event)" />
+                </label>
+              </div>
+              <div class="template-right">
+                Admin dapat mengisi / memperbarui profil santri melalui template Excel
+                lalu upload kembali (saat ini masih simulasi).
+              </div>
+            </div>
+
+            <table class="admin-table" id="adminProfilTable">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -518,146 +682,19 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Baris 1 -->
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <label class="admin-photo-upload">
-                      Upload
-                      <input type="file" accept="image/*" />
-                    </label>
-                  </td>
-                  <td><input type="text" placeholder="Nama lengkap santri" /></td>
-                  <td><input type="text" placeholder="2023.001234" /></td>
-                  <td><input type="text" placeholder="1234567890" /></td>
-                  <td>
-                    <select>
-                      <option value="Ikhwan">Ikhwan</option>
-                      <option value="Akhwat">Akhwat</option>
-                    </select>
-                  </td>
-                  <td><input type="text" placeholder="Kuningan" /></td>
-                  <td><input type="date" /></td>
-                  <td><input type="text" placeholder="Alamat lengkap" /></td>
-                  <td><input type="text" placeholder="Nama ayah" /></td>
-                  <td><input type="tel" placeholder="No. HP Ayah" /></td>
-                  <td><input type="text" placeholder="Nama ibu" /></td>
-                  <td><input type="tel" placeholder="No. HP Ibu" /></td>
-                </tr>
-
-                <!-- Baris 2 -->
-                <tr>
-                  <td>2</td>
-                  <td>
-                    <label class="admin-photo-upload">
-                      Upload
-                      <input type="file" accept="image/*" />
-                    </label>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td>
-                    <select>
-                      <option value="Ikhwan">Ikhwan</option>
-                      <option value="Akhwat">Akhwat</option>
-                    </select>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="date" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                </tr>
-
-                <!-- Baris 3 -->
-                <tr>
-                  <td>3</td>
-                  <td>
-                    <label class="admin-photo-upload">
-                      Upload
-                      <input type="file" accept="image/*" />
-                    </label>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td>
-                    <select>
-                      <option value="Ikhwan">Ikhwan</option>
-                      <option value="Akhwat">Akhwat</option>
-                    </select>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="date" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                </tr>
-
-                <!-- Baris 4 -->
-                <tr>
-                  <td>4</td>
-                  <td>
-                    <label class="admin-photo-upload">
-                      Upload
-                      <input type="file" accept="image/*" />
-                    </label>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td>
-                    <select>
-                      <option value="Ikhwan">Ikhwan</option>
-                      <option value="Akhwat">Akhwat</option>
-                    </select>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="date" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                </tr>
-
-                <!-- Baris 5 -->
-                <tr>
-                  <td>5</td>
-                  <td>
-                    <label class="admin-photo-upload">
-                      Upload
-                      <input type="file" accept="image/*" />
-                    </label>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td>
-                    <select>
-                      <option value="Ikhwan">Ikhwan</option>
-                      <option value="Akhwat">Akhwat</option>
-                    </select>
-                  </td>
-                  <td><input type="text" /></td>
-                  <td><input type="date" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="tel" /></td>
-                </tr>
+                <!-- Baris akan dibuat lewat JS, tidak ada dummy -->
               </tbody>
             </table>
 
-            <p style="margin-top:6px; font-size:10.5px; opacity:0.8;">
-              *Saat ini tabel hanya simulasi input. Penyimpanan ke database akan diatur di sisi backend/server.
-            </p>
+            <div class="admin-actions">
+              <button class="btn secondary" type="button" onclick="tambahBarisAdmin()">➕ Tambah Baris</button>
+              <button class="btn" type="button" onclick="simpanAdminProfil()">💾 Simpan ke Database</button>
+            </div>
+
+            <div class="admin-footer-note">
+              *Minimal isi NIS dan Nama Lengkap. Kolom lain bisa dilengkapi bertahap.  
+              *Upload template saat ini masih simulasi (parsing detail nanti ditangani di backend).
+            </div>
           </div>
         </div>
       </main>
@@ -854,6 +891,343 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
   
     const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+    <script>
+    // LOGIN ADMIN via SUPABASE
+    const ADMIN_SESSION_KEY = "sispo_admin_session";
+    const SESSION_DURATION_MS = 5 * 60 * 1000;
+    let adminLogoutTimer = null;
+
+    async function handleLoginAdmin(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginAdminID").value.trim();
+      const pass  = document.getElementById("loginAdminPassword").value.trim();
+      const errorEl = document.getElementById("loginAdminError");
+
+      if (!email || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      // login ke Supabase
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password: pass
+      });
+
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+        return;
+      }
+
+      // cek role di tabel user_roles (kolom: id, mode)
+      const { data: roleData, error: roleError } = await db
+        .from("user_roles")
+        .select("mode")
+        .eq("id", data.user.id)
+        .single();
+
+      if (roleError || !roleData) {
+        console.error(roleError);
+        errorEl.textContent = "Role pengguna tidak ditemukan.";
+        await db.auth.signOut();
+        return;
+      }
+
+      if (roleData.mode !== "admin") {
+        errorEl.textContent = "Akun ini bukan akun Admin.";
+        await db.auth.signOut();
+        return;
+      }
+
+      errorEl.textContent = "";
+      setAdminSession();
+      applyAdminLoginUI();
+      initAdminProfilTable();
+      scheduleAdminAutoLogout();
+    }
+
+    function applyAdminLoginUI() {
+      document.getElementById("loginAdminContainer").style.display = "none";
+      document.getElementById("adminWrapper").style.display = "flex";
+      document.getElementById("statusBadgeAdmin").textContent = "Login";
+      const btn = document.getElementById("logoutAdminBtn");
+      if (btn) btn.style.display = "inline-block";
+    }
+
+    function applyAdminLogoutUI() {
+      document.getElementById("loginAdminContainer").style.display = "block";
+      document.getElementById("adminWrapper").style.display = "none";
+      document.getElementById("statusBadgeAdmin").textContent = "Login diperlukan";
+      const btn = document.getElementById("logoutAdminBtn");
+      if (btn) btn.style.display = "none";
+    }
+
+    function setAdminSession() {
+      const expiresAt = Date.now() + SESSION_DURATION_MS;
+      localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ expiresAt }));
+    }
+
+    function clearAdminSession() {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      if (adminLogoutTimer) {
+        clearTimeout(adminLogoutTimer);
+        adminLogoutTimer = null;
+      }
+    }
+
+    function scheduleAdminAutoLogout() {
+      const raw = localStorage.getItem(ADMIN_SESSION_KEY);
+      if (!raw) return;
+
+      try {
+        const { expiresAt } = JSON.parse(raw);
+        const remaining = expiresAt - Date.now();
+        if (remaining <= 0) {
+          handleLogoutAdmin();
+        } else {
+          if (adminLogoutTimer) clearTimeout(adminLogoutTimer);
+          adminLogoutTimer = setTimeout(handleLogoutAdmin, remaining);
+        }
+      } catch (e) {
+        handleLogoutAdmin();
+      }
+    }
+
+    async function handleLogoutAdmin() {
+      try {
+        await db.auth.signOut();
+      } catch (e) {
+        console.error(e);
+      }
+      clearAdminSession();
+      applyAdminLogoutUI();
+
+      const form = document.getElementById("loginAdminForm");
+      if (form) form.reset();
+      const errorEl = document.getElementById("loginAdminError");
+      if (errorEl) errorEl.textContent = "";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const raw = localStorage.getItem(ADMIN_SESSION_KEY);
+      if (!raw) return;
+
+      try {
+        const { expiresAt } = JSON.parse(raw);
+        if (expiresAt && expiresAt > Date.now()) {
+          applyAdminLoginUI();
+          initAdminProfilTable();
+          scheduleAdminAutoLogout();
+        } else {
+          clearAdminSession();
+          applyAdminLogoutUI();
+        }
+      } catch (e) {
+        clearAdminSession();
+        applyAdminLogoutUI();
+      }
+    });
+
+    // toggle password (dipakai di semua mode)
+    function togglePassword(btn) {
+      const targetId = btn.getAttribute("data-target");
+      const input = document.getElementById(targetId);
+      if (!input) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+      } else {
+        input.type = "password";
+        btn.textContent = "Show";
+      }
+    }
+
+    // --- LOGIC TABEL PROFIL SANTRI ---
+
+    function createAdminRow(no) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${no}</td>
+        <td>
+          <label class="admin-photo-upload">
+            Upload
+            <input type="file" accept="image/*" />
+          </label>
+        </td>
+        <td><input type="text" data-field="nama_lengkap" /></td>
+        <td><input type="text" data-field="nis" /></td>
+        <td><input type="text" data-field="nisn" /></td>
+        <td>
+          <select data-field="jenis_kelamin">
+            <option value="">-</option>
+            <option value="Ikhwan">Ikhwan</option>
+            <option value="Akhwat">Akhwat</option>
+          </select>
+        </td>
+        <td><input type="text" data-field="tempat_lahir" /></td>
+        <td><input type="date" data-field="tanggal_lahir" /></td>
+        <td><input type="text" data-field="alamat" /></td>
+        <td><input type="text" data-field="nama_ayah" /></td>
+        <td><input type="tel" data-field="telp_ayah" /></td>
+        <td><input type="text" data-field="nama_ibu" /></td>
+        <td><input type="tel" data-field="telp_ibu" /></td>
+      `;
+      return tr;
+    }
+
+    function initAdminProfilTable() {
+      const tbody = document.querySelector("#adminProfilTable tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      // awalnya kasih 5 baris kosong, bukan dummy data
+      for (let i = 1; i <= 5; i++) {
+        tbody.appendChild(createAdminRow(i));
+      }
+      updateAdminLabels();
+      setupAdminFilterListeners();
+    }
+
+    function tambahBarisAdmin() {
+      const tbody = document.querySelector("#adminProfilTable tbody");
+      if (!tbody) return;
+      const no = tbody.children.length + 1;
+      tbody.appendChild(createAdminRow(no));
+    }
+
+    function setupAdminFilterListeners() {
+      ["adminTahun","adminKelas","adminSemester"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updateAdminLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
+    }
+
+    function updateAdminLabels() {
+      const tahun = document.getElementById("adminTahun").value;
+      const kelas = document.getElementById("adminKelas").value;
+      const semester = document.getElementById("adminSemester").value;
+
+      document.getElementById("labelAdminTahun").textContent = tahun.replace("_","/");
+      document.getElementById("labelAdminKelas").textContent = kelas;
+      document.getElementById("labelAdminSemester").textContent = semester;
+    }
+
+    // SIMPAN PROFIL SANTRI KE SUPABASE
+    async function simpanAdminProfil() {
+      const tbody = document.querySelector("#adminProfilTable tbody");
+      if (!tbody) return;
+
+      const tahun = document.getElementById("adminTahun").value;
+      const semester = parseInt(document.getElementById("adminSemester").value, 10);
+      const jenjang = document.getElementById("adminJenjang").value;
+      const kelas = document.getElementById("adminKelas").value;
+      const paralel = document.getElementById("adminParalel").value;
+
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const payload = [];
+
+      rows.forEach(tr => {
+        const get = (field) => {
+          const el = tr.querySelector(`[data-field="${field}"]`);
+          return el ? el.value.trim() : "";
+        };
+
+        const nis  = get("nis");
+        const nama = get("nama_lengkap");
+
+        // skip baris yang benar-benar kosong / tidak ada NIS & Nama
+        if (!nis && !nama) return;
+        if (!nis || !nama) return; // biar rapi: wajib isi keduanya
+
+        payload.push({
+          nis,
+          nisn: get("nisn") || null,
+          nama_lengkap: nama,
+          jenis_kelamin: get("jenis_kelamin") || null,
+          tempat_lahir: get("tempat_lahir") || null,
+          tanggal_lahir: get("tanggal_lahir") || null,
+          alamat: get("alamat") || null,
+          nama_ayah: get("nama_ayah") || null,
+          telp_ayah: get("telp_ayah") || null,
+          nama_ibu: get("nama_ibu") || null,
+          telp_ibu: get("telp_ibu") || null,
+          tahun_ajaran: tahun,
+          semester,
+          jenjang,
+          kelas,
+          paralel
+        });
+      });
+
+      if (payload.length === 0) {
+        alert("Tidak ada baris yang berisi NIS dan Nama santri.");
+        return;
+      }
+
+      const { data, error } = await db
+        .from("profil_santri")
+        .insert(payload);
+
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan data profil santri: " + error.message);
+      } else {
+        alert("Data profil santri berhasil disimpan ke Supabase.");
+        console.log("Data tersimpan:", data);
+      }
+    }
+
+    // DOWNLOAD TEMPLATE ADMIN (sesuai kolom input manual)
+    function downloadTemplateAdmin() {
+      const tahun = document.getElementById("adminTahun").value.replace("_","/");
+      const semester = document.getElementById("adminSemester").value;
+      const jenjang = document.getElementById("adminJenjang").value;
+      const kelas = document.getElementById("adminKelas").value;
+      const paralel = document.getElementById("adminParalel").value;
+
+      let csv = "";
+      csv += `Tahun Ajaran,${tahun}\r\n`;
+      csv += `Semester,${semester}\r\n`;
+      csv += `Jenjang,${jenjang}\r\n`;
+      csv += `Kelas,${kelas}\r\n`;
+      csv += `Paralel/Rombel,${paralel}\r\n\r\n`;
+      csv += "NIS,Nama Santri,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
+      // tidak ada baris dummy, admin isi sendiri di Excel
+
+      const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `template_profil_santri_${kelas}_${paralel}.xls`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // UPLOAD TEMPLATE (masih simulasi)
+    function uploadTemplateAdmin(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const ext = file.name.toLowerCase().split(".").pop();
+      if (ext !== "xls" && ext !== "xlsx") {
+        alert("Gunakan file .xls atau .xlsx.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        console.log("File template profil santri ter-upload (simulasi), size:", e.target.result.byteLength, "bytes");
+        alert("File template profil santri ter-upload (simulasi). Parsing detail nanti ditangani di backend.");
+      };
+      reader.readAsArrayBuffer(file);
+    }
   </script>
 </body>
 </html>
