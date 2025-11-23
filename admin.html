@@ -1071,111 +1071,160 @@
       }
     }
 
-    // DOWNLOAD TEMPLATE ADMIN
-    function downloadTemplateAdmin() {
-      const tahun = document.getElementById("adminTahun").value.replace("_","/");
-      const semester = document.getElementById("adminSemester").value;
-      const jenjang = document.getElementById("adminJenjang").value;
-      const kelas = document.getElementById("adminKelas").value;
-      const paralel = document.getElementById("adminParalel").value;
-
-      let csv = "";
-      csv += `Tahun Ajaran,${tahun}\r\n`;
-      csv += `Semester,${semester}\r\n`;
-      csv += `Jenjang,${jenjang}\r\n`;
-      csv += `Kelas,${kelas}\r\n`;
-      csv += `Paralel/Rombel,${paralel}\r\n\r\n`;
-      csv += "No,NIS,Nama Lengkap,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
-
-      const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `template_profil_santri_${kelas}_${paralel}.xls`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // UPLOAD TEMPLATE -> ISI TABEL MANUAL
-    function uploadTemplateAdmin(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      if (ext !== "xls" && ext !== "xlsx" && ext !== "csv") {
-        alert("Gunakan file .xls, .xlsx, atau .csv.");
-        return;
+      // DOWNLOAD TEMPLATE ADMIN (file .xlsx rapi seperti tabel manual)
+      function downloadTemplateAdmin() {
+        const tahun    = document.getElementById("adminTahun").value.replace("_","/");
+        const semester = document.getElementById("adminSemester").value;
+        const jenjang  = document.getElementById("adminJenjang").value;
+        const kelas    = document.getElementById("adminKelas").value;
+        const paralel  = document.getElementById("adminParalel").value;
+      
+        // Baris meta di atas
+        const metaRows = [
+          ["Tahun Ajaran",   tahun],
+          ["Semester",       semester],
+          ["Jenjang",        jenjang],
+          ["Kelas",          kelas],
+          ["Paralel/Rombel", paralel],
+          [], // baris kosong pemisah
+        ];
+      
+        // Header tabel (tanpa kolom Foto, karena fotonya upload terpisah)
+        const headerRow = [
+          "No",
+          "NIS",
+          "Nama Lengkap",
+          "NISN",
+          "Jenis Kelamin",
+          "Tempat Lahir",
+          "Tanggal Lahir (YYYY-MM-DD)",
+          "Alamat",
+          "Nama Ayah",
+          "No. Telp. Ayah",
+          "Nama Ibu",
+          "No. Telp. Ibu",
+        ];
+      
+        const allRows = [...metaRows, headerRow];
+      
+        const ws = XLSX.utils.aoa_to_sheet(allRows);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "ProfilSantri");
+      
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      
+        const blob = new Blob(
+          [wbout],
+          { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+        );
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `template_profil_santri_${kelas}_${paralel}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       }
 
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const firstSheetName = workbook.SheetNames[0];
-        const ws = workbook.Sheets[firstSheetName];
-
-        const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-
-        if (!rows || rows.length === 0) {
-          alert("File kosong atau tidak terbaca.");
+      // UPLOAD TEMPLATE -> ISI TABEL MANUAL
+      function uploadTemplateAdmin(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+      
+        const ext = file.name.toLowerCase().split(".").pop();
+        if (ext !== "xls" && ext !== "xlsx" && ext !== "csv") {
+          alert("Gunakan file .xls, .xlsx, atau .csv.");
           return;
         }
+      
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // cellDates:true agar tanggal bisa jadi Date, bukan angka mentah
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array", cellDates: true });
+          const firstSheetName = workbook.SheetNames[0];
+          const ws = workbook.Sheets[firstSheetName];
+      
+          const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      
+          if (!rows || rows.length === 0) {
+            alert("File kosong atau tidak terbaca.");
+            return;
+          }
+      
+          // Cari baris header (kolom pertama "No" atau "No.")
+          let headerIndex = rows.findIndex(row =>
+            row &&
+            row[0] &&
+            row[0].toString().toLowerCase().startsWith("no")
+          );
+      
+          if (headerIndex === -1) {
+            alert("Header 'No' tidak ditemukan. Pastikan format template tidak diubah.");
+            return;
+          }
+      
+          const dataRows = rows
+            .slice(headerIndex + 1)
+            .filter(r => r && (r[1] || r[2])); // ada NIS atau Nama
+      
+          const tbody = document.querySelector("#adminProfilTable tbody");
+          if (!tbody) return;
+          tbody.innerHTML = "";
+      
+          // reset cache foto (karena data baru)
+          for (const k in adminFotoFiles) {
+            if (Object.prototype.hasOwnProperty.call(adminFotoFiles, k)) {
+              delete adminFotoFiles[k];
+            }
+          }
+      
+          dataRows.forEach((row, idx) => {
+            const no = idx + 1;
+            const tr = createAdminRow(no);
+      
+            const setField = (field, value) => {
+              const el = tr.querySelector(`[data-field="${field}"]`);
+              if (el) el.value = (value === undefined || value === null) ? "" : value;
+            };
+      
+            // urutan: [0]=No, [1]=NIS, [2]=Nama Lengkap, [3]=NISN, [4]=JK,
+            // [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah,
+            // [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
+            setField("nis", row[1]);
+            setField("nama_lengkap", row[2]);
+            setField("nisn", row[3]);
+            setField("jenis_kelamin", row[4]);
+            setField("tempat_lahir", row[5]);
+      
+            // tangani tanggal lahir: bisa string, bisa Date, bisa kosong
+            let tgl = row[6];
+            if (tgl instanceof Date) {
+              // format: yyyy-mm-dd agar cocok dengan <input type="date">
+              const yyyy = tgl.getFullYear();
+              const mm = String(tgl.getMonth() + 1).padStart(2, "0");
+              const dd = String(tgl.getDate()).padStart(2, "0");
+              tgl = `${yyyy}-${mm}-${dd}`;
+            }
+            setField("tanggal_lahir", tgl);
+      
+            setField("alamat", row[7]);
+            setField("nama_ayah", row[8]);
+            setField("telp_ayah", row[9]);
+            setField("nama_ibu", row[10]);
+            setField("telp_ibu", row[11]);
+      
+            tbody.appendChild(tr);
+          });
+      
+          alert("Template berhasil dibaca dan tabel terisi.\nSilakan cek datanya, lalu klik 'Simpan ke Database'.");
+        };
+      
+        reader.readAsArrayBuffer(file);
+      }
 
-        // Cari baris header (kolom pertama "No" atau "No.")
-        let headerIndex = rows.findIndex(row =>
-          row &&
-          row[0] &&
-          row[0].toString().toLowerCase().startsWith("no")
-        );
-        if (headerIndex === -1) {
-          headerIndex = 0;
-        }
-
-        const dataRows = rows
-          .slice(headerIndex + 1)
-          .filter(r => r && r.length && (r[1] || r[2]));
-
-        const tbody = document.querySelector("#adminProfilTable tbody");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        // reset cache foto
-        for (const k in adminFotoFiles) {
-          delete adminFotoFiles[k];
-        }
-
-        dataRows.forEach((row, idx) => {
-          const no = idx + 1;
-          const tr = createAdminRow(no);
-
-          const setField = (field, value) => {
-            const el = tr.querySelector(`[data-field="${field}"]`);
-            if (el) el.value = value ?? "";
-          };
-
-          // [0]=No, [1]=NIS, [2]=Nama, [3]=NISN, [4]=JK, [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah, [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
-          setField("nis", row[1]);
-          setField("nama_lengkap", row[2]);
-          setField("nisn", row[3]);
-          setField("jenis_kelamin", row[4]);
-          setField("tempat_lahir", row[5]);
-          setField("tanggal_lahir", row[6]);
-          setField("alamat", row[7]);
-          setField("nama_ayah", row[8]);
-          setField("telp_ayah", row[9]);
-          setField("nama_ibu", row[10]);
-          setField("telp_ibu", row[11]);
-
-          tbody.appendChild(tr);
-        });
-
-        alert("Template berhasil dibaca dan tabel terisi. Silakan cek lalu klik 'Simpan ke Database'.");
-      };
-
-      reader.readAsArrayBuffer(file);
-    }
   </script>
 </body>
 </html>
+
