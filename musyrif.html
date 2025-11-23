@@ -855,20 +855,7 @@
       }
     }
 
-    // DATA DUMMY SANTRI
-    const musyrifSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initMusyrifTable() {
+   function initMusyrifTable() {
       const tbody = document.querySelector("#tabelMusyrifTTQ tbody");
       tbody.innerHTML = "";
       musyrifSantriDummy.forEach((s, idx) => {
@@ -914,28 +901,63 @@
       alert("Nilai TTQ dikembalikan ke nilai acak (simulasi).");
     }
 
-    function simpanMusyrifTTQ() {
+    async function simpanMusyrifTTQ() {
       const rows = document.querySelectorAll("#tabelMusyrifTTQ tbody tr");
-      const hasil = [];
-      rows.forEach((tr, idx) => {
+    
+      // Ambil filter di atas tabel (tahun, semester, jenjang, kelas, paralel)
+      const tahun = document.getElementById("musyrifTahun").value;
+      const semester = parseInt(document.getElementById("musyrifSemester").value, 10);
+      const jenjang = document.getElementById("musyrifJenjang").value;
+      const kelas = document.getElementById("musyrifKelas").value;
+      const paralel = document.getElementById("musyrifParalel").value;
+    
+      // Susun payload untuk dikirim ke Supabase
+      const payload = [];
+    
+      rows.forEach((tr) => {
         const nis = tr.children[1].textContent.trim();
         const nama = tr.children[2].textContent.trim();
+    
         const muq = tr.querySelector('input[data-field="muqorror"]').value;
         const ujMuq = tr.querySelector('input[data-field="ujianMuqorror"]').value;
         const mur = tr.querySelector('input[data-field="murojaah"]').value;
         const ziy = tr.querySelector('input[data-field="ziyadah"]').value;
         const ujZiy = tr.querySelector('input[data-field="ujianZiyadah"]').value;
-        hasil.push({
-          no: idx+1, nis, nama,
-          hafalanMuqorror: muq,
-          ujianMuqorror: ujMuq,
-          hafalanMurojaah: mur,
-          hafalanZiyadah: ziy,
-          ujianZiyadah: ujZiy
+    
+        // dorong ke array payload
+        payload.push({
+          nis,
+          nama,
+          tahun_ajaran: tahun,
+          semester: semester,
+          jenjang,
+          kelas,
+          paralel,
+          hafalan_muqorror: muq === "" ? null : Number(muq),
+          ujian_muqorror: ujMuq === "" ? null : Number(ujMuq),
+          hafalan_murojaah: mur === "" ? null : Number(mur),
+          hafalan_ziyadah: ziy === "" ? null : Number(ziy),
+          ujian_ziyadah: ujZiy === "" ? null : Number(ujZiy)
         });
       });
-      console.log("Data nilai TTQ (simulasi):", hasil);
-      alert("Nilai TTQ tersimpan (simulasi). Cek console browser untuk melihat data.");
+    
+      if (payload.length === 0) {
+        alert("Tidak ada data santri pada tabel.");
+        return;
+      }
+    
+      // Kirim ke Supabase
+      const { data, error } = await db
+        .from("nilai_ttq")
+        .insert(payload);
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan nilai TTQ: " + error.message);
+      } else {
+        alert("Nilai TTQ berhasil disimpan ke database Supabase.");
+        console.log("Data tersimpan:", data);
+      }
     }
 
     // DOWNLOAD TEMPLATE TTQ (CSV-format, ekstensi .xls)
@@ -1001,5 +1023,6 @@
   </script>
 </body>
 </html>
+
 
 
