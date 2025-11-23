@@ -936,40 +936,61 @@
     // KONSTAN DATA DEMO PROFIL (TIDAK TERKAIT LOGIN)
     const DEMO_NIS  = "2023.001234";
     const DEMO_NISN = "1234567890";
-
-    // LOGIN (TESTING): username: admin, password: admin
-    const VALID_USERNAME = "user";
-    const VALID_PASSWORD = "user";
-    
+  
     // SESSION LOGIN SANTRI/WALI – 5 MENIT
     const SANTRI_SESSION_KEY = "sispo_santri_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let santriLogoutTimer = null;
 
-
-    function handleLogin(event) {
-      event.preventDefault();
-      const userId = document.getElementById("loginUsername").value.trim();
-      const pass   = document.getElementById("loginPassword").value;
-      const errorEl = document.getElementById("loginError");
+  async function handleLogin(event) {
+    event.preventDefault();
+    const userId = document.getElementById("loginUsername").value.trim();
+    const pass   = document.getElementById("loginPassword").value;
+    const errorEl = document.getElementById("loginError");
     
-      if (!userId || !pass) {
-        errorEl.textContent = "Username dan password wajib diisi.";
-        return;
-      }
-    
-      const userMatch = (userId === VALID_USERNAME);
-      const passMatch = (pass === VALID_PASSWORD);
-    
-      if (userMatch && passMatch) {
-        errorEl.textContent = "";
-        setSantriSession();
-        applySantriLoginUI();
-        scheduleSantriAutoLogout();
-      } else {
-        errorEl.textContent = "Username atau password tidak sesuai.";
-      }
+    if (!userId || !pass) {
+      errorEl.textContent = "Username dan password wajib diisi.";
+      return;
     }
+  
+    const { data, error } = await db.auth.signInWithPassword({
+      email: userId,
+      password: pass
+    });
+  
+    if (error) {
+      console.error(error);
+      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+      return;
+    }
+  
+    const { data: roleData, error: roleError } = await db
+      .from('user_roles')
+      .select('mode')
+      .eq('id', data.user.id)
+      .single();
+  
+    if (roleError || !roleData) {
+      console.error(roleError);
+      errorEl.textContent = "Role pengguna tidak ditemukan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    // Di sini kita izinkan SANTRI dan WALI_SANTRI
+    if (roleData.mode !== 'santri' && roleData.mode !== 'wali_santri') {
+      errorEl.textContent = "Akun ini bukan akun Santri / Wali Santri.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    errorEl.textContent = "";
+    setSantriSession();
+    applySantriLoginUI();
+    scheduleSantriAutoLogout();
+  
+    // Nanti di sini kita bisa tambahkan: loadDataSantriDariSupabase(data.user)
+  }
     
     function applySantriLoginUI() {
       document.getElementById("loginContainer").style.display = "none";
@@ -1360,6 +1381,7 @@
   </script>
 </body>
 </html>
+
 
 
 
