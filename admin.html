@@ -1033,9 +1033,9 @@
         }
 
         payload.push({
+          nama_lengkap: nama,
           nis,
           nisn: get("nisn") || null,
-          nama_lengkap: nama,
           jenis_kelamin: get("jenis_kelamin") || null,
           tempat_lahir: get("tempat_lahir") || null,
           tanggal_lahir: get("tanggal_lahir") || null,
@@ -1072,59 +1072,10 @@
     }
 
       // DOWNLOAD TEMPLATE ADMIN (file .xlsx rapi seperti tabel manual)
+     
       function downloadTemplateAdmin() {
-        const tahun    = document.getElementById("adminTahun").value.replace("_","/");
-        const semester = document.getElementById("adminSemester").value;
-        const jenjang  = document.getElementById("adminJenjang").value;
-        const kelas    = document.getElementById("adminKelas").value;
-        const paralel  = document.getElementById("adminParalel").value;
-      
-        // Baris meta di atas
-        const metaRows = [
-          ["Tahun Ajaran",   tahun],
-          ["Semester",       semester],
-          ["Jenjang",        jenjang],
-          ["Kelas",          kelas],
-          ["Paralel/Rombel", paralel],
-          [], // baris kosong pemisah
-        ];
-      
-        // Header tabel (tanpa kolom Foto, karena fotonya upload terpisah)
-        const headerRow = [
-          "No",
-          "NIS",
-          "Nama Lengkap",
-          "NISN",
-          "Jenis Kelamin",
-          "Tempat Lahir",
-          "Tanggal Lahir (YYYY-MM-DD)",
-          "Alamat",
-          "Nama Ayah",
-          "No. Telp. Ayah",
-          "Nama Ibu",
-          "No. Telp. Ibu",
-        ];
-      
-        const allRows = [...metaRows, headerRow];
-      
-        const ws = XLSX.utils.aoa_to_sheet(allRows);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "ProfilSantri");
-      
-        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-      
-        const blob = new Blob(
-          [wbout],
-          { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
-        );
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `template_profil_santri_${kelas}_${paralel}.xlsx`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // sesuaikan path dengan lokasi file di repo
+        window.location.href = "template_profil_santri.xlsx";
       }
 
       // UPLOAD TEMPLATE -> ISI TABEL MANUAL
@@ -1189,11 +1140,11 @@
               if (el) el.value = (value === undefined || value === null) ? "" : value;
             };
       
-            // urutan: [0]=No, [1]=NIS, [2]=Nama Lengkap, [3]=NISN, [4]=JK,
+            // urutan: [0]=No, [1]=Nama Lengkap, [2]=NIS, [3]=NISN, [4]=JK,
             // [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah,
             // [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
-            setField("nis", row[1]);
-            setField("nama_lengkap", row[2]);
+            setField("nama_lengkap", row[1]);
+            setField("nis", row[2]);
             setField("nisn", row[3]);
             setField("jenis_kelamin", row[4]);
             setField("tempat_lahir", row[5]);
@@ -1227,6 +1178,7 @@
   </script>
 </body>
 </html>
+
 
 
 
