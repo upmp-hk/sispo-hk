@@ -112,7 +112,6 @@
       opacity: 0.92;
     }
 
-
     /* LOGIN ADMIN */
     .login-page {
       max-width: 420px;
@@ -211,7 +210,7 @@
       opacity: 0.8;
     }
 
-    /* ADMIN MODE */
+    /* ADMIN MODE WRAPPER */
     .admin-wrapper {
       max-width: 980px;
       margin: 0 auto;
@@ -219,20 +218,8 @@
       flex-direction: column;
       gap: 16px;
     }
-    .admin-card {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 14px 16px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-      border: 1px solid var(--blue-soft2);
-      font-size: 12px;
-    }
-    .admin-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-        /* FILTER INPUT PROFIL SANTRI (ADMIN) */
+
+    /* FILTER INPUT PROFIL SANTRI (ADMIN) */
     .admin-filter-card {
       background: var(--white);
       border-radius: 14px;
@@ -295,7 +282,6 @@
       font-size: 10.5px;
       opacity: 0.8;
     }
-
 
     /* Tombol template: selaras dengan .btn */
     .template-btn {
@@ -507,19 +493,19 @@
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Admin</div>
             <div class="login-subtitle">
-              Gunakan akun Admin untuk mengisi Data Profil Santri
+              Masuk dengan akun admin untuk mengelola data profil santri.
             </div>
           </div>
 
           <form id="loginAdminForm" onsubmit="handleLoginAdmin(event)">
             <div class="login-form-group">
-              <label for="loginAdminID">Username</label>
-              <input type="text" id="loginAdminID" placeholder="admin" autocomplete="username" />
+              <label for="loginAdminID">Email Admin</label>
+              <input type="text" id="loginAdminID" placeholder="nama@domain.com" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginAdminPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginAdminPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginAdminPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -535,7 +521,7 @@
           <div id="loginAdminError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akun admin dikelola melalui dashboard Supabase.
           </div>
         </div>
 
@@ -621,10 +607,40 @@
                   <option value="X">X</option>
                   <option value="Y">Y</option>
                   <option value="Z">Z</option>
-                  <!-- contoh rombel khusus (optional, bisa diteruskan) -->
+                  <!-- contoh rombel khusus (opsional) -->
                   <option value="IPA 1">IPA 1</option>
+                  <option value="IPA 1">IPA 2</option>
+                  <option value="IPA 1">IPA 3</option>
+                  <option value="IPA 1">IPA 4</option>
+                  <option value="IPA 1">IPA 5</option>
+                  <option value="IPA 1">IPA 6</option>
+                  <option value="IPA 1">IPA 7</option>
+                  <option value="IPA 1">IPA 8</option>
+                  <option value="IPA 1">IPA 9</option>
+                  <option value="IPA 1">IPA 10</option>
+                  <option value="IPA 1">IPA 11</option>
+                  <option value="IPA 1">IPA 12</option>
+                  <option value="IPA 1">IPA 13</option>
+                  <option value="IPA 1">IPA 14</option>
+                  <option value="IPA 1">IPA 15</option>
                   <option value="IPS 1">IPS 1</option>
+                  <option value="IPS 1">IPS 2</option>
+                  <option value="IPS 1">IPS 3</option>
+                  <option value="IPS 1">IPS 4</option>
+                  <option value="IPS 1">IPS 5</option>
+                  <option value="IPS 1">IPS 6</option>
+                  <option value="IPS 1">IPS 7</option>
+                  <option value="IPS 1">IPS 8</option>
+                  <option value="IPS 1">IPS 9</option>
                   <option value="PK 1">PK 1</option>
+                  <option value="PK 1">PK 2</option>
+                  <option value="PK 1">PK 3</option>
+                  <option value="PK 1">PK 4</option>
+                  <option value="PK 1">PK 5</option>
+                  <option value="PK 1">PK 6</option>
+                  <option value="PK 1">PK 7</option>
+                  <option value="PK 1">PK 8</option>
+                  <option value="PK 1">PK 9</option>
                 </select>
               </div>
             </div>
@@ -646,7 +662,7 @@
               </small>
             </div>
 
-            <!-- TOOLS TEMPLATE dipindah ke sini -->
+            <!-- TOOLS TEMPLATE -->
             <div class="template-tools">
               <div class="template-left">
                 <button class="template-btn" type="button" onclick="downloadTemplateAdmin()">
@@ -682,7 +698,7 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Baris akan dibuat lewat JS, tidak ada dummy -->
+                <!-- Baris dibuat lewat JS, tidak ada dummy -->
               </tbody>
             </table>
 
@@ -693,7 +709,7 @@
 
             <div class="admin-footer-note">
               *Minimal isi NIS dan Nama Lengkap. Kolom lain bisa dilengkapi bertahap.  
-              *Upload template saat ini masih simulasi (parsing detail nanti ditangani di backend).
+              *Upload template saat ini masih simulasi (parsing detail nanti di-backend).
             </div>
           </div>
         </div>
@@ -701,199 +717,21 @@
     </div>
   </div>
 
-  <script>
-    // LOGIN ADMIN (testing): admin / admin
-    const ADMIN_SESSION_KEY = "sispo_admin_session";
-    const SESSION_DURATION_MS = 5 * 60 * 1000;
-    let adminLogoutTimer = null;
-
-  async function handleLoginAdmin(event) {
-    event.preventDefault();
-    const user = document.getElementById("loginAdminID").value.trim();
-    const pass = document.getElementById("loginAdminPassword").value;
-    const errorEl = document.getElementById("loginAdminError");
-  
-    if (!user || !pass) {
-      errorEl.textContent = "Username dan password wajib diisi.";
-      return;
-    }
-  
-    // 1) Login ke Supabase
-    const { data, error } = await db.auth.signInWithPassword({
-      email: user,
-      password: pass
-    });
-  
-    if (error) {
-      console.error(error);
-      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
-      return;
-    }
-  
-    // 2) Cek role di user_roles
-    const { data: roleData, error: roleError } = await db
-      .from('user_roles')
-      .select('mode')
-      .eq('id', data.user.id)
-      .single();
-  
-    if (roleError || !roleData) {
-      console.error(roleError);
-      errorEl.textContent = "Role pengguna tidak ditemukan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    if (roleData.mode !== 'admin') {
-      errorEl.textContent = "Akun ini bukan akun Admin.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    // 3) Sukses
-    errorEl.textContent = "";
-    setAdminSession();
-    applyAdminLoginUI();
-    scheduleAdminAutoLogout();
-  }
-
-    function applyAdminLoginUI() {
-      document.getElementById("loginAdminContainer").style.display = "none";
-      document.getElementById("adminWrapper").style.display = "flex";
-      document.getElementById("statusBadgeAdmin").textContent = "Login";
-      const btn = document.getElementById("logoutAdminBtn");
-      if (btn) btn.style.display = "inline-block";
-    }
-    
-    function applyAdminLogoutUI() {
-      document.getElementById("loginAdminContainer").style.display = "block";
-      document.getElementById("adminWrapper").style.display = "none";
-      document.getElementById("statusBadgeAdmin").textContent = "Login diperlukan";
-      const btn = document.getElementById("logoutAdminBtn");
-      if (btn) btn.style.display = "none";
-    }
-    
-    function setAdminSession() {
-      const expiresAt = Date.now() + SESSION_DURATION_MS;
-      localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ expiresAt }));
-    }
-    
-    function clearAdminSession() {
-      localStorage.removeItem(ADMIN_SESSION_KEY);
-      if (adminLogoutTimer) {
-        clearTimeout(adminLogoutTimer);
-        adminLogoutTimer = null;
-      }
-    }
-    
-    function scheduleAdminAutoLogout() {
-      const raw = localStorage.getItem(ADMIN_SESSION_KEY);
-      if (!raw) return;
-    
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        const remaining = expiresAt - Date.now();
-        if (remaining <= 0) {
-          handleLogoutAdmin();
-        } else {
-          if (adminLogoutTimer) clearTimeout(adminLogoutTimer);
-          adminLogoutTimer = setTimeout(handleLogoutAdmin, remaining);
-        }
-      } catch (e) {
-        handleLogoutAdmin();
-      }
-    }
-    
-    function handleLogoutAdmin() {
-      clearAdminSession();
-      applyAdminLogoutUI();
-    
-      const form = document.getElementById("loginAdminForm");
-      if (form) form.reset();
-      const errorEl = document.getElementById("loginAdminError");
-      if (errorEl) errorEl.textContent = "";
-    }
-    
-    document.addEventListener("DOMContentLoaded", function () {
-      const raw = localStorage.getItem(ADMIN_SESSION_KEY);
-      if (!raw) return;
-    
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        if (expiresAt && expiresAt > Date.now()) {
-          applyAdminLoginUI();
-          scheduleAdminAutoLogout();
-        } else {
-          clearAdminSession();
-          applyAdminLogoutUI();
-        }
-      } catch (e) {
-        clearAdminSession();
-        applyAdminLogoutUI();
-      }
-    });
-
-    function togglePassword(btn) {
-      const targetId = btn.getAttribute("data-target");
-      const input = document.getElementById(targetId);
-      if (!input) return;
-
-      if (input.type === "password") {
-        input.type = "text";
-        btn.textContent = "Hide";
-      } else {
-        input.type = "password";
-        btn.textContent = "Show";
-      }
-    }
-
-    // DOWNLOAD TEMPLATE MASTER DATA (.xls, isi format CSV)
-    function downloadTemplateAdmin() {
-      let csv = "";
-      csv += "NIS,Nama Santri,Jenis Kelamin,Jenjang,Kelas,Paralel/Asrama\r\n";
-      csv += "2023.001234,Ahmad Husnul Karim,Ikhwan,MA,XI,Utsman Bin Affan\r\n";
-
-      const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "template_master_data_santri.xls";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // UPLOAD TEMPLATE (simulasi)
-    function uploadTemplateAdmin(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      if (ext !== "xls" && ext !== "xlsx") {
-        alert("Gunakan file .xls atau .xlsx.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        console.log("File master data admin ter-upload (simulasi), size:", e.target.result.byteLength, "bytes");
-        alert("File master data ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
-      };
-      reader.readAsArrayBuffer(file);
-    }
-  </script>
+  <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const { createClient } = supabase;
-  
+
     const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
+    const SUPABASE_ANON_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+
     const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   </script>
-    <script>
-    // LOGIN ADMIN via SUPABASE
+
+  <!-- Logic Admin -->
+  <script>
+    // --- LOGIN ADMIN via SUPABASE ---
     const ADMIN_SESSION_KEY = "sispo_admin_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let adminLogoutTimer = null;
@@ -909,7 +747,6 @@
         return;
       }
 
-      // login ke Supabase
       const { data, error } = await db.auth.signInWithPassword({
         email,
         password: pass
@@ -921,7 +758,6 @@
         return;
       }
 
-      // cek role di tabel user_roles (kolom: id, mode)
       const { data: roleData, error: roleError } = await db
         .from("user_roles")
         .select("mode")
@@ -1030,7 +866,7 @@
       }
     });
 
-    // toggle password (dipakai di semua mode)
+    // toggle password
     function togglePassword(btn) {
       const targetId = btn.getAttribute("data-target");
       const input = document.getElementById(targetId);
@@ -1082,7 +918,6 @@
       const tbody = document.querySelector("#adminProfilTable tbody");
       if (!tbody) return;
       tbody.innerHTML = "";
-      // awalnya kasih 5 baris kosong, bukan dummy data
       for (let i = 1; i <= 5; i++) {
         tbody.appendChild(createAdminRow(i));
       }
@@ -1140,9 +975,9 @@
         const nis  = get("nis");
         const nama = get("nama_lengkap");
 
-        // skip baris yang benar-benar kosong / tidak ada NIS & Nama
+        // lewati baris kosong / tidak lengkap
         if (!nis && !nama) return;
-        if (!nis || !nama) return; // biar rapi: wajib isi keduanya
+        if (!nis || !nama) return;
 
         payload.push({
           nis,
@@ -1182,7 +1017,7 @@
       }
     }
 
-    // DOWNLOAD TEMPLATE ADMIN (sesuai kolom input manual)
+    // DOWNLOAD TEMPLATE ADMIN (tanpa dummy)
     function downloadTemplateAdmin() {
       const tahun = document.getElementById("adminTahun").value.replace("_","/");
       const semester = document.getElementById("adminSemester").value;
@@ -1197,7 +1032,6 @@
       csv += `Kelas,${kelas}\r\n`;
       csv += `Paralel/Rombel,${paralel}\r\n\r\n`;
       csv += "NIS,Nama Santri,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
-      // tidak ada baris dummy, admin isi sendiri di Excel
 
       const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
       const url = URL.createObjectURL(blob);
@@ -1210,7 +1044,7 @@
       URL.revokeObjectURL(url);
     }
 
-    // UPLOAD TEMPLATE (masih simulasi)
+    // UPLOAD TEMPLATE (simulasi)
     function uploadTemplateAdmin(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1223,7 +1057,11 @@
 
       const reader = new FileReader();
       reader.onload = function (e) {
-        console.log("File template profil santri ter-upload (simulasi), size:", e.target.result.byteLength, "bytes");
+        console.log(
+          "File template profil santri ter-upload (simulasi), size:",
+          e.target.result.byteLength,
+          "bytes"
+        );
         alert("File template profil santri ter-upload (simulasi). Parsing detail nanti ditangani di backend.");
       };
       reader.readAsArrayBuffer(file);
@@ -1231,5 +1069,3 @@
   </script>
 </body>
 </html>
-
-
