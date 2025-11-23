@@ -1071,13 +1071,63 @@
       }
     }
 
-      // DOWNLOAD TEMPLATE ADMIN (file .xlsx rapi seperti tabel manual)
-     
-      function downloadTemplateAdmin() {
-        // sesuaikan path dengan lokasi file di repo
-        window.location.href = "template_profil_santri.xlsx";
+    // DOWNLOAD TEMPLATE ADMIN (isi status akademik ke template .xlsx)
+    async function downloadTemplateAdmin() {
+      try {
+        const tahunRaw = document.getElementById("adminTahun").value;   // misal: 2024_2025
+        const tahun    = tahunRaw.replace("_", "/");                    // jadi: 2024/2025
+        const semester = document.getElementById("adminSemester").value;
+        const jenjang  = document.getElementById("adminJenjang").value;
+        const kelas    = document.getElementById("adminKelas").value;
+        const paralel  = document.getElementById("adminParalel").value;
+    
+        // 1) Ambil template asli
+        const resp = await fetch("template_profil_santri.xlsx");
+        if (!resp.ok) {
+          alert("Gagal mengambil file template_profil_santri.xlsx");
+          return;
+        }
+        const buf = await resp.arrayBuffer();
+    
+        // 2) Baca workbook dengan SheetJS
+        const wb = XLSX.read(buf, { type: "array", cellDates: true });
+    
+        // Asumsi sheet pertama = "Data"
+        const sheetName = wb.SheetNames[0];
+        const ws = wb.Sheets[sheetName];
+    
+        // 3) Isi metadata akademik ke sel B3–B7
+        //   A3: "Tahun Ajaran", B3: (nilai)
+        //   A4: "Semester",     B4: (nilai)
+        //   A5: "Jenjang",      B5: (nilai)
+        //   A6: "Kelas",        B6: (nilai)
+        //   A7: "Paralel/Rombel", B7: (nilai)
+        XLSX.utils.sheet_add_aoa(ws, [[tahun]],    { origin: "B3" });
+        XLSX.utils.sheet_add_aoa(ws, [[semester]], { origin: "B4" });
+        XLSX.utils.sheet_add_aoa(ws, [[jenjang]],  { origin: "B5" });
+        XLSX.utils.sheet_add_aoa(ws, [[kelas]],    { origin: "B6" });
+        XLSX.utils.sheet_add_aoa(ws, [[paralel]],  { origin: "B7" });
+    
+        // 4) Tulis ulang workbook jadi blob dan download
+        const outBuf = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const blob   = new Blob(
+          [outBuf],
+          { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+        );
+    
+        const url = URL.createObjectURL(blob);
+        const a   = document.createElement("a");
+        a.href = url;
+        a.download = `template_profil_santri_${kelas}_${paralel}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+        alert("Terjadi error saat membuat template. Cek console browser.");
       }
-
+    }
       // UPLOAD TEMPLATE -> ISI TABEL MANUAL
       function uploadTemplateAdmin(event) {
         const file = event.target.files[0];
@@ -1152,14 +1202,14 @@
             // tangani tanggal lahir: bisa string, bisa Date, bisa kosong
             let tgl = row[6];
             if (tgl instanceof Date) {
-              // format: dd-mm-yyyy agar cocok dengan <input type="date">
+              // format: yyyy-mm-dd agar cocok dengan <input type="date">
               const yyyy = tgl.getFullYear();
-              const mm = String(tgl.getMonth() + 1).padStart(2, "0");
-              const dd = String(tgl.getDate()).padStart(2, "0");
+              const mm   = String(tgl.getMonth() + 1).padStart(2, "0");
+              const dd   = String(tgl.getDate()).padStart(2, "0");
               tgl = `${yyyy}-${mm}-${dd}`;
             }
-            setField("tanggal_lahir", tgl);
-      
+            
+            setField("tanggal_lahir", tgl || "");
             setField("alamat", row[7]);
             setField("nama_ayah", row[8]);
             setField("telp_ayah", row[9]);
@@ -1178,6 +1228,7 @@
   </script>
 </body>
 </html>
+
 
 
 
