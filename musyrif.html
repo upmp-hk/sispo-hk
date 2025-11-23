@@ -854,8 +854,20 @@
         btn.textContent = "Show";
       }
     }
+        // DATA DUMMY SANTRI
+    const musyrifSantriDummy = [
+      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
+      { nis: "2023.001235", nama: "Muhammad Fauzan" },
+      { nis: "2023.001236", nama: "Ridwan Hidayat" },
+      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
+      { nis: "2023.001238", nama: "Zaki Maulana" }
+    ];
 
-   function initMusyrifTable() {
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function initMusyrifTable() {
       const tbody = document.querySelector("#tabelMusyrifTTQ tbody");
       tbody.innerHTML = "";
       musyrifSantriDummy.forEach((s, idx) => {
@@ -1023,6 +1035,7 @@
   </script>
 </body>
 </html>
+
 
 
 
