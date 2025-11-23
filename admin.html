@@ -283,7 +283,7 @@
       opacity: 0.8;
     }
 
-    /* Tombol template: selaras dengan .btn */
+    /* Tombol template */
     .template-btn {
       padding: 7px 12px;
       border-radius: 999px;
@@ -371,7 +371,7 @@
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
     }
-    /* Tombol upload foto di tabel (warna hijau seperti Upload Data) */
+    /* Tombol upload foto */
     .admin-photo-upload {
       padding: 3px 8px;
       border-radius: 999px;
@@ -607,47 +607,30 @@
                   <option value="X">X</option>
                   <option value="Y">Y</option>
                   <option value="Z">Z</option>
-                  <!-- contoh rombel khusus (opsional) -->
+                  <!-- contoh rombel khusus (opsional, biar tetap ada) -->
                   <option value="IPA 1">IPA 1</option>
-                  <option value="IPA 1">IPA 2</option>
-                  <option value="IPA 1">IPA 3</option>
-                  <option value="IPA 1">IPA 4</option>
-                  <option value="IPA 1">IPA 5</option>
-                  <option value="IPA 1">IPA 6</option>
-                  <option value="IPA 1">IPA 7</option>
-                  <option value="IPA 1">IPA 8</option>
-                  <option value="IPA 1">IPA 9</option>
-                  <option value="IPA 1">IPA 10</option>
-                  <option value="IPA 1">IPA 11</option>
-                  <option value="IPA 1">IPA 12</option>
-                  <option value="IPA 1">IPA 13</option>
-                  <option value="IPA 1">IPA 14</option>
-                  <option value="IPA 1">IPA 15</option>
+                  <option value="IPA 2">IPA 2</option>
+                  <option value="IPA 3">IPA 3</option>
+                  <option value="IPA 4">IPA 4</option>
+                  <option value="IPA 5">IPA 5</option>
+                  <option value="IPA 6">IPA 6</option>
+                  <option value="IPA 7">IPA 7</option>
+                  <option value="IPA 8">IPA 8</option>
+                  <option value="IPA 9">IPA 9</option>
+                  <option value="IPA 10">IPA 10</option>
                   <option value="IPS 1">IPS 1</option>
-                  <option value="IPS 1">IPS 2</option>
-                  <option value="IPS 1">IPS 3</option>
-                  <option value="IPS 1">IPS 4</option>
-                  <option value="IPS 1">IPS 5</option>
-                  <option value="IPS 1">IPS 6</option>
-                  <option value="IPS 1">IPS 7</option>
-                  <option value="IPS 1">IPS 8</option>
-                  <option value="IPS 1">IPS 9</option>
+                  <option value="IPS 2">IPS 2</option>
+                  <option value="IPS 3">IPS 3</option>
                   <option value="PK 1">PK 1</option>
-                  <option value="PK 1">PK 2</option>
-                  <option value="PK 1">PK 3</option>
-                  <option value="PK 1">PK 4</option>
-                  <option value="PK 1">PK 5</option>
-                  <option value="PK 1">PK 6</option>
-                  <option value="PK 1">PK 7</option>
-                  <option value="PK 1">PK 8</option>
-                  <option value="PK 1">PK 9</option>
+                  <option value="PK 2">PK 2</option>
+                  <option value="PK 3">PK 3</option>
                 </select>
               </div>
             </div>
 
             <div class="admin-filter-note">
               Data profil santri yang Anda isi di tabel bawah akan tersimpan untuk
-              Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel yang dipilih di sini.
+              Tahun Ajaran, Semester, Jenjang, dan Paralel yang dipilih di sini.
             </div>
           </div>
 
@@ -734,12 +717,12 @@
 
   <!-- Logic Admin -->
   <script>
-    // --- LOGIN ADMIN via SUPABASE ---
+    // --- SESSION LOGIN ADMIN ---
     const ADMIN_SESSION_KEY = "sispo_admin_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let adminLogoutTimer = null;
 
-    // Menyimpan file foto per baris: key = nomor baris (No.)
+    // cache file foto per baris (key = nomor baris)
     const adminFotoFiles = {};
 
     async function handleLoginAdmin(event) {
@@ -764,6 +747,7 @@
         return;
       }
 
+      // cek role admin
       const { data: roleData, error: roleError } = await db
         .from("user_roles")
         .select("mode")
@@ -854,6 +838,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(ADMIN_SESSION_KEY);
+
       if (!raw) return;
 
       try {
@@ -903,11 +888,11 @@
         <td>
           <label class="admin-photo-upload">
             Upload
-            <input 
-              type="file" 
-              accept="image/*" 
-              data-row="${no}" 
-              onchange="handleAdminFotoChange(event)" 
+            <input
+              type="file"
+              accept="image/*"
+              data-row="${no}"
+              onchange="handleAdminFotoChange(event)"
             />
           </label>
         </td>
@@ -931,19 +916,12 @@
       `;
       return tr;
     }
-    function handleAdminFotoChange(event) {
-      const input = event.target;
-      const rowIndex = input.getAttribute("data-row");
-      if (!rowIndex) return;
-    
-      adminFotoFiles[rowIndex] = input.files[0] || null;
-      console.log("Foto tersimpan untuk baris", rowIndex, adminFotoFiles[rowIndex]);
-    }
 
     function initAdminProfilTable() {
       const tbody = document.querySelector("#adminProfilTable tbody");
       if (!tbody) return;
       tbody.innerHTML = "";
+      // awal: 5 baris kosong
       for (let i = 1; i <= 5; i++) {
         tbody.appendChild(createAdminRow(i));
       }
@@ -977,7 +955,6 @@
       document.getElementById("labelAdminKelas").textContent = kelas;
       document.getElementById("labelAdminSemester").textContent = semester;
     }
-    const adminFotoFiles = {};
 
     // --- UPLOAD FOTO KE SUPABASE STORAGE ---
     async function uploadAdminFoto(file, nis) {
@@ -986,39 +963,32 @@
           console.warn("uploadAdminFoto: file atau NIS kosong");
           return null;
         }
-    
+
         const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
         const filePath = `${nis}_${Date.now()}.${ext}`;
-    
-        console.log("Upload foto ke bucket 'foto-santri' dengan path:", filePath);
-    
+
         const { data, error } = await db
           .storage
-          .from("foto-santri")   // pastikan nama bucket persis ini
-          .upload(filePath, file, {
-            upsert: true
-          });
-    
+          .from("foto-santri")
+          .upload(filePath, file, { upsert: true });
+
         if (error) {
           console.error("Gagal upload foto ke Supabase Storage:", error);
           alert("Upload foto gagal: " + (error.message || "lihat console browser"));
           return null;
         }
-    
-        console.log("Upload sukses, response:", data);
-    
+
         const { data: publicData, error: publicError } = db
           .storage
           .from("foto-santri")
           .getPublicUrl(filePath);
-    
+
         if (publicError) {
           console.error("Gagal ambil public URL:", publicError);
           alert("Gagal mengambil URL publik foto. Cek console.");
           return null;
         }
-    
-        console.log("Public URL foto:", publicData.publicUrl);
+
         return publicData.publicUrl || null;
       } catch (err) {
         console.error("Exception di uploadAdminFoto:", err);
@@ -1079,7 +1049,7 @@
           jenjang,
           kelas,
           paralel,
-          foto_url: foto_url // kolom text di tabel profil_santri
+          foto_url: foto_url
         });
       }
 
@@ -1101,7 +1071,7 @@
       }
     }
 
-    // DOWNLOAD TEMPLATE ADMIN (rapi seperti tabel manual)
+    // DOWNLOAD TEMPLATE ADMIN
     function downloadTemplateAdmin() {
       const tahun = document.getElementById("adminTahun").value.replace("_","/");
       const semester = document.getElementById("adminSemester").value;
@@ -1115,7 +1085,6 @@
       csv += `Jenjang,${jenjang}\r\n`;
       csv += `Kelas,${kelas}\r\n`;
       csv += `Paralel/Rombel,${paralel}\r\n\r\n`;
-      // header mirip tabel isian manual (tanpa kolom Foto karena itu file)
       csv += "No,NIS,Nama Lengkap,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
 
       const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
@@ -1147,7 +1116,7 @@
         const firstSheetName = workbook.SheetNames[0];
         const ws = workbook.Sheets[firstSheetName];
 
-        const rows = XLSX.utils.sheet_to_json(ws, { header: 1 }); // array of arrays
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
         if (!rows || rows.length === 0) {
           alert("File kosong atau tidak terbaca.");
@@ -1161,17 +1130,17 @@
           row[0].toString().toLowerCase().startsWith("no")
         );
         if (headerIndex === -1) {
-          // fallback: asumsikan header di baris 0
           headerIndex = 0;
         }
 
         const dataRows = rows
           .slice(headerIndex + 1)
-          .filter(r => r && r.length && (r[1] || r[2])); // ada NIS atau Nama
+          .filter(r => r && r.length && (r[1] || r[2]));
 
         const tbody = document.querySelector("#adminProfilTable tbody");
         if (!tbody) return;
         tbody.innerHTML = "";
+
         // reset cache foto
         for (const k in adminFotoFiles) {
           delete adminFotoFiles[k];
@@ -1186,7 +1155,7 @@
             if (el) el.value = value ?? "";
           };
 
-          // urutan: [0]=No, [1]=NIS, [2]=Nama Lengkap, [3]=NISN, [4]=JK, [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah, [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
+          // [0]=No, [1]=NIS, [2]=Nama, [3]=NISN, [4]=JK, [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah, [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
           setField("nis", row[1]);
           setField("nama_lengkap", row[2]);
           setField("nisn", row[3]);
@@ -1210,4 +1179,3 @@
   </script>
 </body>
 </html>
-
