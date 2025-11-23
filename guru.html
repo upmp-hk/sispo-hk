@@ -995,5 +995,15 @@
       }
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase;
+  
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+  
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
 </body>
 </html>
+
