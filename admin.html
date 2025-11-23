@@ -674,8 +674,8 @@
                 </label>
               </div>
               <div class="template-right">
-                Admin dapat mengisi / memperbarui profil santri melalui template Excel
-                lalu upload kembali (saat ini masih simulasi).
+                Admin dapat mengisi / memperbarui profil santri melalui template Excel,
+                lalu upload agar otomatis muncul di tabel, kemudian klik "Simpan ke Database".
               </div>
             </div>
 
@@ -709,7 +709,7 @@
 
             <div class="admin-footer-note">
               *Minimal isi NIS dan Nama Lengkap. Kolom lain bisa dilengkapi bertahap.  
-              *Upload template saat ini masih simulasi (parsing detail nanti di-backend).
+              *Upload template akan mengisi tabel otomatis, lalu tinggal klik "Simpan ke Database".
             </div>
           </div>
         </div>
@@ -719,6 +719,9 @@
 
   <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- SheetJS (xlsx) untuk baca file Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
   <script>
     const { createClient } = supabase;
 
@@ -735,6 +738,9 @@
     const ADMIN_SESSION_KEY = "sispo_admin_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let adminLogoutTimer = null;
+
+    // Menyimpan file foto per baris: key = nomor baris (No.)
+    const adminFotoFiles = {};
 
     async function handleLoginAdmin(event) {
       event.preventDefault();
@@ -883,6 +889,13 @@
 
     // --- LOGIC TABEL PROFIL SANTRI ---
 
+    function handleAdminFotoChange(event) {
+      const input = event.target;
+      const rowIndex = input.getAttribute("data-row");
+      if (!rowIndex) return;
+      adminFotoFiles[rowIndex] = input.files[0] || null;
+    }
+
     function createAdminRow(no) {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -890,7 +903,7 @@
         <td>
           <label class="admin-photo-upload">
             Upload
-            <input type="file" accept="image/*" />
+            <input type="file" accept="image/*" data-row="${no}" onchange="handleAdminFotoChange(event)" />
           </label>
         </td>
         <td><input type="text" data-field="nama_lengkap" /></td>
@@ -952,6 +965,30 @@
       document.getElementById("labelAdminSemester").textContent = semester;
     }
 
+    // --- UPLOAD FOTO KE SUPABASE STORAGE ---
+    async function uploadAdminFoto(file, nis) {
+      if (!file || !nis) return null;
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+      const filePath = `${nis}_${Date.now()}.${ext}`;
+
+      const { data, error } = await db
+        .storage
+        .from("foto-santri") // pastikan bucket ini ada
+        .upload(filePath, file, { upsert: true });
+
+      if (error) {
+        console.error("Gagal upload foto:", error);
+        return null;
+      }
+
+      const { data: urlData } = db
+        .storage
+        .from("foto-santri")
+        .getPublicUrl(filePath);
+
+      return urlData?.publicUrl || null;
+    }
+
     // SIMPAN PROFIL SANTRI KE SUPABASE
     async function simpanAdminProfil() {
       const tbody = document.querySelector("#adminProfilTable tbody");
@@ -966,7 +1003,7 @@
       const rows = Array.from(tbody.querySelectorAll("tr"));
       const payload = [];
 
-      rows.forEach(tr => {
+      for (const tr of rows) {
         const get = (field) => {
           const el = tr.querySelector(`[data-field="${field}"]`);
           return el ? el.value.trim() : "";
@@ -976,8 +1013,16 @@
         const nama = get("nama_lengkap");
 
         // lewati baris kosong / tidak lengkap
-        if (!nis && !nama) return;
-        if (!nis || !nama) return;
+        if (!nis && !nama) continue;
+        if (!nis || !nama) continue;
+
+        const rowNo = tr.children[0]?.textContent.trim() || "";
+        const fotoFile = adminFotoFiles[rowNo] || null;
+        let foto_url = null;
+
+        if (fotoFile) {
+          foto_url = await uploadAdminFoto(fotoFile, nis);
+        }
 
         payload.push({
           nis,
@@ -995,9 +1040,10 @@
           semester,
           jenjang,
           kelas,
-          paralel
+          paralel,
+          foto_url: foto_url // kolom text di tabel profil_santri
         });
-      });
+      }
 
       if (payload.length === 0) {
         alert("Tidak ada baris yang berisi NIS dan Nama santri.");
@@ -1017,7 +1063,7 @@
       }
     }
 
-    // DOWNLOAD TEMPLATE ADMIN (tanpa dummy)
+    // DOWNLOAD TEMPLATE ADMIN (rapi seperti tabel manual)
     function downloadTemplateAdmin() {
       const tahun = document.getElementById("adminTahun").value.replace("_","/");
       const semester = document.getElementById("adminSemester").value;
@@ -1031,7 +1077,8 @@
       csv += `Jenjang,${jenjang}\r\n`;
       csv += `Kelas,${kelas}\r\n`;
       csv += `Paralel/Rombel,${paralel}\r\n\r\n`;
-      csv += "NIS,Nama Santri,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
+      // header mirip tabel isian manual (tanpa kolom Foto karena itu file)
+      csv += "No,NIS,Nama Lengkap,NISN,Jenis Kelamin,Tempat Lahir,Tanggal Lahir,Alamat,Nama Ayah,No. Telp. Ayah,Nama Ibu,No. Telp. Ibu\r\n";
 
       const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
       const url = URL.createObjectURL(blob);
@@ -1044,26 +1091,82 @@
       URL.revokeObjectURL(url);
     }
 
-    // UPLOAD TEMPLATE (simulasi)
+    // UPLOAD TEMPLATE -> ISI TABEL MANUAL
     function uploadTemplateAdmin(event) {
       const file = event.target.files[0];
       if (!file) return;
 
       const ext = file.name.toLowerCase().split(".").pop();
-      if (ext !== "xls" && ext !== "xlsx") {
-        alert("Gunakan file .xls atau .xlsx.");
+      if (ext !== "xls" && ext !== "xlsx" && ext !== "csv") {
+        alert("Gunakan file .xls, .xlsx, atau .csv.");
         return;
       }
 
       const reader = new FileReader();
       reader.onload = function (e) {
-        console.log(
-          "File template profil santri ter-upload (simulasi), size:",
-          e.target.result.byteLength,
-          "bytes"
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const firstSheetName = workbook.SheetNames[0];
+        const ws = workbook.Sheets[firstSheetName];
+
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1 }); // array of arrays
+
+        if (!rows || rows.length === 0) {
+          alert("File kosong atau tidak terbaca.");
+          return;
+        }
+
+        // Cari baris header (kolom pertama "No" atau "No.")
+        let headerIndex = rows.findIndex(row =>
+          row &&
+          row[0] &&
+          row[0].toString().toLowerCase().startsWith("no")
         );
-        alert("File template profil santri ter-upload (simulasi). Parsing detail nanti ditangani di backend.");
+        if (headerIndex === -1) {
+          // fallback: asumsikan header di baris 0
+          headerIndex = 0;
+        }
+
+        const dataRows = rows
+          .slice(headerIndex + 1)
+          .filter(r => r && r.length && (r[1] || r[2])); // ada NIS atau Nama
+
+        const tbody = document.querySelector("#adminProfilTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        // reset cache foto
+        for (const k in adminFotoFiles) {
+          delete adminFotoFiles[k];
+        }
+
+        dataRows.forEach((row, idx) => {
+          const no = idx + 1;
+          const tr = createAdminRow(no);
+
+          const setField = (field, value) => {
+            const el = tr.querySelector(`[data-field="${field}"]`);
+            if (el) el.value = value ?? "";
+          };
+
+          // urutan: [0]=No, [1]=NIS, [2]=Nama Lengkap, [3]=NISN, [4]=JK, [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah, [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
+          setField("nis", row[1]);
+          setField("nama_lengkap", row[2]);
+          setField("nisn", row[3]);
+          setField("jenis_kelamin", row[4]);
+          setField("tempat_lahir", row[5]);
+          setField("tanggal_lahir", row[6]);
+          setField("alamat", row[7]);
+          setField("nama_ayah", row[8]);
+          setField("telp_ayah", row[9]);
+          setField("nama_ibu", row[10]);
+          setField("telp_ibu", row[11]);
+
+          tbody.appendChild(tr);
+        });
+
+        alert("Template berhasil dibaca dan tabel terisi. Silakan cek lalu klik 'Simpan ke Database'.");
       };
+
       reader.readAsArrayBuffer(file);
     }
   </script>
