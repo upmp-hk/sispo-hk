@@ -903,7 +903,12 @@
         <td>
           <label class="admin-photo-upload">
             Upload
-            <input type="file" accept="image/*" data-row="${no}" onchange="handleAdminFotoChange(event)" />
+            <input 
+              type="file" 
+              accept="image/*" 
+              data-row="${no}" 
+              onchange="handleAdminFotoChange(event)" 
+            />
           </label>
         </td>
         <td><input type="text" data-field="nama_lengkap" /></td>
@@ -925,6 +930,14 @@
         <td><input type="tel" data-field="telp_ibu" /></td>
       `;
       return tr;
+    }
+    function handleAdminFotoChange(event) {
+      const input = event.target;
+      const rowIndex = input.getAttribute("data-row");
+      if (!rowIndex) return;
+    
+      adminFotoFiles[rowIndex] = input.files[0] || null;
+      console.log("Foto tersimpan untuk baris", rowIndex, adminFotoFiles[rowIndex]);
     }
 
     function initAdminProfilTable() {
@@ -964,29 +977,54 @@
       document.getElementById("labelAdminKelas").textContent = kelas;
       document.getElementById("labelAdminSemester").textContent = semester;
     }
+    const adminFotoFiles = {};
 
     // --- UPLOAD FOTO KE SUPABASE STORAGE ---
     async function uploadAdminFoto(file, nis) {
-      if (!file || !nis) return null;
-      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const filePath = `${nis}_${Date.now()}.${ext}`;
-
-      const { data, error } = await db
-        .storage
-        .from("foto-santri") // pastikan bucket ini ada
-        .upload(filePath, file, { upsert: true });
-
-      if (error) {
-        console.error("Gagal upload foto:", error);
+      try {
+        if (!file || !nis) {
+          console.warn("uploadAdminFoto: file atau NIS kosong");
+          return null;
+        }
+    
+        const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+        const filePath = `${nis}_${Date.now()}.${ext}`;
+    
+        console.log("Upload foto ke bucket 'foto-santri' dengan path:", filePath);
+    
+        const { data, error } = await db
+          .storage
+          .from("foto-santri")   // pastikan nama bucket persis ini
+          .upload(filePath, file, {
+            upsert: true
+          });
+    
+        if (error) {
+          console.error("Gagal upload foto ke Supabase Storage:", error);
+          alert("Upload foto gagal: " + (error.message || "lihat console browser"));
+          return null;
+        }
+    
+        console.log("Upload sukses, response:", data);
+    
+        const { data: publicData, error: publicError } = db
+          .storage
+          .from("foto-santri")
+          .getPublicUrl(filePath);
+    
+        if (publicError) {
+          console.error("Gagal ambil public URL:", publicError);
+          alert("Gagal mengambil URL publik foto. Cek console.");
+          return null;
+        }
+    
+        console.log("Public URL foto:", publicData.publicUrl);
+        return publicData.publicUrl || null;
+      } catch (err) {
+        console.error("Exception di uploadAdminFoto:", err);
+        alert("Terjadi error saat upload foto. Cek console browser.");
         return null;
       }
-
-      const { data: urlData } = db
-        .storage
-        .from("foto-santri")
-        .getPublicUrl(filePath);
-
-      return urlData?.publicUrl || null;
     }
 
     // SIMPAN PROFIL SANTRI KE SUPABASE
@@ -1172,3 +1210,4 @@
   </script>
 </body>
 </html>
+
