@@ -711,33 +711,58 @@
 
   <script>
     // LOGIN MUSYRIF (TESTING): username: admin, password: admin
-    const VALID_MUSYRIF_ID = "admin";
-    const VALID_MUSYRIF_PASSWORD = "admin";
     const MUSYRIF_SESSION_KEY = "sispo_musyrif_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let musyrifLogoutTimer = null;
 
-    function handleLoginMusyrif(event) {
-      event.preventDefault();
-      const id = document.getElementById("loginMusyrifID").value.trim();
-      const pass = document.getElementById("loginMusyrifPassword").value;
-      const errorEl = document.getElementById("loginMusyrifError");
-    
-      if (!id || !pass) {
-        errorEl.textContent = "Username dan password wajib diisi.";
-        return;
-      }
-    
-      if (id === VALID_MUSYRIF_ID && pass === VALID_MUSYRIF_PASSWORD) {
-        errorEl.textContent = "";
-        setMusyrifSession();
-        applyMusyrifLoginUI();
-        initMusyrifTable();
-        scheduleMusyrifAutoLogout();
-      } else {
-        errorEl.textContent = "Username atau password tidak sesuai.";
-      }
+  async function handleLoginMusyrif(event) {
+    event.preventDefault();
+    const id = document.getElementById("loginMusyrifID").value.trim();
+    const pass = document.getElementById("loginMusyrifPassword").value;
+    const errorEl = document.getElementById("loginMusyrifError");
+  
+    if (!id || !pass) {
+      errorEl.textContent = "Username dan password wajib diisi.";
+      return;
     }
+  
+    const { data, error } = await db.auth.signInWithPassword({
+      email: id,
+      password: pass
+    });
+  
+    if (error) {
+      console.error(error);
+      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+      return;
+    }
+  
+    const { data: roleData, error: roleError } = await db
+      .from('user_roles')
+      .select('mode')
+      .eq('id', data.user.id)
+      .single();
+  
+    if (roleError || !roleData) {
+      console.error(roleError);
+      errorEl.textContent = "Role pengguna tidak ditemukan.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    if (roleData.mode !== 'musyrif') {
+      errorEl.textContent = "Akun ini bukan akun Musyrif.";
+      await db.auth.signOut();
+      return;
+    }
+  
+    errorEl.textContent = "";
+    setMusyrifSession();
+    applyMusyrifLoginUI();
+    initMusyrifTable();
+    scheduleMusyrifAutoLogout();
+  }
+
 
     function applyMusyrifLoginUI() {
       document.getElementById("musyrifLoginContainer").style.display = "none";
@@ -976,4 +1001,5 @@
   </script>
 </body>
 </html>
+
 
