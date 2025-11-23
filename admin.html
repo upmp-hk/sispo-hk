@@ -1024,6 +1024,20 @@
         if (!nis && !nama) continue;
         if (!nis || !nama) continue;
 
+        // konversi tanggal lahir dari yyyy-mm-dd -> dd-mm-yyyy sebelum disimpan
+        const rawTanggal = get("tanggal_lahir"); // dari <input type="date">
+        let tanggalFormatted = null;
+        if (rawTanggal) {
+          const parts = rawTanggal.split("-"); // [yyyy, mm, dd]
+          if (parts.length === 3) {
+            const [yyyy, mm, dd] = parts;
+            tanggalFormatted = `${dd}-${mm}-${yyyy}`; // format yang disimpan di DB
+          } else {
+            // fallback kalau format tidak sesuai, simpan apa adanya
+            tanggalFormatted = rawTanggal;
+          }
+        }
+
         const rowNo = tr.children[0]?.textContent.trim() || "";
         const fotoFile = adminFotoFiles[rowNo] || null;
         let foto_url = null;
@@ -1039,7 +1053,7 @@
           nisn: get("nisn") || null,
           jenis_kelamin: get("jenis_kelamin") || null,
           tempat_lahir: get("tempat_lahir") || null,
-          tanggal_lahir: get("tanggal_lahir") || null,
+          tanggal_lahir: tanggalFormatted,   // sudah DD-MM-YYYY
           alamat: get("alamat") || null,
           nama_ayah: get("nama_ayah") || null,
           telp_ayah: get("telp_ayah") || null,
@@ -1097,11 +1111,6 @@
         const ws = wb.Sheets[sheetName];
     
         // 3) Isi metadata akademik ke sel B3–B7
-        //   A3: "Tahun Ajaran", B3: (nilai)
-        //   A4: "Semester",     B4: (nilai)
-        //   A5: "Jenjang",      B5: (nilai)
-        //   A6: "Kelas",        B6: (nilai)
-        //   A7: "Paralel/Rombel", B7: (nilai)
         XLSX.utils.sheet_add_aoa(ws, [[tahun]],    { origin: "B3" });
         XLSX.utils.sheet_add_aoa(ws, [[semester]], { origin: "B4" });
         XLSX.utils.sheet_add_aoa(ws, [[jenjang]],  { origin: "B5" });
@@ -1128,111 +1137,104 @@
         alert("Terjadi error saat membuat template. Cek console browser.");
       }
     }
-      // UPLOAD TEMPLATE -> ISI TABEL MANUAL
-      function uploadTemplateAdmin(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-      
-        const ext = file.name.toLowerCase().split(".").pop();
-        if (ext !== "xls" && ext !== "xlsx" && ext !== "csv") {
-          alert("Gunakan file .xls, .xlsx, atau .csv.");
+
+    // UPLOAD TEMPLATE -> ISI TABEL MANUAL
+    function uploadTemplateAdmin(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+    
+      const ext = file.name.toLowerCase().split(".").pop();
+      if (ext !== "xls" && ext !== "xlsx" && ext !== "csv") {
+        alert("Gunakan file .xls, .xlsx, atau .csv.");
+        return;
+      }
+    
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // cellDates:true agar tanggal bisa jadi Date, bukan angka mentah
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array", cellDates: true });
+        const firstSheetName = workbook.SheetNames[0];
+        const ws = workbook.Sheets[firstSheetName];
+    
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    
+        if (!rows || rows.length === 0) {
+          alert("File kosong atau tidak terbaca.");
           return;
         }
-      
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          // cellDates:true agar tanggal bisa jadi Date, bukan angka mentah
-          const data = new Uint8Array(e.target.result);
-          const workbook = XLSX.read(data, { type: "array", cellDates: true });
-          const firstSheetName = workbook.SheetNames[0];
-          const ws = workbook.Sheets[firstSheetName];
-      
-          const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      
-          if (!rows || rows.length === 0) {
-            alert("File kosong atau tidak terbaca.");
-            return;
+    
+        // Cari baris header (kolom pertama "No" atau "No.")
+        let headerIndex = rows.findIndex(row =>
+          row &&
+          row[0] &&
+          row[0].toString().toLowerCase().startsWith("no")
+        );
+    
+        if (headerIndex === -1) {
+          alert("Header 'No' tidak ditemukan. Pastikan format template tidak diubah.");
+          return;
+        }
+    
+        const dataRows = rows
+          .slice(headerIndex + 1)
+          .filter(r => r && (r[1] || r[2])); // ada NIS atau Nama
+    
+        const tbody = document.querySelector("#adminProfilTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+    
+        // reset cache foto (karena data baru)
+        for (const k in adminFotoFiles) {
+          if (Object.prototype.hasOwnProperty.call(adminFotoFiles, k)) {
+            delete adminFotoFiles[k];
           }
-      
-          // Cari baris header (kolom pertama "No" atau "No.")
-          let headerIndex = rows.findIndex(row =>
-            row &&
-            row[0] &&
-            row[0].toString().toLowerCase().startsWith("no")
-          );
-      
-          if (headerIndex === -1) {
-            alert("Header 'No' tidak ditemukan. Pastikan format template tidak diubah.");
-            return;
+        }
+    
+        dataRows.forEach((row, idx) => {
+          const no = idx + 1;
+          const tr = createAdminRow(no);
+    
+          const setField = (field, value) => {
+            const el = tr.querySelector(`[data-field="${field}"]`);
+            if (el) el.value = (value === undefined || value === null) ? "" : value;
+          };
+    
+          // urutan: [0]=No, [1]=Nama Lengkap, [2]=NIS, [3]=NISN, [4]=JK,
+          // [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah,
+          // [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
+          setField("nama_lengkap", row[1]);
+          setField("nis", row[2]);
+          setField("nisn", row[3]);
+          setField("jenis_kelamin", row[4]);
+          setField("tempat_lahir", row[5]);
+    
+          // tangani tanggal lahir: bisa string, bisa Date, bisa kosong
+          let tgl = row[6];
+          if (tgl instanceof Date) {
+            // format: yyyy-mm-dd agar cocok dengan <input type="date">
+            const yyyy = tgl.getFullYear();
+            const mm   = String(tgl.getMonth() + 1).padStart(2, "0");
+            const dd   = String(tgl.getDate()).padStart(2, "0");
+            tgl = `${yyyy}-${mm}-${dd}`;
           }
-      
-          const dataRows = rows
-            .slice(headerIndex + 1)
-            .filter(r => r && (r[1] || r[2])); // ada NIS atau Nama
-      
-          const tbody = document.querySelector("#adminProfilTable tbody");
-          if (!tbody) return;
-          tbody.innerHTML = "";
-      
-          // reset cache foto (karena data baru)
-          for (const k in adminFotoFiles) {
-            if (Object.prototype.hasOwnProperty.call(adminFotoFiles, k)) {
-              delete adminFotoFiles[k];
-            }
-          }
-      
-          dataRows.forEach((row, idx) => {
-            const no = idx + 1;
-            const tr = createAdminRow(no);
-      
-            const setField = (field, value) => {
-              const el = tr.querySelector(`[data-field="${field}"]`);
-              if (el) el.value = (value === undefined || value === null) ? "" : value;
-            };
-      
-            // urutan: [0]=No, [1]=Nama Lengkap, [2]=NIS, [3]=NISN, [4]=JK,
-            // [5]=Tempat Lahir, [6]=Tanggal Lahir, [7]=Alamat, [8]=Nama Ayah,
-            // [9]=Telp Ayah, [10]=Nama Ibu, [11]=Telp Ibu
-            setField("nama_lengkap", row[1]);
-            setField("nis", row[2]);
-            setField("nisn", row[3]);
-            setField("jenis_kelamin", row[4]);
-            setField("tempat_lahir", row[5]);
-      
-            // tangani tanggal lahir: bisa string, bisa Date, bisa kosong
-            let tgl = row[6];
-            if (tgl instanceof Date) {
-              // format: yyyy-mm-dd agar cocok dengan <input type="date">
-              const yyyy = tgl.getFullYear();
-              const mm   = String(tgl.getMonth() + 1).padStart(2, "0");
-              const dd   = String(tgl.getDate()).padStart(2, "0");
-              tgl = `${yyyy}-${mm}-${dd}`;
-            }
-            
-            setField("tanggal_lahir", tgl || "");
-            setField("alamat", row[7]);
-            setField("nama_ayah", row[8]);
-            setField("telp_ayah", row[9]);
-            setField("nama_ibu", row[10]);
-            setField("telp_ibu", row[11]);
-      
-            tbody.appendChild(tr);
-          });
-      
-          alert("Template berhasil dibaca dan tabel terisi.\nSilakan cek datanya, lalu klik 'Simpan ke Database'.");
-        };
-      
-        reader.readAsArrayBuffer(file);
-      }
+          
+          setField("tanggal_lahir", tgl || "");
+          setField("alamat", row[7]);
+          setField("nama_ayah", row[8]);
+          setField("telp_ayah", row[9]);
+          setField("nama_ibu", row[10]);
+          setField("telp_ibu", row[11]);
+    
+          tbody.appendChild(tr);
+        });
+    
+        alert("Template berhasil dibaca dan tabel terisi.\nSilakan cek datanya, lalu klik 'Simpan ke Database'.");
+      };
+    
+      reader.readAsArrayBuffer(file);
+    }
 
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
