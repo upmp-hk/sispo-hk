@@ -501,6 +501,48 @@
                   <option value="2025_2026">2025/2026</option>
                 </select>
               </div>
+              <!-- Mapel -->
+              <div class="guru-filter-item">
+                <label for="guruMapel">Mata Pelajaran</label>
+                <select id="guruMapel">
+                  <option value="Al-Qur'an Hadits (Tafsir)">Al-Qur'an Hadits (Tafsir)</option>
+                  <option value="Akidah Akhlak">Akidah Akhlak</option>
+                  <option value="Fikih">Fikih</option>
+                  <option value="Sejarah Kebudayaan Islam">Sejarah Kebudayaan Islam</option>
+                  <option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
+                  <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                  <option value="Bahasa Arab">Bahasa Arab</option>
+                  <option value="Matematika">Matematika</option>
+                  <option value="Sejarah Indonesia">Sejarah Indonesia</option>
+                  <option value="Bahasa Inggris">Bahasa Inggris</option>
+                  <option value="Fisika">Fisika</option>
+                  <option value="Kimia">Kimia</option>
+                  <option value="Biologi">Biologi</option>
+                  <option value="Ekonomi">Ekonomi</option>
+                  <option value="Geografi">Geografi</option>
+                  <option value="Sosiologi">Sosiologi</option>
+                  <option value="Informatika">Informatika</option>
+                  <option value="Matematika Peminatan (IPA)">Matematika Peminatan (IPA)</option>
+                  <option value="Fisika Peminatan">Fisika Peminatan</option>
+                  <option value="Kimia Peminatan">Kimia Peminatan</option>
+                  <option value="Biologi Peminatan">Biologi Peminatan</option>
+                  <option value="Sejarah Peminatan">Sejarah Peminatan</option>
+                  <option value="Ekonomi Peminatan">Ekonomi Peminatan</option>
+                  <option value="Geografi Peminatan">Geografi Peminatan</option>
+                  <option value="Sosiologi Peminatan">Sosiologi Peminatan</option>
+                  <option value="Tafsir - Ilmu Tafsir">Tafsir - Ilmu Tafsir</option>
+                  <option value="Hadis - Ilmu Hadis">Hadis - Ilmu Hadis</option>
+                  <option value="Fiqih - Ushul Fiqih">Fiqih - Ushul Fiqih</option>
+                  <option value="Bahasa Arab Peminatan (Balaghoh)">Bahasa Arab Peminatan (Balaghoh)</option>
+                  <option value="Tahfidz Al-Qur'an">Tahfidz Al-Qur'an</option>
+                  <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
+                  <option value="Nahwu (Qawaid)">Nahwu (Qawaid)</option>
+                  <option value="Hadits (Pesantren)">Hadits (Pesantren)</option>
+                  <option value="Faroidh">Faroidh</option>
+                  <option value="Bimbingan Konseling (BK)">Bimbingan Konseling (BK)</option>
+                </select>
+              </div>
+
 
               <!-- Semester -->
               <div class="guru-filter-item">
@@ -625,24 +667,12 @@
                   <th>No.</th>
                   <th>NIS</th>
                   <th>Nama Lengkap</th>
-                  <!-- contoh beberapa mapel umum, bisa kamu tambah -->
-                  <th>Qurdis</th>
-                  <th>Aqidah<br>Akhlak</th>
-                  <th>Fiqih</th>
-                  <th>SKI</th>
-                  <th>PKN</th>
-                  <th>B. Indo</th>
-                  <th>B. Arab</th>
-                  <th>Matematika</th>
-                  <th>B. Inggris</th>
-                  <th>Sejarah Indo</th>
-                  <th>Fisika</th>
-                  <th>Kimia</th>
-                  <th>Biologi</th>
+                  <th id="thPengetahuan">Nilai Pengetahuan</th>
+                  <th id="thKeterampilan">Nilai Keterampilan</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Baris diisi via JS -->
+                <!-- Diisi JS -->
               </tbody>
             </table>
 
@@ -797,24 +827,9 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(GURU_SESSION_KEY);
-      if (!raw) return;
-
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        if (expiresAt && expiresAt > Date.now()) {
-          applyGuruLoginUI();
-          updateGuruLabels();
-          scheduleGuruAutoLogout();
-        } else {
-          clearGuruSession();
-          applyGuruLogoutUI();
-        }
-      } catch (e) {
-        clearGuruSession();
-        applyGuruLogoutUI();
-      }
-
-      ["guruTahun","guruKelas","guruSemester"].forEach(id => {
+      // ... kode lama
+    
+      ["guruTahun","guruKelas","guruSemester","guruMapel"].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.dataset.listenerAttached) {
           el.addEventListener("change", updateGuruLabels);
@@ -841,11 +856,100 @@
       const tahun = document.getElementById("guruTahun").value;
       const kelas = document.getElementById("guruKelas").value;
       const semester = document.getElementById("guruSemester").value;
-
+      const mapelKey = document.getElementById("guruMapel")?.value;
+      const cfg = MAPEL_CONFIG[mapelKey] || null;
+    
       document.getElementById("labelGuruTahun").textContent = tahun.replace("_","/");
       document.getElementById("labelGuruKelas").textContent = kelas;
       document.getElementById("labelGuruSemester").textContent = semester;
+    
+      const judulKecil = document.querySelector(".guru-table-title small");
+      if (judulKecil && cfg) {
+        judulKecil.innerHTML =
+          `Kelas: <span id="labelGuruKelas">${kelas}</span> / ` +
+          `TA <span id="labelGuruTahun">${tahun.replace("_","/")}</span> / ` +
+          `Sem <span id="labelGuruSemester">${semester}</span> / ` +
+          `Mapel: <strong>${cfg.label}</strong>`;
+      }
+    
+      // update header nama kolom nilai biar jelas
+      const thP = document.getElementById("thPengetahuan");
+      const thK = document.getElementById("thKeterampilan");
+      if (cfg && thP && thK) {
+        thP.textContent = `Nilai ${cfg.label} (Pengetahuan)`;
+        thK.textContent = `Nilai ${cfg.label} (Keterampilan)`;
+      }
     }
+
+    // MAPEL CONFIG: key = nilai di <select id="guruMapel">
+    const MAPEL_CONFIG = {
+      qurdits: {
+        label: "Qurdis",
+        p: "nilai_qurdits_p",
+        k: "nilai_qurdits_k",
+      },
+      aqidah_akhlak: {
+        label: "Aqidah Akhlak",
+        p: "nilai_aqidah_akhlak_p",
+        k: "nilai_aqidah_akhlak_k",
+      },
+      fiqih: {
+        label: "Fiqih",
+        p: "nilai_fiqih_p",
+        k: "nilai_fiqih_k",
+      },
+      ski: {
+        label: "SKI",
+        p: "nilai_ski_p",
+        k: "nilai_ski_k",
+      },
+      pkn: {
+        label: "PKN",
+        p: "nilai_pkn_p",
+        k: "nilai_pkn_k",
+      },
+      b_indonesia: {
+        label: "Bahasa Indonesia",
+        p: "nilai_b_indonesia_p",
+        k: "nilai_b_indonesia_k",
+      },
+      b_arab: {
+        label: "Bahasa Arab",
+        p: "nilai_b_arab_p",
+        k: "nilai_b_arab_k",
+      },
+      matematika: {
+        label: "Matematika",
+        p: "nilai_matematika_p",
+        k: "nilai_matematika_k",
+      },
+      b_inggris: {
+        label: "Bahasa Inggris",
+        p: "nilai_b_inggris_p",
+        k: "nilai_b_inggris_k",
+      },
+      sejarah_indo: {
+        label: "Sejarah Indonesia",
+        p: "nilai_sejarah_indo_p",
+        k: "nilai_sejarah_indo_k",
+      },
+      fisika: {
+        label: "Fisika",
+        p: "nilai_fisika_p",
+        k: "nilai_fisika_k",
+      },
+      kimia: {
+        label: "Kimia",
+        p: "nilai_kimia_p",
+        k: "nilai_kimia_k",
+      },
+      biologi: {
+        label: "Biologi",
+        p: "nilai_biologi_p",
+        k: "nilai_biologi_k",
+      },
+      // tambahkan mapel lain sesuai kolom di rekap_santri
+    };
 
     // --- MUAT DATA SANTRI DARI rekap_santri ---
     async function muatDataSantriGuru() {
@@ -855,11 +959,18 @@
       const jenjang  = document.getElementById("guruJenjang").value;
       const kelas    = document.getElementById("guruKelas").value;
       const paralel  = document.getElementById("guruParalel").value;
-
+      const mapelKey = document.getElementById("guruMapel").value;
+    
+      const cfg = MAPEL_CONFIG[mapelKey];
+      if (!cfg) {
+        alert("Mapel belum dikonfigurasi di MAPEL_CONFIG.");
+        return;
+      }
+    
       const tbody = document.querySelector("#guruNilaiTable tbody");
       if (!tbody) return;
       tbody.innerHTML = "";
-
+    
       const { data, error } = await db
         .from("rekap_santri")
         .select("*")
@@ -869,120 +980,119 @@
         .eq("kelas", kelas)
         .eq("paralel", paralel)
         .order("nama_lengkap", { ascending: true });
-
+    
       if (error) {
         console.error(error);
         alert("Gagal mengambil data santri: " + error.message);
         return;
       }
-
+    
       if (!data || data.length === 0) {
         alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
         return;
       }
-
+    
       data.forEach((row, idx) => {
+        const nilaiP = row[cfg.p] ?? "";
+        const nilaiK = row[cfg.k] ?? "";
+    
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${idx + 1}</td>
           <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
           <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_qurdits"        value="${row.nilai_qurdits ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_aqidah_akhlak"  value="${row.nilai_aqidah_akhlak ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_fiqih"          value="${row.nilai_fiqih ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_ski"            value="${row.nilai_ski ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_pkn"            value="${row.nilai_pkn ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_indonesia"    value="${row.nilai_b_indonesia ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_arab"         value="${row.nilai_b_arab ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_matematika"     value="${row.nilai_matematika ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_inggris"      value="${row.nilai_b_inggris ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_sejarah_indo"   value="${row.nilai_sejarah_indo ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_fisika"         value="${row.nilai_fisika ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_kimia"          value="${row.nilai_kimia ?? ""}"></td>
-          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_biologi"        value="${row.nilai_biologi ?? ""}"></td>
+          <td>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              data-field="${cfg.p}"
+              value="${nilaiP}"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              data-field="${cfg.k}"
+              value="${nilaiK}"
+            />
+          </td>
         `;
         tbody.appendChild(tr);
       });
-
-      alert("Data santri berhasil dimuat. Silakan isi / koreksi nilai, lalu klik 'Simpan Nilai ke Database'.");
+    
+      updateGuruLabels();
+      alert("Data santri berhasil dimuat. Silakan isi nilai pengetahuan & keterampilan, lalu klik 'Simpan Nilai ke Database'.");
     }
+
 
     // --- SIMPAN NILAI GURU KE rekap_santri (UPSERT) ---
     async function simpanNilaiGuru() {
       const tbody = document.querySelector("#guruNilaiTable tbody");
       if (!tbody) return;
-
+    
       const tahunRaw = document.getElementById("guruTahun").value;
       const tahun    = tahunRaw.replace("_", "/");
       const semester = parseInt(document.getElementById("guruSemester").value, 10);
-
+      const mapelKey = document.getElementById("guruMapel").value;
+    
+      const cfg = MAPEL_CONFIG[mapelKey];
+      if (!cfg) {
+        alert("Mapel belum dikonfigurasi di MAPEL_CONFIG.");
+        return;
+      }
+    
       const rows = Array.from(tbody.querySelectorAll("tr"));
       const payload = [];
-
+    
+      const getNilai = (tr, fieldName) => {
+        const input = tr.querySelector(`input[data-field="${fieldName}"]`);
+        if (!input) return null;
+        const val = input.value.trim();
+        if (val === "") return null;
+        const num = parseFloat(val.replace(",", "."));
+        return isNaN(num) ? null : num;
+      };
+    
       for (const tr of rows) {
         const nisCell = tr.children[1];
         if (!nisCell) continue;
         const nis = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
         if (!nis) continue;
-
-        const getNilai = (field) => {
-          const input = tr.querySelector(`input[data-field="${field}"]`);
-          if (!input) return null;
-          const val = input.value.trim();
-          if (val === "") return null;
-          const num = parseFloat(val.replace(",", "."));
-          return isNaN(num) ? null : num;
-        };
-
+    
+        const nilaiP = getNilai(tr, cfg.p);
+        const nilaiK = getNilai(tr, cfg.k);
+    
+        // Kalau dua-duanya kosong, lewati (tidak mengubah apa-apa)
+        if (nilaiP === null && nilaiK === null) continue;
+    
         const rowData = {
           nis,
           tahun_ajaran: tahun,
           semester
         };
-
-        const mapelFields = [
-          "nilai_qurdits",
-          "nilai_aqidah_akhlak",
-          "nilai_fiqih",
-          "nilai_ski",
-          "nilai_pkn",
-          "nilai_b_indonesia",
-          "nilai_b_arab",
-          "nilai_matematika",
-          "nilai_b_inggris",
-          "nilai_sejarah_indo",
-          "nilai_fisika",
-          "nilai_kimia",
-          "nilai_biologi"
-        ];
-
-        let adaPerubahan = false;
-
-        mapelFields.forEach(field => {
-          const nilai = getNilai(field);
-          if (nilai !== null) {
-            rowData[field] = nilai;
-            adaPerubahan = true;
-          }
-        });
-
-        // kalau semua nilai kosong, lewati (tidak mengubah apa-apa)
-        if (!adaPerubahan) continue;
-
+    
+        if (nilaiP !== null) rowData[cfg.p] = nilaiP;
+        if (nilaiK !== null) rowData[cfg.k] = nilaiK;
+    
         payload.push(rowData);
       }
-
+    
       if (payload.length === 0) {
         alert("Tidak ada nilai yang diisi / diubah.");
         return;
       }
-
+    
       const { data, error } = await db
         .from("rekap_santri")
         .upsert(payload, {
           onConflict: "nis,tahun_ajaran,semester"
         });
-
+    
       if (error) {
         console.error(error);
         alert("Gagal menyimpan nilai santri: " + error.message);
@@ -994,4 +1104,5 @@
   </script>
 </body>
 </html>
+
 
