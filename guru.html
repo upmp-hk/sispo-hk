@@ -1101,10 +1101,11 @@
         return;
       }
     
+      // MUAT DATA
       data.forEach((row, idx) => {
-        const nilaiP = row[cfg.p] ?? "";
-        const nilaiK = row[cfg.k] ?? "";
-    
+        const nilaiP = row[cfg.kolomP] ?? "";
+        const nilaiK = row[cfg.kolomK] ?? "";
+      
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${idx + 1}</td>
@@ -1116,7 +1117,7 @@
               step="0.01"
               min="0"
               max="100"
-              data-field="${cfg.p}"
+              data-field="${cfg.kolomP}"
               value="${nilaiP}"
             />
           </td>
@@ -1126,13 +1127,28 @@
               step="0.01"
               min="0"
               max="100"
-              data-field="${cfg.k}"
+              data-field="${cfg.kolomK}"
               value="${nilaiK}"
             />
           </td>
         `;
         tbody.appendChild(tr);
       });
+      
+      // SIMPAN
+      const nilaiP = getNilai(tr, cfg.kolomP);
+      const nilaiK = getNilai(tr, cfg.kolomK);
+      
+      if (nilaiP === null && nilaiK === null) continue;
+      
+      const rowData = {
+        nis,
+        tahun_ajaran: tahun,
+        semester
+      };
+      
+      if (nilaiP !== null) rowData[cfg.kolomP] = nilaiP;
+      if (nilaiK !== null) rowData[cfg.kolomK] = nilaiK;
     
       updateGuruLabels();
       alert("Data santri berhasil dimuat. Silakan isi nilai pengetahuan & keterampilan, lalu klik 'Simpan Nilai ke Database'.");
@@ -1173,8 +1189,8 @@
         const nis = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
         if (!nis) continue;
     
-        const nilaiP = getNilai(tr, cfg.p);
-        const nilaiK = getNilai(tr, cfg.k);
+        const nilaiP = getNilai(tr, cfg.kolomP);
+        const nilaiK = getNilai(tr, cfg.kolomK);
     
         // Kalau dua-duanya kosong, lewati (tidak mengubah apa-apa)
         if (nilaiP === null && nilaiK === null) continue;
@@ -1185,8 +1201,8 @@
           semester
         };
     
-        if (nilaiP !== null) rowData[cfg.p] = nilaiP;
-        if (nilaiK !== null) rowData[cfg.k] = nilaiK;
+        if (nilaiP !== null) rowData[cfg.kolomP] = nilaiP;
+        if (nilaiK !== null) rowData[cfg.kolomK] = nilaiK;
     
         payload.push(rowData);
       }
@@ -1213,6 +1229,7 @@
   </script>
 </body>
 </html>
+
 
 
 
