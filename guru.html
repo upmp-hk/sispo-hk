@@ -41,7 +41,6 @@
       display: flex;
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     }
-    /* MAIN */
     .main {
       flex: 1;
       display: flex;
@@ -92,6 +91,26 @@
       background: linear-gradient(135deg, #ffffff, #eff6ff);
       overflow-y: auto;
     }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+
     /* LOGIN GURU */
     .login-page {
       max-width: 420px;
@@ -189,25 +208,17 @@
       text-align: center;
       opacity: 0.8;
     }
-    /* GURU MODE */
-    .guru-header {
-      margin-bottom: 10px;
-    }
-    .guru-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .guru-subtitle {
-      font-size: 11px;
-      opacity: 0.75;
-    }
-    .guru-form-wrapper {
-      max-width: 980px;
+
+    /* WRAPPER MODE GURU */
+    .guru-wrapper {
+      max-width: 1100px;
       margin: 0 auto;
-      display: flex;
+      display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
     }
+
+    /* FILTER */
     .guru-filter-card {
       background: var(--white);
       border-radius: 14px;
@@ -257,12 +268,24 @@
       font-size: 10.5px;
       opacity: 0.8;
     }
+
+    .guru-filter-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* TABEL NILAI GURU */
     .guru-table-card {
       background: var(--white);
       border-radius: 14px;
       padding: 10px 11px 9px;
       border: 1px solid var(--blue-soft2);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-top: 4px;
+      font-size: 11.5px;
     }
     .guru-table-title {
       font-size: 13.5px;
@@ -271,62 +294,12 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .guru-table-title small {
       font-size: 11px;
       opacity: 0.8;
-    }
-    .template-tools {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 8px;
-      font-size: 11px;
-      flex-wrap: wrap;
-    }
-    .template-left {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .template-right {
-      font-style: italic;
-      opacity: 0.8;
-    }
-    .template-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .template-btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .template-btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .template-btn:hover {
-      opacity: 0.92;
-    }
-    .template-btn input[type="file"] {
-      display: none;
     }
     .guru-table {
       width: 100%;
@@ -343,49 +316,38 @@
       background: var(--blue-soft2);
       font-weight: 600;
     }
-    .guru-table td.label-left {
+    .guru-table td.align-left {
       text-align: left;
     }
-    .guru-table input {
-      width: 70px;
+    .guru-table input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
-      text-align: center;
       outline: none;
+      text-align: center;
     }
-    .guru-table input:focus {
+    .guru-table input[type="number"]:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
     }
+    .guru-table .readonly-cell {
+      background: #f9fafb;
+    }
+    .guru-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
     .guru-actions {
       margin-top: 8px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-    }
-    .btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .btn:hover { opacity: 0.92; }
-    .guru-footer-note {
-      margin-top: 6px;
-      font-size: 10.5px;
-      opacity: 0.8;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -466,7 +428,7 @@
         <div class="main-header-left">
           <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
           <div class="main-subtitle">
-            Form input Nilai Akademik (Pengetahuan &amp; keterampilan) Santri oleh Guru.
+            Input Nilai Akademik Santri oleh Guru.
           </div>
         </div>
         <div class="main-header-right">
@@ -484,24 +446,24 @@
 
       <main class="main-body">
         <!-- LOGIN GURU -->
-        <div id="guruLoginContainer" class="login-page">
+        <div id="loginGuruContainer" class="login-page">
           <div class="login-header">
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Guru</div>
             <div class="login-subtitle">
-              Gunakan akun Guru untuk mengisi Nilai Akademik Santri.
+              Masuk dengan akun guru untuk mengisi nilai akademik santri.
             </div>
           </div>
 
           <form id="loginGuruForm" onsubmit="handleLoginGuru(event)">
             <div class="login-form-group">
-              <label for="loginGuruID">Username</label>
-              <input type="text" id="loginGuruID" placeholder="admin" autocomplete="username" />
+              <label for="loginGuruID">Email Guru</label>
+              <input type="text" id="loginGuruID" placeholder="nama@domain.com" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginGuruPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginGuruPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginGuruPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -511,236 +473,166 @@
                 </button>
               </div>
             </div>
-            <button type="submit" class="login-button">Masuk</button>
+            <button class="login-button" type="submit">Masuk</button>
           </form>
 
           <div id="loginGuruError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akun guru dikelola melalui dashboard Supabase.
           </div>
         </div>
 
-        <!-- FORM NILAI -->
-        <div id="guruFormContainer" style="display:none;">
-          <div class="guru-header">
-            <div class="guru-title">Input Nilai Akademik oleh Guru</div>
-            <div class="guru-subtitle">
-              Guru mengisi Nilai Pengetahuan dan Keterampilan sesuai Mata Pelajaran yang diampu.
+        <!-- MODE GURU -->
+        <div id="guruWrapper" class="guru-wrapper">
+          <!-- FILTER -->
+          <div class="guru-filter-card">
+            <div style="font-weight:700; font-size:13.5px; margin-bottom:6px;">
+              Filter Kelas Nilai Akademik Santri
+            </div>
+
+            <div class="guru-filter-grid">
+              <!-- Tahun Ajaran -->
+              <div class="guru-filter-item">
+                <label for="guruTahun">Tahun Ajaran</label>
+                <select id="guruTahun">
+                  <option value="2023_2024">2023/2024</option>
+                  <option value="2024_2025" selected>2024/2025</option>
+                  <option value="2025_2026">2025/2026</option>
+                </select>
+              </div>
+
+              <!-- Semester -->
+              <div class="guru-filter-item">
+                <label for="guruSemester">Semester</label>
+                <select id="guruSemester">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+
+              <!-- Jenjang -->
+              <div class="guru-filter-item">
+                <label for="guruJenjang">Jenjang</label>
+                <select id="guruJenjang">
+                  <option value="MTs (HK1)">MTs (HK1)</option>
+                  <option value="MTs (HK2)">MTs (HK2)</option>
+                  <option value="MA" selected>MA</option>
+                </select>
+              </div>
+
+              <!-- Kelas -->
+              <div class="guru-filter-item">
+                <label for="guruKelas">Kelas</label>
+                <select id="guruKelas">
+                  <option value="VII">VII</option>
+                  <option value="VIII">VIII</option>
+                  <option value="IX">IX</option>
+                  <option value="X">X</option>
+                  <option value="XI" selected>XI</option>
+                  <option value="XII">XII</option>
+                </select>
+              </div>
+
+              <!-- Paralel / Rombel -->
+              <div class="guru-filter-item">
+                <label for="guruParalel">Paralel / Rombel</label>
+                <select id="guruParalel">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="K">K</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                  <option value="S">S</option>
+                  <option value="T">T</option>
+                  <option value="U">U</option>
+                  <option value="V">V</option>
+                  <option value="W">W</option>
+                  <option value="X">X</option>
+                  <option value="Y">Y</option>
+                  <option value="Z">Z</option>
+                  <option value="IPA 1">IPA 1</option>
+                  <option value="IPA 2">IPA 2</option>
+                  <option value="IPS 1">IPS 1</option>
+                  <option value="IPS 2">IPS 2</option>
+                  <option value="PK 1">PK 1</option>
+                  <option value="PK 2">PK 2</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="guru-filter-note">
+              Data identitas santri diambil dari tabel <code>rekap_santri</code> untuk
+              Tahun Ajaran, Semester, Jenjang, dan Paralel yang dipilih di sini.
+            </div>
+
+            <div class="guru-filter-actions">
+              <button class="btn secondary" type="button" onclick="muatDataSantriGuru()">
+                🔄 Muat Data Santri
+              </button>
             </div>
           </div>
 
-          <div class="guru-form-wrapper">
-            <!-- FILTER -->
-            <div class="guru-filter-card">
-              <div class="guru-filter-grid">
-                <!-- 1. Tahun Ajaran -->
-                <div class="guru-filter-item">
-                  <label for="guruTahun">Tahun Ajaran</label>
-                  <select id="guruTahun">
-                    <option value="2023_2024">2023/2024</option>
-                    <option value="2024_2025" selected>2024/2025</option>
-                    <option value="2025_2026">2025/2026</option>
-                  </select>
-                </div>
-                <!-- 2. Semester -->
-                <div class="guru-filter-item">
-                  <label for="guruSemester">Semester</label>
-                  <select id="guruSemester">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                  </select>
-                </div>
-                <!-- 3. Jenjang -->
-                <div class="guru-filter-item">
-                  <label for="guruJenjang">Jenjang</label>
-                  <select id="guruJenjang">
-                    <option value="MTs (HK1)">MTs (HK1)</option>
-                    <option value="MTs (HK2)">MTs (HK2)</option>
-                    <option value="MA" selected>MA</option>
-                  </select>
-                </div>
-                <!-- 4. Kelas -->
-                <div class="guru-filter-item">
-                  <label for="guruKelas">Kelas</label>
-                  <select id="guruKelas">
-                    <option value="VII">VII</option>
-                    <option value="VIII">VIII</option>
-                    <option value="IX">IX</option>
-                    <option value="X">X</option>
-                    <option value="XI" selected>XI</option>
-                    <option value="XII">XII</option>
-                  </select>
-                </div>
-                <!-- 5. Paralel / Rombel -->
-                <div class="guru-filter-item">
-                  <label for="guruParalel">Paralel / Rombel</label>
-                  <select id="guruParalel">
-                    <!-- A-Z -->
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
-                    <option value="P">P</option>
-                    <option value="Q">Q</option>
-                    <option value="R">R</option>
-                    <option value="S">S</option>
-                    <option value="T">T</option>
-                    <option value="U">U</option>
-                    <option value="V">V</option>
-                    <option value="W">W</option>
-                    <option value="X">X</option>
-                    <option value="Y">Y</option>
-                    <option value="Z">Z</option>
-                    <!-- IPA -->
-                    <option value="IPA 1">IPA 1</option>
-                    <option value="IPA 2">IPA 2</option>
-                    <option value="IPA 3">IPA 3</option>
-                    <option value="IPA 4">IPA 4</option>
-                    <option value="IPA 5">IPA 5</option>
-                    <option value="IPA 6">IPA 6</option>
-                    <option value="IPA 7">IPA 7</option>
-                    <option value="IPA 8">IPA 8</option>
-                    <option value="IPA 9">IPA 9</option>
-                    <option value="IPA 10">IPA 10</option>
-                    <option value="IPA 11">IPA 11</option>
-                    <option value="IPA 12">IPA 12</option>
-                    <option value="IPA 13">IPA 13</option>
-                    <option value="IPA 14">IPA 14</option>
-                    <option value="IPA 15">IPA 15</option>
-                    <!-- IPS -->
-                    <option value="IPS 1">IPS 1</option>
-                    <option value="IPS 2">IPS 2</option>
-                    <option value="IPS 3">IPS 3</option>
-                    <option value="IPS 4">IPS 4</option>
-                    <option value="IPS 5">IPS 5</option>
-                    <option value="IPS 6">IPS 6</option>
-                    <option value="IPS 7">IPS 7</option>
-                    <option value="IPS 8">IPS 8</option>
-                    <option value="IPS 9">IPS 9</option>
-                    <option value="IPS 10">IPS 10</option>
-                    <!-- PK -->
-                    <option value="PK 1">PK 1</option>
-                    <option value="PK 2">PK 2</option>
-                    <option value="PK 3">PK 3</option>
-                    <option value="PK 4">PK 4</option>
-                    <option value="PK 5">PK 5</option>
-                    <option value="PK 6">PK 6</option>
-                    <option value="PK 7">PK 7</option>
-                    <option value="PK 8">PK 8</option>
-                    <option value="PK 9">PK 9</option>
-                    <option value="PK 10">PK 10</option>
-                  </select>
-                </div>
-                <!-- 6. Mata Pelajaran -->
-                <div class="guru-filter-item">
-                  <label for="guruMapel">Mata Pelajaran</label>
-                  <select id="guruMapel">
-                    <option value="Al-Qur'an Hadits (Tafsir)">Al-Qur'an Hadits (Tafsir)</option>
-                    <option value="Akidah Akhlak">Akidah Akhlak</option>
-                    <option value="Fikih">Fikih</option>
-                    <option value="Sejarah Kebudayaan Islam">Sejarah Kebudayaan Islam</option>
-                    <option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
-                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                    <option value="Bahasa Arab">Bahasa Arab</option>
-                    <option value="Matematika">Matematika</option>
-                    <option value="Sejarah Indonesia">Sejarah Indonesia</option>
-                    <option value="Bahasa Inggris">Bahasa Inggris</option>
-                    <option value="Fisika">Fisika</option>
-                    <option value="Kimia">Kimia</option>
-                    <option value="Biologi">Biologi</option>
-                    <option value="Ekonomi">Ekonomi</option>
-                    <option value="Geografi">Geografi</option>
-                    <option value="Sosiologi">Sosiologi</option>
-                    <option value="Informatika">Informatika</option>
-                    <option value="Matematika Peminatan (IPA)">Matematika Peminatan (IPA)</option>
-                    <option value="Fisika Peminatan">Fisika Peminatan</option>
-                    <option value="Kimia Peminatan">Kimia Peminatan</option>
-                    <option value="Biologi Peminatan">Biologi Peminatan</option>
-                    <option value="Sejarah Peminatan">Sejarah Peminatan</option>
-                    <option value="Ekonomi Peminatan">Ekonomi Peminatan</option>
-                    <option value="Geografi Peminatan">Geografi Peminatan</option>
-                    <option value="Sosiologi Peminatan">Sosiologi Peminatan</option>
-                    <option value="Tafsir - Ilmu Tafsir">Tafsir - Ilmu Tafsir</option>
-                    <option value="Hadis - Ilmu Hadis">Hadis - Ilmu Hadis</option>
-                    <option value="Fiqih - Ushul Fiqih">Fiqih - Ushul Fiqih</option>
-                    <option value="Bahasa Arab Peminatan (Balaghoh)">Bahasa Arab Peminatan (Balaghoh)</option>
-                    <option value="Tahfidz Al-Qur'an">Tahfidz Al-Qur'an</option>
-                    <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
-                    <option value="Nahwu (Qawaid)">Nahwu (Qawaid)</option>
-                    <option value="Hadits (Pesantren)">Hadits (Pesantren)</option>
-                    <option value="Faroidh">Faroidh</option>
-                    <option value="Bimbingan Konseling (BK)">Bimbingan Konseling (BK)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="guru-filter-note">
-                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
-              </div>
+          <!-- TABEL NILAI -->
+          <div class="guru-table-card">
+            <div class="guru-table-title">
+              <span>Input Nilai Akademik Santri</span>
+              <small>
+                Kelas: <span id="labelGuruKelas">XI</span> /
+                TA <span id="labelGuruTahun">2024/2025</span> /
+                Sem <span id="labelGuruSemester">1</span>
+              </small>
             </div>
 
-            <!-- TABEL NILAI -->
-            <div class="guru-table-card">
-              <div class="guru-table-title">
-                <span>Daftar Nilai Santri</span>
-                <small>
-                  Mapel: <span id="labelGuruMapel">Al-Qur'an Hadits (Tafsir)</span> &mdash;
-                  Kelas: <span id="labelGuruKelas">XI</span> /
-                  TA <span id="labelGuruTahun">2024/2025</span> /
-                  Sem <span id="labelGuruSemester">1</span>
-                </small>
-              </div>
+            <table class="guru-table" id="guruNilaiTable">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>NIS</th>
+                  <th>Nama Lengkap</th>
+                  <!-- contoh beberapa mapel umum, bisa kamu tambah -->
+                  <th>Qurdis</th>
+                  <th>Aqidah<br>Akhlak</th>
+                  <th>Fiqih</th>
+                  <th>SKI</th>
+                  <th>PKN</th>
+                  <th>B. Indo</th>
+                  <th>B. Arab</th>
+                  <th>Matematika</th>
+                  <th>B. Inggris</th>
+                  <th>Sejarah Indo</th>
+                  <th>Fisika</th>
+                  <th>Kimia</th>
+                  <th>Biologi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Baris diisi via JS -->
+              </tbody>
+            </table>
 
-              <!-- TOOLS TEMPLATE -->
-              <div class="template-tools">
-                <div class="template-left">
-                  <button type="button" class="template-btn" onclick="downloadTemplate()">
-                    ⬇ Download Template (.xls)
-                  </button>
-                  <label class="template-btn secondary">
-                    ⬆ Upload Template (.xls/.xlsx)
-                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
-                  </label>
-                </div>
-                <div class="template-right">
-                  Guru bisa mengisi nilai di template Excel lalu upload kembali (simulasi).
-                </div>
-              </div>
+            <div class="guru-actions">
+              <button class="btn" type="button" onclick="simpanNilaiGuru()">
+                💾 Simpan Nilai ke Database
+              </button>
+            </div>
 
-              <table class="guru-table" id="tabelGuruNilai">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>NIS</th>
-                    <th>Nama Santri</th>
-                    <th>Pengetahuan</th>
-                    <th>Keterampilan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- filled by JS -->
-                </tbody>
-              </table>
-
-              <div class="guru-actions">
-                <button class="btn secondary" type="button" onclick="resetGuruNilai()">🔄 Reset</button>
-                <button class="btn" type="button" onclick="simpanGuruNilai()">💾 Simpan Nilai (Simulasi)</button>
-              </div>
-              <div class="guru-footer-note">
-                *Download Template: file .xls dengan kolom NIS, Nama Santri, Pengetahuan, Keterampilan.  
-                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
-              </div>
+            <div class="guru-footer-note">
+              *Nama &amp; NIS berasal dari input Admin (rekap_santri).  
+              *Guru hanya mengisi / mengubah kolom nilai. Penyimpanan menggunakan upsert berdasarkan (NIS, Tahun Ajaran, Semester).
             </div>
           </div>
         </div>
@@ -748,84 +640,98 @@
     </div>
   </div>
 
+  <!-- Supabase client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // LOGIN GURU (TESTING): username: admin, password: admin
+    const { createClient } = supabase;
+
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <script>
+    // --- SESSION LOGIN GURU ---
     const GURU_SESSION_KEY = "sispo_guru_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let guruLogoutTimer = null;
-    
+
     async function handleLoginGuru(event) {
       event.preventDefault();
-      const id = document.getElementById("loginGuruID").value.trim();
-      const pass = document.getElementById("loginGuruPassword").value;
+      const email = document.getElementById("loginGuruID").value.trim();
+      const pass  = document.getElementById("loginGuruPassword").value.trim();
       const errorEl = document.getElementById("loginGuruError");
-    
-      if (!id || !pass) {
-        errorEl.textContent = "ID guru dan password wajib diisi.";
+
+      if (!email || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
         return;
       }
-    
-      // 1) Login ke Supabase pakai email & password
+
       const { data, error } = await db.auth.signInWithPassword({
-        email: id,
+        email,
         password: pass
       });
-    
+
       if (error) {
         console.error(error);
-        errorEl.textContent = "Login gagal. Periksa kembali ID dan password.";
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
         return;
       }
-    
-      const user = data.user;
-    
-      // 2) Cek role user di tabel user_roles
+
+      // cek role guru
       const { data: roleData, error: roleError } = await db
-        .from('user_roles')
-        .select('mode')
-        .eq('id', user.id)
+        .from("user_roles")
+        .select("mode")
+        .eq("id", data.user.id)
         .single();
-    
+
       if (roleError || !roleData) {
         console.error(roleError);
         errorEl.textContent = "Role pengguna tidak ditemukan.";
         await db.auth.signOut();
         return;
       }
-    
-      if (roleData.mode !== 'guru') {
+
+      if (roleData.mode !== "guru") {
         errorEl.textContent = "Akun ini bukan akun Guru.";
         await db.auth.signOut();
         return;
       }
-    
-      // 3) Kalau lolos semua → sukses
+
       errorEl.textContent = "";
       setGuruSession();
       applyGuruLoginUI();
+      updateGuruLabels();
       scheduleGuruAutoLogout();
     }
+
     function applyGuruLoginUI() {
-      document.getElementById("guruLoginContainer").style.display = "none";
-      document.getElementById("guruFormContainer").style.display = "block";
+      document.getElementById("loginGuruContainer").style.display = "none";
+      document.getElementById("guruWrapper").style.display = "flex";
       document.getElementById("statusBadgeGuru").textContent = "Login";
       const btn = document.getElementById("logoutGuruBtn");
       if (btn) btn.style.display = "inline-block";
     }
-    
+
     function applyGuruLogoutUI() {
-      document.getElementById("guruLoginContainer").style.display = "block";
-      document.getElementById("guruFormContainer").style.display = "none";
+      document.getElementById("loginGuruContainer").style.display = "block";
+      document.getElementById("guruWrapper").style.display = "none";
       document.getElementById("statusBadgeGuru").textContent = "Login diperlukan";
       const btn = document.getElementById("logoutGuruBtn");
       if (btn) btn.style.display = "none";
+
+      const tbody = document.querySelector("#guruNilaiTable tbody");
+      if (tbody) tbody.innerHTML = "";
     }
-    
+
     function setGuruSession() {
       const expiresAt = Date.now() + SESSION_DURATION_MS;
       localStorage.setItem(GURU_SESSION_KEY, JSON.stringify({ expiresAt }));
     }
-    
+
     function clearGuruSession() {
       localStorage.removeItem(GURU_SESSION_KEY);
       if (guruLogoutTimer) {
@@ -833,11 +739,11 @@
         guruLogoutTimer = null;
       }
     }
-    
+
     function scheduleGuruAutoLogout() {
       const raw = localStorage.getItem(GURU_SESSION_KEY);
       if (!raw) return;
-    
+
       try {
         const { expiresAt } = JSON.parse(raw);
         const remaining = expiresAt - Date.now();
@@ -851,26 +757,31 @@
         handleLogoutGuru();
       }
     }
-    
-    function handleLogoutGuru() {
+
+    async function handleLogoutGuru() {
+      try {
+        await db.auth.signOut();
+      } catch (e) {
+        console.error(e);
+      }
       clearGuruSession();
       applyGuruLogoutUI();
-    
+
       const form = document.getElementById("loginGuruForm");
       if (form) form.reset();
       const errorEl = document.getElementById("loginGuruError");
       if (errorEl) errorEl.textContent = "";
     }
-    
+
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(GURU_SESSION_KEY);
       if (!raw) return;
-    
+
       try {
         const { expiresAt } = JSON.parse(raw);
         if (expiresAt && expiresAt > Date.now()) {
           applyGuruLoginUI();
-          initGuruTable();
+          updateGuruLabels();
           scheduleGuruAutoLogout();
         } else {
           clearGuruSession();
@@ -880,6 +791,14 @@
         clearGuruSession();
         applyGuruLogoutUI();
       }
+
+      ["guruTahun","guruKelas","guruSemester"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updateGuruLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
     });
 
     function togglePassword(btn) {
@@ -896,142 +815,160 @@
       }
     }
 
-    // DATA DUMMY SANTRI
-    const guruSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initGuruTable() {
-      const tbody = document.querySelector("#tabelGuruNilai tbody");
-      tbody.innerHTML = "";
-      guruSantriDummy.forEach((s, idx) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${s.nis}</td>
-          <td class="label-left">${s.nama}</td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="pengetahuan"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="keterampilan"></td>
-        `;
-        tbody.appendChild(tr);
-      });
-      updateGuruLabels();
-      setupGuruFilterListeners();
-    }
-
-    function setupGuruFilterListeners() {
-      ["guruTahun","guruKelas","guruSemester","guruMapel"].forEach(id=>{
-        const el = document.getElementById(id);
-        if (el && !el.dataset.listenerAttached) {
-          el.addEventListener("change", updateGuruLabels);
-          el.dataset.listenerAttached = "true";
-        }
-      });
-    }
-
     function updateGuruLabels() {
       const tahun = document.getElementById("guruTahun").value;
       const kelas = document.getElementById("guruKelas").value;
       const semester = document.getElementById("guruSemester").value;
-      const mapel = document.getElementById("guruMapel").value;
 
       document.getElementById("labelGuruTahun").textContent = tahun.replace("_","/");
       document.getElementById("labelGuruKelas").textContent = kelas;
       document.getElementById("labelGuruSemester").textContent = semester;
-      document.getElementById("labelGuruMapel").textContent = mapel;
     }
 
-    function resetGuruNilai() {
-      initGuruTable();
-      alert("Nilai dikembalikan ke nilai acak (simulasi).");
-    }
+    // --- MUAT DATA SANTRI DARI rekap_santri ---
+    async function muatDataSantriGuru() {
+      const tahunRaw = document.getElementById("guruTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("guruSemester").value, 10);
+      const jenjang  = document.getElementById("guruJenjang").value;
+      const kelas    = document.getElementById("guruKelas").value;
+      const paralel  = document.getElementById("guruParalel").value;
 
-    function simpanGuruNilai() {
-      const rows = document.querySelectorAll("#tabelGuruNilai tbody tr");
-      const hasil = [];
-      rows.forEach((tr, idx) => {
-        const nis = tr.children[1].textContent.trim();
-        const nama = tr.children[2].textContent.trim();
-        const pengetahuan = tr.querySelector('input[data-field="pengetahuan"]').value;
-        const keterampilan = tr.querySelector('input[data-field="keterampilan"]').value;
-        hasil.push({ no: idx+1, nis, nama, pengetahuan, keterampilan });
+      const tbody = document.querySelector("#guruNilaiTable tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const { data, error } = await db
+        .from("rekap_santri")
+        .select("*")
+        .eq("tahun_ajaran", tahun)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("nama_lengkap", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        alert("Gagal mengambil data santri: " + error.message);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
+        return;
+      }
+
+      data.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
+          <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_qurdits"        value="${row.nilai_qurdits ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_aqidah_akhlak"  value="${row.nilai_aqidah_akhlak ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_fiqih"          value="${row.nilai_fiqih ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_ski"            value="${row.nilai_ski ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_pkn"            value="${row.nilai_pkn ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_indonesia"    value="${row.nilai_b_indonesia ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_arab"         value="${row.nilai_b_arab ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_matematika"     value="${row.nilai_matematika ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_b_inggris"      value="${row.nilai_b_inggris ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_sejarah_indo"   value="${row.nilai_sejarah_indo ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_fisika"         value="${row.nilai_fisika ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_kimia"          value="${row.nilai_kimia ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_biologi"        value="${row.nilai_biologi ?? ""}"></td>
+        `;
+        tbody.appendChild(tr);
       });
-      console.log("Data nilai guru (simulasi):", hasil);
-      alert("Nilai tersimpan (simulasi). Cek console browser untuk melihat data.");
+
+      alert("Data santri berhasil dimuat. Silakan isi / koreksi nilai, lalu klik 'Simpan Nilai ke Database'.");
     }
 
-    // DOWNLOAD TEMPLATE XLS (CSV-format dengan ekstensi .xls agar mudah dibuka di Excel)
-    function downloadTemplate() {
-      const tahun = document.getElementById("guruTahun").value.replace("_","/");
-      const kelas = document.getElementById("guruKelas").value;
-      const semester = document.getElementById("guruSemester").value;
-      const mapel = document.getElementById("guruMapel").value;
-      const paralel = document.getElementById("guruParalel").value;
+    // --- SIMPAN NILAI GURU KE rekap_santri (UPSERT) ---
+    async function simpanNilaiGuru() {
+      const tbody = document.querySelector("#guruNilaiTable tbody");
+      if (!tbody) return;
 
-      let csv = "";
-      csv += `Tahun Ajaran,${tahun}\r\n`;
-      csv += `Semester,${semester}\r\n`;
-      csv += `Kelas,${kelas}\r\n`;
-      csv += `Paralel/Rombel,${paralel}\r\n`;
-      csv += `Mata Pelajaran,${mapel}\r\n\r\n`;
-      csv += "NIS,Nama Santri,Pengetahuan,Keterampilan\r\n";
+      const tahunRaw = document.getElementById("guruTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("guruSemester").value, 10);
 
-      guruSantriDummy.forEach(s => {
-        csv += `${s.nis},${s.nama},,\r\n`;
-      });
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const payload = [];
 
-      const blob = new Blob([csv], {
-        type: "application/vnd.ms-excel"
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const safeMapel = mapel.replace(/\s+/g,"_").replace(/[^a-zA-Z0-9_]/g,"");
-      a.href = url;
-      a.download = `template_nilai_${safeMapel}_kelas_${kelas}_${paralel}.xls`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+      for (const tr of rows) {
+        const nisCell = tr.children[1];
+        if (!nisCell) continue;
+        const nis = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
+        if (!nis) continue;
 
-    // UPLOAD TEMPLATE (simulasi)
-    function handleUploadTemplate(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      const reader = new FileReader();
-
-      if (ext === "xls" || ext === "xlsx") {
-        reader.onload = function(e) {
-          const buffer = e.target.result;
-          console.log("File Excel ter-upload (simulasi), size:", buffer.byteLength, "bytes");
-          alert("Template .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+        const getNilai = (field) => {
+          const input = tr.querySelector(`input[data-field="${field}"]`);
+          if (!input) return null;
+          const val = input.value.trim();
+          if (val === "") return null;
+          const num = parseFloat(val.replace(",", "."));
+          return isNaN(num) ? null : num;
         };
-        reader.readAsArrayBuffer(file);
+
+        const rowData = {
+          nis,
+          tahun_ajaran: tahun,
+          semester
+        };
+
+        const mapelFields = [
+          "nilai_qurdits",
+          "nilai_aqidah_akhlak",
+          "nilai_fiqih",
+          "nilai_ski",
+          "nilai_pkn",
+          "nilai_b_indonesia",
+          "nilai_b_arab",
+          "nilai_matematika",
+          "nilai_b_inggris",
+          "nilai_sejarah_indo",
+          "nilai_fisika",
+          "nilai_kimia",
+          "nilai_biologi"
+        ];
+
+        let adaPerubahan = false;
+
+        mapelFields.forEach(field => {
+          const nilai = getNilai(field);
+          if (nilai !== null) {
+            rowData[field] = nilai;
+            adaPerubahan = true;
+          }
+        });
+
+        // kalau semua nilai kosong, lewati (tidak mengubah apa-apa)
+        if (!adaPerubahan) continue;
+
+        payload.push(rowData);
+      }
+
+      if (payload.length === 0) {
+        alert("Tidak ada nilai yang diisi / diubah.");
+        return;
+      }
+
+      const { data, error } = await db
+        .from("rekap_santri")
+        .upsert(payload, {
+          onConflict: "nis,tahun_ajaran,semester"
+        });
+
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan nilai santri: " + error.message);
       } else {
-        alert("Format file tidak dikenali. Gunakan file .xls atau .xlsx.");
+        alert("Nilai santri berhasil disimpan / diperbarui di rekap_santri.");
+        console.log("Data tersimpan:", data);
       }
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const { createClient } = supabase;
-  
-    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 </body>
 </html>
-
-
