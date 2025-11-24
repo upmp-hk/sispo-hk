@@ -997,90 +997,89 @@
       }
     }
 
-    // SIMPAN PROFIL SANTRI KE SUPABASE
+    // SIMPAN PROFIL SANTRI KE SUPABASE (tabel: rekap_santri, UPSERT)
     async function simpanAdminProfil() {
       const tbody = document.querySelector("#adminProfilTable tbody");
       if (!tbody) return;
-
-      const tahun = document.getElementById("adminTahun").value;
+    
+      const tahunRaw = document.getElementById("adminTahun").value;
+      const tahun    = tahunRaw.replace("_", "/"); // simpan di DB dalam format 2024/2025
       const semester = parseInt(document.getElementById("adminSemester").value, 10);
-      const jenjang = document.getElementById("adminJenjang").value;
-      const kelas = document.getElementById("adminKelas").value;
-      const paralel = document.getElementById("adminParalel").value;
-
+      const jenjang  = document.getElementById("adminJenjang").value;
+      const kelas    = document.getElementById("adminKelas").value;
+      const paralel  = document.getElementById("adminParalel").value;
+    
       const rows = Array.from(tbody.querySelectorAll("tr"));
       const payload = [];
-
+    
       for (const tr of rows) {
         const get = (field) => {
           const el = tr.querySelector(`[data-field="${field}"]`);
           return el ? el.value.trim() : "";
         };
-
+    
         const nama = get("nama_lengkap");
         const nis  = get("nis");
-
+    
         // lewati baris kosong / tidak lengkap
         if (!nis && !nama) continue;
         if (!nis || !nama) continue;
-
-        // konversi tanggal lahir dari yyyy-mm-dd -> dd-mm-yyyy sebelum disimpan
-        const rawTanggal = get("tanggal_lahir"); // dari <input type="date">
-        let tanggalFormatted = null;
-        if (rawTanggal) {
-          const parts = rawTanggal.split("-"); // [yyyy, mm, dd]
-          if (parts.length === 3) {
-            const [yyyy, mm, dd] = parts;
-            tanggalFormatted = `${dd}-${mm}-${yyyy}`; // format yang disimpan di DB
-          } else {
-            // fallback kalau format tidak sesuai, simpan apa adanya
-            tanggalFormatted = rawTanggal;
-          }
-        }
-
-        const rowNo = tr.children[0]?.textContent.trim() || "";
+    
+        // tanggal lahir dari <input type="date">
+        // format bawaan: yyyy-mm-dd → langsung kirim ke Supabase (Postgres tipe date paham format ini)
+        const rawTanggal = get("tanggal_lahir") || null;
+    
+        const rowNo   = tr.children[0]?.textContent.trim() || "";
         const fotoFile = adminFotoFiles[rowNo] || null;
-        let foto_url = null;
-
+        let foto_url  = null;
+    
         if (fotoFile) {
           foto_url = await uploadAdminFoto(fotoFile, nis);
         }
-
+    
         payload.push({
-          foto_url: foto_url,
-          nama_lengkap: nama,
+          // kunci unik
           nis,
+          tahun_ajaran: tahun,
+          semester,
+    
+          // identitas
+          nama_lengkap: nama,
           nisn: get("nisn") || null,
           jenis_kelamin: get("jenis_kelamin") || null,
           tempat_lahir: get("tempat_lahir") || null,
-          tanggal_lahir: tanggalFormatted,   // sudah DD-MM-YYYY
+          tanggal_lahir: rawTanggal,   // yyyy-mm-dd atau null
           alamat: get("alamat") || null,
           nama_ayah: get("nama_ayah") || null,
           telp_ayah: get("telp_ayah") || null,
           nama_ibu: get("nama_ibu") || null,
           telp_ibu: get("telp_ibu") || null,
-          tahun_ajaran: tahun,
-          semester,
           jenjang,
           kelas,
           paralel,
+          foto_url: foto_url
+          // ⚠️ tidak mengirim kolom nilai apa pun di sini
+          // supaya input nilai dari guru/musyrif/murobbi dll tidak ketimpa
         });
       }
-
+    
       if (payload.length === 0) {
         alert("Tidak ada baris yang berisi NIS dan Nama santri.");
         return;
       }
-
+    
+      // pakai UPSERT ke tabel rekap_santri
       const { data, error } = await db
-        .from("profil_santri")
-        .insert(payload);
-
+        .from("rekap_santri")
+        .upsert(payload, {
+          onConflict: "nis,tahun_ajaran,semester"
+        });
+    
       if (error) {
         console.error(error);
         alert("Gagal menyimpan data profil santri: " + error.message);
       } else {
-        alert("Data profil santri berhasil disimpan ke Supabase.");
+        alert("Data profil santri berhasil disimpan / diperbarui di rekap_santri.");
         console.log("Data tersimpan:", data);
       }
     }
@@ -1238,3 +1237,4 @@
   </script>
 </body>
 </html>
+
