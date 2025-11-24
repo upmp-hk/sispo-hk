@@ -575,23 +575,23 @@
                   <option value="IPA 8">IPA 8</option>
                   <option value="IPA 9">IPA 9</option>
                   <option value="IPA 10">IPA 10</option>
-                  <option value="IPA 10">IPA 11</option>
-                  <option value="IPA 10">IPA 12</option>
-                  <option value="IPA 10">IPA 13</option>
-                  <option value="IPA 10">IPA 14</option>
-                  <option value="IPA 10">IPA 15</option>
+                  <option value="IPA 11">IPA 11</option>
+                  <option value="IPA 12">IPA 12</option>
+                  <option value="IPA 13">IPA 13</option>
+                  <option value="IPA 14">IPA 14</option>
+                  <option value="IPA 15">IPA 15</option>
                   <option value="IPS 1">IPS 1</option>
                   <option value="IPS 2">IPS 2</option>
                   <option value="IPS 3">IPS 3</option>
-                  <option value="IPS 3">IPS 4</option>
-                  <option value="IPS 3">IPS 5</option>
-                  <option value="IPS 3">IPS 6</option>
+                  <option value="IPS 4">IPS 4</option>
+                  <option value="IPS 5">IPS 5</option>
+                  <option value="IPS 6">IPS 6</option>
                   <option value="PK 1">PK 1</option>
                   <option value="PK 2">PK 2</option>
-                  <option value="PK 2">PK 3</option>
-                  <option value="PK 2">PK 4</option>
-                  <option value="PK 2">PK 5</option>
-                  <option value="PK 3">PK 6</option>
+                  <option value="PK 3">PK 3</option>
+                  <option value="PK 4">PK 4</option>
+                  <option value="PK 5">PK 5</option>
+                  <option value="PK 6">PK 6</option>
                 </select>
               </div>
               
@@ -625,13 +625,13 @@
                   <option value="Geografi Peminatan">Geografi Peminatan</option>
                   <option value="Sosiologi Peminatan">Sosiologi Peminatan</option>
                   <option value="Tafsir - Ilmu Tafsir">Tafsir - Ilmu Tafsir</option>
-                  <option value="Hadis - Ilmu Hadis">Hadis - Ilmu Hadis</option>
+                  <option value="Hadits - Ilmu Hadis">Hadis - Ilmu Hadits</option>
                   <option value="Fiqih - Ushul Fiqih">Fiqih - Ushul Fiqih</option>
                   <option value="Bahasa Arab Peminatan (Balaghoh)">Bahasa Arab Peminatan (Balaghoh)</option>
                   <option value="Tahfidz Al-Qur'an">Tahfidz Al-Qur'an</option>
                   <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
                   <option value="Nahwu (Qawaid)">Nahwu (Qawaid)</option>
-                  <option value="Hadits (Pesantren)">Hadits (Pesantren)</option>
+                  <option value="Hadits">Hadits</option>
                   <option value="Faroidh">Faroidh</option>
                   <option value="Bimbingan Konseling (BK)">Bimbingan Konseling (BK)</option>
                 </select>
@@ -881,75 +881,184 @@
       }
     }
 
-    // MAPEL CONFIG: key = nilai di <select id="guruMapel">
-    const MAPEL_CONFIG = {
-      qurdits: {
-        label: "Qurdis",
-        p: "nilai_qurdits_p",
-        k: "nilai_qurdits_k",
-      },
-      aqidah_akhlak: {
-        label: "Aqidah Akhlak",
-        p: "nilai_aqidah_akhlak_p",
-        k: "nilai_aqidah_akhlak_k",
-      },
-      fiqih: {
-        label: "Fiqih",
-        p: "nilai_fiqih_p",
-        k: "nilai_fiqih_k",
-      },
-      ski: {
-        label: "SKI",
-        p: "nilai_ski_p",
-        k: "nilai_ski_k",
-      },
-      pkn: {
-        label: "PKN",
-        p: "nilai_pkn_p",
-        k: "nilai_pkn_k",
-      },
-      b_indonesia: {
-        label: "Bahasa Indonesia",
-        p: "nilai_b_indonesia_p",
-        k: "nilai_b_indonesia_k",
-      },
-      b_arab: {
-        label: "Bahasa Arab",
-        p: "nilai_b_arab_p",
-        k: "nilai_b_arab_k",
-      },
-      matematika: {
-        label: "Matematika",
-        p: "nilai_matematika_p",
-        k: "nilai_matematika_k",
-      },
-      b_inggris: {
-        label: "Bahasa Inggris",
-        p: "nilai_b_inggris_p",
-        k: "nilai_b_inggris_k",
-      },
-      sejarah_indo: {
-        label: "Sejarah Indonesia",
-        p: "nilai_sejarah_indo_p",
-        k: "nilai_sejarah_indo_k",
-      },
-      fisika: {
-        label: "Fisika",
-        p: "nilai_fisika_p",
-        k: "nilai_fisika_k",
-      },
-      kimia: {
-        label: "Kimia",
-        p: "nilai_kimia_p",
-        k: "nilai_kimia_k",
-      },
-      biologi: {
-        label: "Biologi",
-        p: "nilai_biologi_p",
-        k: "nilai_biologi_k",
-      },
-      // tambahkan mapel lain sesuai kolom di rekap_santri
-    };
+      // MAPEL CONFIG: key = nilai di <select id="guruMapel">
+      const MAPEL_CONFIG = {
+        "Al-Qur'an Hadits (Tafsir)": {
+          kolomP: "nilai_qurdits_p",
+          kolomK: "nilai_qurdits_k",
+          label: "Qurdis"
+        },
+        "Akidah Akhlak": {
+          kolomP: "nilai_aqidah_akhlak_p",
+          kolomK: "nilai_aqidah_akhlak_k",
+          label: "Akidah Akhlak"
+        },
+        "Fikih": {
+          kolomP: "nilai_fiqih_p",
+          kolomK: "nilai_fiqih_k",
+          label: "Fikih"
+        },
+        "Sejarah Kebudayaan Islam": {
+          kolomP: "nilai_ski_p",
+          kolomK: "nilai_ski_k",
+          label: "Sejarah Kebudayaan Islam"
+        },
+        "Pendidikan Kewarganegaraan": {
+          kolomP: "nilai_pkn_p",
+          kolomK: "nilai_pkn_k",
+          label: "Pendidikan Kewarganegaraan"
+        },
+        "Bahasa Indonesia": {
+          kolomP: "nilai_b_indonesia_p",
+          kolomK: "nilai_b_indonesia_k",
+          label: "Bahasa Indonesia"
+        },
+        "Bahasa Arab": {
+          kolomP: "nilai_b_arab_p",
+          kolomK: "nilai_b_arab_k",
+          label: "Bahasa Arab"
+        },
+        "Matematika": {
+          kolomP: "nilai_matematika_p",
+          kolomK: "nilai_matematika_k",
+          label: "Matematika"
+        },
+        "Sejarah Indonesia": {
+          kolomP: "nilai_sejarah_indo_p",
+          kolomK: "nilai_sejarah_indo_k",
+          label: "Sejarah Indonesia"
+        },
+        "Bahasa Inggris": {
+          kolomP: "nilai_b_inggris_p",
+          kolomK: "nilai_b_inggris_k",
+          label: "Bahasa Inggris"
+        },
+        "Fisika": {
+          kolomP: "nilai_fisika_p",
+          kolomK: "nilai_fisika_k",
+          label: "Fisika"
+        },
+        "Kimia": {
+          kolomP: "nilai_kimia_p",
+          kolomK: "nilai_kimia_k",
+          label: "Kimia"
+        },
+        "Biologi": {
+          kolomP: "nilai_biologi_p",
+          kolomK: "nilai_biologi_k",
+          label: "Biologi"
+        },
+        "Ekonomi": {
+          kolomP: "nilai_ekonomi_p",
+          kolomK: "nilai_ekonomi_k",
+          label: "Ekonomi"
+        },
+        "Geografi": {
+          kolomP: "nilai_geografi_p",
+          kolomK: "nilai_geografi_k",
+          label: "Geografi"
+        },
+        "Sosiologi": {
+          kolomP: "nilai_sosiologi_p",
+          kolomK: "nilai_sosiologi_k",
+          label: "Sosiologi"
+        },
+        "Informatika": {
+          kolomP: "nilai_informatika_p",
+          kolomK: "nilai_informatika_k",
+          label: "Informatika"
+        },
+        "Matematika Peminatan (IPA)": {
+          kolomP: "nilai_mtk_ipa_p",
+          kolomK: "nilai_mtk_ipa_k",
+          label: "Matematika Peminatan (IPA)"
+        },
+        "Fisika Peminatan": {
+          kolomP: "nilai_fisika_ipa_p",
+          kolomK: "nilai_fisika_ipa_k",
+          label: "Fisika Peminatan"
+        },
+        "Kimia Peminatan": {
+          kolomP: "nilai_kimia_ipa_p",
+          kolomK: "nilai_kimia_ipa_k",
+          label: "Kimia Peminatan"
+        },
+        "Biologi Peminatan": {
+          kolomP: "nilai_biologi_ipa_p",
+          kolomK: "nilai_biologi_ipa_k",
+          label: "Biologi Peminatan"
+        },
+        "Sejarah Peminatan": {
+          kolomP: "nilai_sejarah_ips_p",
+          kolomK: "nilai_sejarah_ips_k",
+          label: "Sejarah Peminatan"
+        },
+        "Ekonomi Peminatan": {
+          kolomP: "nilai_ekonomi_ips_p",
+          kolomK: "nilai_ekonomi_ips_k",
+          label: "Ekonomi Peminatan"
+        },
+        "Geografi Peminatan": {
+          kolomP: "nilai_geografi_ips_p",
+          kolomK: "nilai_geografi_ips_k",
+          label: "Geografi Peminatan"
+        },
+        "Sosiologi Peminatan": {
+          kolomP: "nilai_sosiologi_ips_p",
+          kolomK: "nilai_sosiologi_ips_k",
+          label: "Sosiologi Peminatan"
+        },
+        "Tafsir - Ilmu Tafsir": {
+          kolomP: "nilai_ilmu_tafsir_p",
+          kolomK: "nilai_ilmu_tafsir_k",
+          label: "Tafsir"
+        },
+        "Hadits - Ilmu Hadis": {
+          kolomP: "nilai_ilmu_hadits_p",
+          kolomK: "nilai_ilmu_hadits_k",
+          label: "Hadis"
+        },
+        "Fiqih - Ushul Fiqih": {
+          kolomP: "nilai_ushul_fiqih_p",
+          kolomK: "nilai_ushul_fiqih_k",
+          label: "Ushul Fiqih"
+        },
+        "Bahasa Arab Peminatan (Balaghoh)": {
+          kolomP: "nilai_balaghoh_p",
+          kolomK: "nilai_balaghoh_k",
+          label: "Bahasa Arab Peminatan (Balaghoh)"
+        },
+        "Tahfidz Al-Qur'an": {
+          kolomP: "nilai_ttq_p",
+          kolomK: "nilai_ttq_k",
+          label: "Tahfidz Al-Qur'an"
+        },
+        "Bahasa Inggris Tingkat Lanjut": {
+          kolomP: "nilai_b_inggris_bhs_p",
+          kolomK: "nilai_b_inggris_bhs_k",
+          label: "Bahasa Inggris Tingkat Lanjut"
+        },
+        "Nahwu (Qawaid)": {
+          kolomP: "nilai_qowaid_p",
+          kolomK: "nilai_qowaid_k",
+          label: "Nahwu (Qawaid)"
+        },
+        "Hadits": {
+          kolomP: "nilai_hadits_p",
+          kolomK: "nilai_hadits_k",
+          label: "Hadits"
+        },
+        "Faroidh": {
+          kolomP: "nilai_faroid_p",
+          kolomK: "nilai_faroid_k",
+          label: "Faroidh"
+        },
+        "Bimbingan Konseling (BK)": {
+          kolomP: "nilai_bk_p",
+          kolomK: "nilai_bk_k",
+          label: "Bimbingan Konseling (BK)"
+        }
+      };
 
     // --- MUAT DATA SANTRI DARI rekap_santri ---
     async function muatDataSantriGuru() {
@@ -1104,6 +1213,7 @@
   </script>
 </body>
 </html>
+
 
 
 
