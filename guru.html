@@ -1060,100 +1060,83 @@
         }
       };
 
-    // --- MUAT DATA SANTRI DARI rekap_santri ---
-    async function muatDataSantriGuru() {
-      const tahunRaw = document.getElementById("guruTahun").value;
-      const tahun    = tahunRaw.replace("_", "/");
-      const semester = parseInt(document.getElementById("guruSemester").value, 10);
-      const jenjang  = document.getElementById("guruJenjang").value;
-      const kelas    = document.getElementById("guruKelas").value;
-      const paralel  = document.getElementById("guruParalel").value;
-      const mapelKey = document.getElementById("guruMapel").value;
-    
-      const cfg = MAPEL_CONFIG[mapelKey];
-      if (!cfg) {
-        alert("Mapel belum dikonfigurasi di MAPEL_CONFIG.");
-        return;
+      // --- MUAT DATA SANTRI DARI rekap_santri ---
+      async function muatDataSantriGuru() {
+        const tahunRaw = document.getElementById("guruTahun").value;
+        const tahun    = tahunRaw.replace("_", "/");
+        const semester = parseInt(document.getElementById("guruSemester").value, 10);
+        const jenjang  = document.getElementById("guruJenjang").value;
+        const kelas    = document.getElementById("guruKelas").value;
+        const paralel  = document.getElementById("guruParalel").value;
+        const mapelKey = document.getElementById("guruMapel").value;
+      
+        const cfg = MAPEL_CONFIG[mapelKey];
+        if (!cfg) {
+          alert("Mapel belum dikonfigurasi di MAPEL_CONFIG.");
+          return;
+        }
+      
+        const tbody = document.querySelector("#guruNilaiTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+      
+        const { data, error } = await db
+          .from("rekap_santri")
+          .select("*")
+          .eq("tahun_ajaran", tahun)
+          .eq("semester", semester)
+          .eq("jenjang", jenjang)
+          .eq("kelas", kelas)
+          .eq("paralel", paralel)
+          .order("nama_lengkap", { ascending: true });
+      
+        if (error) {
+          console.error(error);
+          alert("Gagal mengambil data santri: " + error.message);
+          return;
+        }
+      
+        if (!data || data.length === 0) {
+          alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
+          return;
+        }
+      
+        data.forEach((row, idx) => {
+          const nilaiP = row[cfg.kolomP] ?? "";
+          const nilaiK = row[cfg.kolomK] ?? "";
+      
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
+            <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
+            <td>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                max="100"
+                data-field="${cfg.kolomP}"
+                value="${nilaiP}"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                max="100"
+                data-field="${cfg.kolomK}"
+                value="${nilaiK}"
+              />
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      
+        updateGuruLabels();
+        alert("Data santri berhasil dimuat. Silakan isi nilai pengetahuan & keterampilan, lalu klik 'Simpan Nilai ke Database'.");
       }
-    
-      const tbody = document.querySelector("#guruNilaiTable tbody");
-      if (!tbody) return;
-      tbody.innerHTML = "";
-    
-      const { data, error } = await db
-        .from("rekap_santri")
-        .select("*")
-        .eq("tahun_ajaran", tahun)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("nama_lengkap", { ascending: true });
-    
-      if (error) {
-        console.error(error);
-        alert("Gagal mengambil data santri: " + error.message);
-        return;
-      }
-    
-      if (!data || data.length === 0) {
-        alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
-        return;
-      }
-    
-      // MUAT DATA
-      data.forEach((row, idx) => {
-        const nilaiP = row[cfg.kolomP] ?? "";
-        const nilaiK = row[cfg.kolomK] ?? "";
-      
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
-          <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
-          <td>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              data-field="${cfg.kolomP}"
-              value="${nilaiP}"
-            />
-          </td>
-          <td>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              data-field="${cfg.kolomK}"
-              value="${nilaiK}"
-            />
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-      
-      // SIMPAN
-      const nilaiP = getNilai(tr, cfg.kolomP);
-      const nilaiK = getNilai(tr, cfg.kolomK);
-      
-      if (nilaiP === null && nilaiK === null) continue;
-      
-      const rowData = {
-        nis,
-        tahun_ajaran: tahun,
-        semester
-      };
-      
-      if (nilaiP !== null) rowData[cfg.kolomP] = nilaiP;
-      if (nilaiK !== null) rowData[cfg.kolomK] = nilaiK;
-    
-      updateGuruLabels();
-      alert("Data santri berhasil dimuat. Silakan isi nilai pengetahuan & keterampilan, lalu klik 'Simpan Nilai ke Database'.");
-    }
-
 
     // --- SIMPAN NILAI GURU KE rekap_santri (UPSERT) ---
     async function simpanNilaiGuru() {
@@ -1229,6 +1212,7 @@
   </script>
 </body>
 </html>
+
 
 
 
