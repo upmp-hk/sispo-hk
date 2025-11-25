@@ -41,7 +41,6 @@
       display: flex;
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     }
-    /* MAIN */
     .main {
       flex: 1;
       display: flex;
@@ -92,6 +91,26 @@
       background: linear-gradient(135deg, #ffffff, #eff6ff);
       overflow-y: auto;
     }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+
     /* LOGIN MUROBBI */
     .login-page {
       max-width: 420px;
@@ -189,25 +208,17 @@
       text-align: center;
       opacity: 0.8;
     }
-    /* MUROBBI MODE */
-    .murobbi-header {
-      margin-bottom: 10px;
-    }
-    .murobbi-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .murobbi-subtitle {
-      font-size: 11px;
-      opacity: 0.75;
-    }
-    .murobbi-form-wrapper {
-      max-width: 980px;
+
+    /* WRAPPER MODE MUROBBI */
+    .murobbi-wrapper {
+      max-width: 1100px;
       margin: 0 auto;
-      display: flex;
+      display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
     }
+
+    /* FILTER */
     .murobbi-filter-card {
       background: var(--white);
       border-radius: 14px;
@@ -257,12 +268,24 @@
       font-size: 10.5px;
       opacity: 0.8;
     }
+
+    .murobbi-filter-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* TABEL NILAI MUROBBI */
     .murobbi-table-card {
       background: var(--white);
       border-radius: 14px;
       padding: 10px 11px 9px;
       border: 1px solid var(--blue-soft2);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-top: 4px;
+      font-size: 11.5px;
     }
     .murobbi-table-title {
       font-size: 13.5px;
@@ -271,67 +294,22 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .murobbi-table-title small {
       font-size: 11px;
       opacity: 0.8;
     }
-    .template-tools {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 8px;
-      font-size: 11px;
-      flex-wrap: wrap;
-    }
-    .template-left {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .template-right {
-      font-style: italic;
-      opacity: 0.8;
-    }
-    .template-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .template-btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .template-btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .template-btn:hover {
-      opacity: 0.92;
-    }
-    .template-btn input[type="file"] {
-      display: none;
+    .murobbi-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
     }
     .murobbi-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 11.5px;
+      min-width: 900px;
     }
     .murobbi-table th,
     .murobbi-table td {
@@ -343,49 +321,52 @@
       background: var(--blue-soft2);
       font-weight: 600;
     }
-    .murobbi-table td.label-left {
+    .murobbi-table td.align-left {
       text-align: left;
     }
-    .murobbi-table input {
-      width: 70px;
+    .murobbi-table input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
-      text-align: center;
       outline: none;
+      text-align: center;
     }
-    .murobbi-table input:focus {
+    .murobbi-table input[type="number"]:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
     }
+    .murobbi-table input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 11px;
+      outline: none;
+      text-align: left;
+    }
+    .murobbi-table input[type="text"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
+    }
+    .murobbi-table .readonly-cell {
+      background: #f9fafb;
+    }
+    .murobbi-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
     .murobbi-actions {
       margin-top: 8px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-    }
-    .btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .btn:hover { opacity: 0.92; }
-    .murobbi-footer-note {
-      margin-top: 6px;
-      font-size: 10.5px;
-      opacity: 0.8;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -466,7 +447,7 @@
         <div class="main-header-left">
           <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
           <div class="main-subtitle">
-            Form input Nilai Mutabaah Yaumiyyah Santri oleh Murobbi.
+            Input Mutabaah Ibadah & Pembinaan Santri oleh Murobbi.
           </div>
         </div>
         <div class="main-header-right">
@@ -484,24 +465,24 @@
 
       <main class="main-body">
         <!-- LOGIN MUROBBI -->
-        <div id="murobbiLoginContainer" class="login-page">
+        <div id="loginMurobbiContainer" class="login-page">
           <div class="login-header">
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Murobbi</div>
             <div class="login-subtitle">
-              Gunakan akun Murobbi untuk mengisi Nilai Mutabaah Yaumiyyah santri.
+              Masuk dengan akun murobbi untuk mengisi mutabaah ibadah dan catatan pembinaan.
             </div>
           </div>
 
           <form id="loginMurobbiForm" onsubmit="handleLoginMurobbi(event)">
             <div class="login-form-group">
-              <label for="loginMurobbiID">Username</label>
-              <input type="text" id="loginMurobbiID" placeholder="admin" autocomplete="username" />
+              <label for="loginMurobbiID">Email Murobbi</label>
+              <input type="text" id="loginMurobbiID" placeholder="nama@domain.com" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginMurobbiPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginMurobbiPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginMurobbiPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -511,200 +492,165 @@
                 </button>
               </div>
             </div>
-            <button type="submit" class="login-button">Masuk</button>
+            <button class="login-button" type="submit">Masuk</button>
           </form>
 
           <div id="loginMurobbiError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akun murobbi dikelola melalui dashboard Supabase.
           </div>
         </div>
 
-        <!-- FORM MUTABAAH -->
-        <div id="murobbiFormContainer" style="display:none;">
-          <div class="murobbi-header">
-            <div class="murobbi-title">Input Rapot Mutabaah Yaumiyyah</div>
-            <div class="murobbi-subtitle">
-              Murobbi mengisi nilai amalan harian santri: shalat berjamaah, rawatib, qiyamullail, dhuha, tilawah, matsurat, shaum sunnah, dan olahraga.
+        <!-- MODE MUROBBI -->
+        <div id="murobbiWrapper" class="murobbi-wrapper">
+          <!-- FILTER -->
+          <div class="murobbi-filter-card">
+            <div style="font-weight:700; font-size:13.5px; margin-bottom:6px;">
+              Filter Kelas Mutabaah Ibadah
+            </div>
+
+            <div class="murobbi-filter-grid">
+              <!-- Tahun Ajaran -->
+              <div class="murobbi-filter-item">
+                <label for="murobbiTahun">Tahun Ajaran</label>
+                <select id="murobbiTahun">
+                  <option value="2023_2024">2023/2024</option>
+                  <option value="2024_2025" selected>2024/2025</option>
+                  <option value="2025_2026">2025/2026</option>
+                </select>
+              </div>
+
+              <!-- Semester -->
+              <div class="murobbi-filter-item">
+                <label for="murobbiSemester">Semester</label>
+                <select id="murobbiSemester">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+
+              <!-- Jenjang -->
+              <div class="murobbi-filter-item">
+                <label for="murobbiJenjang">Jenjang</label>
+                <select id="murobbiJenjang">
+                  <option value="MTs (HK1)">MTs (HK1)</option>
+                  <option value="MTs (HK2)">MTs (HK2)</option>
+                  <option value="MA" selected>MA</option>
+                </select>
+              </div>
+
+              <!-- Kelas -->
+              <div class="murobbi-filter-item">
+                <label for="murobbiKelas">Kelas</label>
+                <select id="murobbiKelas">
+                  <option value="VII">VII</option>
+                  <option value="VIII">VIII</option>
+                  <option value="IX">IX</option>
+                  <option value="X">X</option>
+                  <option value="XI" selected>XI</option>
+                  <option value="XII">XII</option>
+                </select>
+              </div>
+
+              <!-- Paralel / Rombel -->
+              <div class="murobbi-filter-item">
+                <label for="murobbiParalel">Paralel / Rombel</label>
+                <select id="murobbiParalel">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="K">K</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                  <option value="S">S</option>
+                  <option value="T">T</option>
+                  <option value="U">U</option>
+                  <option value="V">V</option>
+                  <option value="W">W</option>
+                  <option value="X">X</option>
+                  <option value="Y">Y</option>
+                  <option value="Z">Z</option>
+                  <!-- contoh rombel khusus -->
+                  <option value="IPA 1">IPA 1</option>
+                  <option value="IPA 2">IPA 2</option>
+                  <option value="IPS 1">IPS 1</option>
+                  <option value="IPS 2">IPS 2</option>
+                  <option value="PK 1">PK 1</option>
+                  <option value="PK 2">PK 2</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="murobbi-filter-note">
+              Data identitas santri diambil dari tabel <code>rekap_santri</code> untuk
+              Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel yang dipilih di sini.
+            </div>
+
+            <div class="murobbi-filter-actions">
+              <button class="btn secondary" type="button" onclick="muatDataSantriMurobbi()">
+                🔄 Muat Data Santri
+              </button>
             </div>
           </div>
 
-          <div class="murobbi-form-wrapper">
-            <!-- FILTER -->
-            <div class="murobbi-filter-card">
-              <div class="murobbi-filter-grid">
-                <!-- 1. Tahun Ajaran -->
-                <div class="murobbi-filter-item">
-                  <label for="murobbiTahun">Tahun Ajaran</label>
-                  <select id="murobbiTahun">
-                    <option value="2023_2024">2023/2024</option>
-                    <option value="2024_2025" selected>2024/2025</option>
-                    <option value="2025_2026">2025/2026</option>
-                  </select>
-                </div>
-                <!-- 2. Semester -->
-                <div class="murobbi-filter-item">
-                  <label for="murobbiSemester">Semester</label>
-                  <select id="murobbiSemester">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                  </select>
-                </div>
-                <!-- 3. Jenjang -->
-                <div class="murobbi-filter-item">
-                  <label for="murobbiJenjang">Jenjang</label>
-                  <select id="murobbiJenjang">
-                    <option value="MTs (HK1)">MTs (HK1)</option>
-                    <option value="MTs (HK2)">MTs (HK2)</option>
-                    <option value="MA" selected>MA</option>
-                  </select>
-                </div>
-                <!-- 4. Kelas -->
-                <div class="murobbi-filter-item">
-                  <label for="murobbiKelas">Kelas</label>
-                  <select id="murobbiKelas">
-                    <option value="VII">VII</option>
-                    <option value="VIII">VIII</option>
-                    <option value="IX">IX</option>
-                    <option value="X">X</option>
-                    <option value="XI" selected>XI</option>
-                    <option value="XII">XII</option>
-                  </select>
-                </div>
-                <!-- 5. Paralel / Rombel -->
-                <div class="murobbi-filter-item">
-                  <label for="murobbiParalel">Paralel / Rombel</label>
-                  <select id="murobbiParalel">
-                    <!-- A-Z -->
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
-                    <option value="P">P</option>
-                    <option value="Q">Q</option>
-                    <option value="R">R</option>
-                    <option value="S">S</option>
-                    <option value="T">T</option>
-                    <option value="U">U</option>
-                    <option value="V">V</option>
-                    <option value="W">W</option>
-                    <option value="X">X</option>
-                    <option value="Y">Y</option>
-                    <option value="Z">Z</option>
-                    <!-- IPA -->
-                    <option value="IPA 1">IPA 1</option>
-                    <option value="IPA 2">IPA 2</option>
-                    <option value="IPA 3">IPA 3</option>
-                    <option value="IPA 4">IPA 4</option>
-                    <option value="IPA 5">IPA 5</option>
-                    <option value="IPA 6">IPA 6</option>
-                    <option value="IPA 7">IPA 7</option>
-                    <option value="IPA 8">IPA 8</option>
-                    <option value="IPA 9">IPA 9</option>
-                    <option value="IPA 10">IPA 10</option>
-                    <option value="IPA 11">IPA 11</option>
-                    <option value="IPA 12">IPA 12</option>
-                    <option value="IPA 13">IPA 13</option>
-                    <option value="IPA 14">IPA 14</option>
-                    <option value="IPA 15">IPA 15</option>
-                    <!-- IPS -->
-                    <option value="IPS 1">IPS 1</option>
-                    <option value="IPS 2">IPS 2</option>
-                    <option value="IPS 3">IPS 3</option>
-                    <option value="IPS 4">IPS 4</option>
-                    <option value="IPS 5">IPS 5</option>
-                    <option value="IPS 6">IPS 6</option>
-                    <option value="IPS 7">IPS 7</option>
-                    <option value="IPS 8">IPS 8</option>
-                    <option value="IPS 9">IPS 9</option>
-                    <option value="IPS 10">IPS 10</option>
-                    <!-- PK -->
-                    <option value="PK 1">PK 1</option>
-                    <option value="PK 2">PK 2</option>
-                    <option value="PK 3">PK 3</option>
-                    <option value="PK 4">PK 4</option>
-                    <option value="PK 5">PK 5</option>
-                    <option value="PK 6">PK 6</option>
-                    <option value="PK 7">PK 7</option>
-                    <option value="PK 8">PK 8</option>
-                    <option value="PK 9">PK 9</option>
-                    <option value="PK 10">PK 10</option>
-                  </select>
-                </div>
-              </div>
-              <div class="murobbi-filter-note">
-                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
-              </div>
+          <!-- TABEL NILAI MUTABAAH -->
+          <div class="murobbi-table-card">
+            <div class="murobbi-table-title">
+              <span>Input Mutabaah Ibadah & Catatan Pembinaan</span>
+              <small>
+                Kelas: <span id="labelMurobbiKelas">XI</span> /
+                TA <span id="labelMurobbiTahun">2024/2025</span> /
+                Sem <span id="labelMurobbiSemester">1</span>
+              </small>
             </div>
 
-            <!-- TABEL MUTABAAH -->
-            <div class="murobbi-table-card">
-              <div class="murobbi-table-title">
-                <span>Daftar Nilai Mutabaah Santri</span>
-                <small>
-                  Kelas: <span id="labelMurobbiKelas">XI</span> /
-                  TA <span id="labelMurobbiTahun">2024/2025</span> /
-                  Sem <span id="labelMurobbiSemester">1</span>
-                </small>
-              </div>
-
-              <!-- TOOLS TEMPLATE -->
-              <div class="template-tools">
-                <div class="template-left">
-                  <button type="button" class="template-btn" onclick="downloadTemplate()">
-                    ⬇ Download Template (.xls)
-                  </button>
-                  <label class="template-btn secondary">
-                    ⬆ Upload Template (.xls/.xlsx)
-                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
-                  </label>
-                </div>
-                <div class="template-right">
-                  Murobbi bisa mengisi nilai Mutabaah di template Excel lalu upload kembali (simulasi).
-                </div>
-              </div>
-
-              <table class="murobbi-table" id="tabelMurobbiMutabaah">
+            <div class="murobbi-table-wrapper">
+              <table class="murobbi-table" id="murobbiNilaiTable">
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>No.</th>
                     <th>NIS</th>
-                    <th>Nama Santri</th>
-                    <th>Shalat Jamaah</th>
+                    <th>Nama Lengkap</th>
+                    <th>Shalat Berjamaah</th>
                     <th>Shalat Rawatib</th>
                     <th>Qiyamullail</th>
                     <th>Shalat Dhuha</th>
                     <th>Tilawah</th>
-                    <th>Matsurat</th>
+                    <th>Al-Matsurat</th>
                     <th>Shaum Sunnah</th>
                     <th>Olahraga</th>
+                    <th>Muhadhoroh</th>
+                    <th>Catatan Pembinaan</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- filled by JS -->
+                  <!-- Diisi JS -->
                 </tbody>
               </table>
+            </div>
 
-              <div class="murobbi-actions">
-                <button class="btn secondary" type="button" onclick="resetMurobbiMutabaah()">🔄 Reset</button>
-                <button class="btn" type="button" onclick="simpanMurobbiMutabaah()">💾 Simpan Nilai (Simulasi)</button>
-              </div>
-              <div class="murobbi-footer-note">
-                *Download Template: file .xls dengan kolom NIS, Nama Santri, Shalat Jamaah, Shalat Rawatib, Qiyamullail, Shalat Dhuha, Tilawah, Matsurat, Shaum Sunnah, Olahraga.  
-                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
-              </div>
+            <div class="murobbi-actions">
+              <button class="btn" type="button" onclick="simpanNilaiMurobbi()">
+                💾 Simpan Mutabaah ke Database
+              </button>
+            </div>
+
+            <div class="murobbi-footer-note">
+              *Nilai dalam skala 0–100 atau sesuai kebijakan pondok.  
+              *Catatan pembinaan bisa diisi singkat, misalnya "perlu pendampingan shalat jamaah" atau "sudah sangat baik".
             </div>
           </div>
         </div>
@@ -712,81 +658,101 @@
     </div>
   </div>
 
+  <!-- Supabase client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // LOGIN MUROBBI (TESTING): username: admin, password: admin
+    const { createClient } = supabase;
+
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <script>
+    // --- SESSION LOGIN MUROBBI ---
     const MUROBBI_SESSION_KEY = "sispo_murobbi_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let murobbiLogoutTimer = null;
 
-  async function handleLoginMurobbi(event) {
-    event.preventDefault();
-    const id = document.getElementById("loginMurobbiID").value.trim();
-    const pass = document.getElementById("loginMurobbiPassword").value;
-    const errorEl = document.getElementById("loginMurobbiError");
-  
-    if (!id || !pass) {
-      errorEl.textContent = "Username dan password wajib diisi.";
-      return;
+    let murobbiSantriData = [];
+
+    async function handleLoginMurobbi(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginMurobbiID").value.trim();
+      const pass  = document.getElementById("loginMurobbiPassword").value.trim();
+      const errorEl = document.getElementById("loginMurobbiError");
+
+      if (!email || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password: pass
+      });
+
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+        return;
+      }
+
+      // cek role murobbi
+      const { data: roleData, error: roleError } = await db
+        .from("user_roles")
+        .select("mode")
+        .eq("id", data.user.id)
+        .single();
+
+      if (roleError || !roleData) {
+        console.error(roleError);
+        errorEl.textContent = "Role pengguna tidak ditemukan.";
+        await db.auth.signOut();
+        return;
+      }
+
+      if (roleData.mode !== "murobbi") {
+        errorEl.textContent = "Akun ini bukan akun Murobbi.";
+        await db.auth.signOut();
+        return;
+      }
+
+      errorEl.textContent = "";
+      setMurobbiSession();
+      applyMurobbiLoginUI();
+      updateMurobbiLabels();
+      scheduleMurobbiAutoLogout();
     }
-  
-    const { data, error } = await db.auth.signInWithPassword({
-      email: id,
-      password: pass
-    });
-  
-    if (error) {
-      console.error(error);
-      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
-      return;
-    }
-  
-    const { data: roleData, error: roleError } = await db
-      .from('user_roles')
-      .select('mode')
-      .eq('id', data.user.id)
-      .single();
-  
-    if (roleError || !roleData) {
-      console.error(roleError);
-      errorEl.textContent = "Role pengguna tidak ditemukan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    if (roleData.mode !== 'murobbi') {
-      errorEl.textContent = "Akun ini bukan akun Murobbi.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    errorEl.textContent = "";
-    setMurobbiSession();
-    applyMurobbiLoginUI();
-    initMurobbiTable();
-    scheduleMurobbiAutoLogout();
-  }
 
     function applyMurobbiLoginUI() {
-      document.getElementById("murobbiLoginContainer").style.display = "none";
-      document.getElementById("murobbiFormContainer").style.display = "block";
+      document.getElementById("loginMurobbiContainer").style.display = "none";
+      document.getElementById("murobbiWrapper").style.display = "flex";
       document.getElementById("statusBadgeMurobbi").textContent = "Login";
       const btn = document.getElementById("logoutMurobbiBtn");
       if (btn) btn.style.display = "inline-block";
     }
-    
+
     function applyMurobbiLogoutUI() {
-      document.getElementById("murobbiLoginContainer").style.display = "block";
-      document.getElementById("murobbiFormContainer").style.display = "none";
+      document.getElementById("loginMurobbiContainer").style.display = "block";
+      document.getElementById("murobbiWrapper").style.display = "none";
       document.getElementById("statusBadgeMurobbi").textContent = "Login diperlukan";
       const btn = document.getElementById("logoutMurobbiBtn");
       if (btn) btn.style.display = "none";
+
+      const tbody = document.querySelector("#murobbiNilaiTable tbody");
+      if (tbody) tbody.innerHTML = "";
+      murobbiSantriData = [];
     }
-    
+
     function setMurobbiSession() {
       const expiresAt = Date.now() + SESSION_DURATION_MS;
       localStorage.setItem(MUROBBI_SESSION_KEY, JSON.stringify({ expiresAt }));
     }
-    
+
     function clearMurobbiSession() {
       localStorage.removeItem(MUROBBI_SESSION_KEY);
       if (murobbiLogoutTimer) {
@@ -794,11 +760,11 @@
         murobbiLogoutTimer = null;
       }
     }
-    
+
     function scheduleMurobbiAutoLogout() {
       const raw = localStorage.getItem(MUROBBI_SESSION_KEY);
       if (!raw) return;
-    
+
       try {
         const { expiresAt } = JSON.parse(raw);
         const remaining = expiresAt - Date.now();
@@ -812,35 +778,47 @@
         handleLogoutMurobbi();
       }
     }
-    
-    function handleLogoutMurobbi() {
+
+    async function handleLogoutMurobbi() {
+      try {
+        await db.auth.signOut();
+      } catch (e) {
+        console.error(e);
+      }
       clearMurobbiSession();
       applyMurobbiLogoutUI();
-    
+
       const form = document.getElementById("loginMurobbiForm");
       if (form) form.reset();
       const errorEl = document.getElementById("loginMurobbiError");
       if (errorEl) errorEl.textContent = "";
     }
-    
+
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(MUROBBI_SESSION_KEY);
-      if (!raw) return;
-    
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        if (expiresAt && expiresAt > Date.now()) {
-          applyMurobbiLoginUI();
-          initMurobbiTable();
-          scheduleMurobbiAutoLogout();
-        } else {
+      if (raw) {
+        try {
+          const { expiresAt } = JSON.parse(raw);
+          if (expiresAt && expiresAt > Date.now()) {
+            applyMurobbiLoginUI();
+            scheduleMurobbiAutoLogout();
+          } else {
+            clearMurobbiSession();
+          }
+        } catch (e) {
           clearMurobbiSession();
-          applyMurobbiLogoutUI();
         }
-      } catch (e) {
-        clearMurobbiSession();
-        applyMurobbiLogoutUI();
       }
+
+      ["murobbiTahun","murobbiKelas","murobbiSemester"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updateMurobbiLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
+
+      updateMurobbiLabels();
     });
 
     function togglePassword(btn) {
@@ -857,53 +835,6 @@
       }
     }
 
-    // DATA DUMMY SANTRI
-    const murobbiSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initMurobbiTable() {
-      const tbody = document.querySelector("#tabelMurobbiMutabaah tbody");
-      tbody.innerHTML = "";
-      murobbiSantriDummy.forEach((s, idx) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${s.nis}</td>
-          <td class="label-left">${s.nama}</td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,100)}" data-field="berjamaah"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(60,100)}" data-field="rawatib"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(50,100)}" data-field="qiyamullail"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(60,100)}" data-field="dhuha"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,100)}" data-field="tilawah"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(60,100)}" data-field="matsurat"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(50,100)}" data-field="shaumSunnah"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(60,100)}" data-field="olahraga"></td>
-        `;
-        tbody.appendChild(tr);
-      });
-      updateMurobbiLabels();
-      setupMurobbiFilterListeners();
-    }
-
-    function setupMurobbiFilterListeners() {
-      ["murobbiTahun","murobbiKelas","murobbiSemester"].forEach(id=>{
-        const el = document.getElementById(id);
-        if (el && !el.dataset.listenerAttached) {
-          el.addEventListener("change", updateMurobbiLabels);
-          el.dataset.listenerAttached = "true";
-        }
-      });
-    }
-
     function updateMurobbiLabels() {
       const tahun = document.getElementById("murobbiTahun").value;
       const kelas = document.getElementById("murobbiKelas").value;
@@ -914,102 +845,178 @@
       document.getElementById("labelMurobbiSemester").textContent = semester;
     }
 
-    function resetMurobbiMutabaah() {
-      initMurobbiTable();
-      alert("Nilai Mutabaah dikembalikan ke nilai acak (simulasi).");
+    // --- MUAT DATA SANTRI DARI rekap_santri ---
+    async function muatDataSantriMurobbi() {
+      const tahunRaw = document.getElementById("murobbiTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("murobbiSemester").value, 10);
+      const jenjang  = document.getElementById("murobbiJenjang").value;
+      const kelas    = document.getElementById("murobbiKelas").value;
+      const paralel  = document.getElementById("murobbiParalel").value;
+    
+      const tbody = document.querySelector("#murobbiNilaiTable tbody");
+      if (tbody) tbody.innerHTML = "";
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .select("*")
+        .eq("tahun_ajaran", tahun)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("nama_lengkap", { ascending: true });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal mengambil data santri: " + error.message);
+        return;
+      }
+    
+      if (!data || data.length === 0) {
+        murobbiSantriData = [];
+        alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
+        return;
+      }
+
+      murobbiSantriData = data;
+    
+      updateMurobbiLabels();
+      renderMurobbiTable();
+      alert("Data santri berhasil dimuat. Silakan isi mutabaah, lalu klik 'Simpan Mutabaah ke Database'.");
     }
 
-    function simpanMurobbiMutabaah() {
-      const rows = document.querySelectorAll("#tabelMurobbiMutabaah tbody tr");
-      const hasil = [];
-      rows.forEach((tr, idx) => {
-        const nis = tr.children[1].textContent.trim();
-        const nama = tr.children[2].textContent.trim();
-        const berjamaah = tr.querySelector('input[data-field="berjamaah"]').value;
-        const rawatib = tr.querySelector('input[data-field="rawatib"]').value;
-        const qiyam = tr.querySelector('input[data-field="qiyamullail"]').value;
-        const dhuha = tr.querySelector('input[data-field="dhuha"]').value;
-        const tilawah = tr.querySelector('input[data-field="tilawah"]').value;
-        const matsurat = tr.querySelector('input[data-field="matsurat"]').value;
-        const shaum = tr.querySelector('input[data-field="shaumSunnah"]').value;
-        const olahraga = tr.querySelector('input[data-field="olahraga"]').value;
-        hasil.push({
-          no: idx+1, nis, nama,
-          shalatBerjamaah: berjamaah,
-          shalatRawatib: rawatib,
-          qiyamullail: qiyam,
-          shalatDhuha: dhuha,
-          tilawah, matsurat,
-          shaumSunnah: shaum,
-          olahraga
-        });
+    // Render tabel berdasarkan data santri
+    function renderMurobbiTable() {
+      const tbody = document.querySelector("#murobbiNilaiTable tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      if (!murobbiSantriData || murobbiSantriData.length === 0) return;
+
+      murobbiSantriData.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
+          <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_shalat_berjamaah" value="${row.nilai_shalat_berjamaah ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_shalat_rawatib" value="${row.nilai_shalat_rawatib ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_qiyamullail" value="${row.nilai_qiyamullail ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_shalat_dhuha" value="${row.nilai_shalat_dhuha ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_tilawah" value="${row.nilai_tilawah ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_matsurat" value="${row.nilai_matsurat ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_shaum_sunnah" value="${row.nilai_shaum_sunnah ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_olahraga" value="${row.nilai_olahraga ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_muhadhoroh" value="${row.nilai_muhadhoroh ?? ""}"></td>
+          <td><input type="text" data-field="catatan_pembinaan" value="${row.catatan_pembinaan ? String(row.catatan_pembinaan).replace(/"/g,'&quot;') : ""}"></td>
+        `;
+        tbody.appendChild(tr);
       });
-      console.log("Data nilai Mutabaah (simulasi):", hasil);
-      alert("Nilai Mutabaah tersimpan (simulasi). Cek console browser untuk melihat data.");
     }
 
-    // DOWNLOAD TEMPLATE MUTABAAH (CSV-format, ekstensi .xls)
-    function downloadTemplateMutabaah() {
-      const tahun = document.getElementById("murobbiTahun").value.replace("_","/");
-      const kelas = document.getElementById("murobbiKelas").value;
-      const semester = document.getElementById("murobbiSemester").value;
-      const paralel = document.getElementById("murobbiParalel").value;
+    // --- SIMPAN NILAI MUROBBI KE rekap_santri (UPSERT) ---
+    async function simpanNilaiMurobbi() {
+      const tbody = document.querySelector("#murobbiNilaiTable tbody");
+      if (!tbody) return;
+    
+      const tahunRaw = document.getElementById("murobbiTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("murobbiSemester").value, 10);
+      const jenjang  = document.getElementById("murobbiJenjang").value;
+      const kelas    = document.getElementById("murobbiKelas").value;
+      const paralel  = document.getElementById("murobbiParalel").value;
+    
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const payload = [];
+    
+      const getAngka = (tr, fieldName) => {
+        const input = tr.querySelector(`input[data-field="${fieldName}"][type="number"]`);
+        if (!input) return null;
+        const val = input.value.trim();
+        if (val === "") return null;
+        const num = parseFloat(val.replace(",", "."));
+        return isNaN(num) ? null : num;
+      };
 
-      let csv = "";
-      csv += `Tahun Ajaran,${tahun}\r\n`;
-      csv += `Semester,${semester}\r\n`;
-      csv += `Kelas,${kelas}\r\n`;
-      csv += `Paralel/Rombel,${paralel}\r\n`;
-      csv += `Jenis,Mutabaah Yaumiyyah\r\n\r\n`;
-      csv += "NIS,Nama Santri,Shalat Jamaah,Shalat Rawatib,Qiyamullail,Shalat Dhuha,Tilawah,Matsurat,Shaum Sunnah,Olahraga\r\n";
+      const getTeks = (tr, fieldName) => {
+        const input = tr.querySelector(`input[data-field="${fieldName}"][type="text"]`);
+        if (!input) return null;
+        const val = input.value.trim();
+        return val === "" ? null : val;
+      };
+    
+      for (const tr of rows) {
+        const nisCell  = tr.children[1];
+        const namaCell = tr.children[2];
+        if (!nisCell || !namaCell) continue;
 
-      murobbiSantriDummy.forEach(s => {
-        csv += `${s.nis},${s.nama},,,,,,,,\r\n`;
-      });
-
-      const blob = new Blob([csv], {
-        type: "application/vnd.ms-excel"
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `template_Mutabaah_kelas_${kelas}_${paralel}.xls`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // UPLOAD TEMPLATE MUTABAAH (simulasi)
-    function handleUploadTemplateMutabaah(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      const reader = new FileReader();
-
-      if (ext === "xls" || ext === "xlsx") {
-        reader.onload = function(e) {
-          const buffer = e.target.result;
-          console.log("File Mutabaah .xls/.xlsx ter-upload (simulasi), size:", buffer.byteLength, "bytes");
-          alert("Template Mutabaah .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+        const nis         = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
+        const namaLengkap = namaCell.textContent.trim();
+        if (!nis || !namaLengkap) continue;
+    
+        const rowData = {
+          nis,
+          nama_lengkap: namaLengkap,
+          tahun_ajaran: tahun,
+          semester,
+          jenjang,
+          kelas,
+          paralel
         };
-        reader.readAsArrayBuffer(file);
+
+        const numericFields = [
+          "nilai_shalat_berjamaah",
+          "nilai_shalat_rawatib",
+          "nilai_qiyamullail",
+          "nilai_shalat_dhuha",
+          "nilai_tilawah",
+          "nilai_matsurat",
+          "nilai_shaum_sunnah",
+          "nilai_olahraga",
+          "nilai_muhadhoroh"
+        ];
+
+        let adaPerubahan = false;
+
+        for (const f of numericFields) {
+          const v = getAngka(tr, f);
+          if (v !== null) {
+            rowData[f] = v;
+            adaPerubahan = true;
+          }
+        }
+
+        const catatan = getTeks(tr, "catatan_pembinaan");
+        if (catatan !== null) {
+          rowData["catatan_pembinaan"] = catatan;
+          adaPerubahan = true;
+        }
+
+        if (!adaPerubahan) continue;
+
+        payload.push(rowData);
+      }
+    
+      if (payload.length === 0) {
+        alert("Tidak ada mutabaah yang diisi / diubah.");
+        return;
+      }
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .upsert(payload, {
+          onConflict: "nis,tahun_ajaran,semester"
+        });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan mutabaah santri: " + error.message);
       } else {
-        alert("Format file tidak dikenali. Gunakan file .xls atau .xlsx.");
+        alert("Mutabaah santri berhasil disimpan / diperbarui di rekap_santri.");
+        console.log("Data tersimpan:", data);
       }
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const { createClient } = supabase;
-  
-    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 </body>
 </html>
-
-
