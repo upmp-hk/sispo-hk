@@ -1279,6 +1279,19 @@
           tbodyHafalan.appendChild(trAvg);
         }
 
+        if (v1 != null) {
+          sumTTQLeft += Number(v1);
+          cntTTQLeft++;
+          punyaTTQ = true;
+        }
+        if (v2 != null) {
+          sumTTQRight += Number(v2);
+          cntTTQRight++;
+          punyaTTQ = true;
+        }
+
+        if (v1 == null && v2 == null && !item2) continue;
+
         const tr = document.createElement("tr");
         tr.innerHTML =
           `<td class="label-left">${label1}</td><td>${v1 ?? ""}</td>` +
