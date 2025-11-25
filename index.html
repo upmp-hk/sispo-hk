@@ -209,32 +209,25 @@
       .profile { grid-template-columns: 1fr; }
     }
 
-      .profile-photo {
-        background: var(--blue-soft2);
-        border-radius: 14px;
-        padding: 10px;
-        text-align: center;
-    
-        /* biar kotaknya ikut tinggi baris grid dan isinya di tengah */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    
-      .profile-photo img {
-        /* pertahankan rasio */
-        aspect-ratio: 2 / 3;
-        width: 100%;
-    
-        /* BATASI TINGGI MAKSIMAL SUPAYA NGGAK NGALAHIN KARTU LAIN */
-        max-height: 230px; /* kalau masih terlalu tinggi/rendah, silakan ubah ke 220 / 240 / 250 */
-    
-        object-fit: contain;      /* seluruh foto tampak, tidak terpotong */
-        border-radius: 12px;
-        border: 2px solid var(--white);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        display: block;
-      }
+  .profile-photo {
+    background: var(--blue-soft2);
+    border-radius: 14px;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-photo img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--white);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    display: block;
+  }
 
     .profile-data {
       border-radius: 14px;
