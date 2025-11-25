@@ -277,7 +277,7 @@
       flex-wrap: wrap;
     }
 
-    /* TABEL PENGASUHAN */
+    /* TABEL PENGASUHAN – DISESUAIKAN DENGAN MUSYRIF */
     .pengasuhan-table-card {
       background: var(--white);
       border-radius: 14px;
@@ -309,7 +309,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 11.5px;
-      min-width: 860px;
+      min-width: 700px; /* agak lebar tapi tetap bisa scroll */
     }
     .pengasuhan-table th,
     .pengasuhan-table td {
@@ -324,37 +324,22 @@
     .pengasuhan-table td.align-left {
       text-align: left;
     }
+    .pengasuhan-table input[type="number"],
     .pengasuhan-table input[type="text"] {
       width: 100%;
-      padding: 6px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--blue-soft2);
-      font-size: 12px;
-      height: 32px;   /* samakan dengan mode bahasa */
-      box-sizing: border-box;
-    }
-
-    .pengasuhan-table input[type="number"]:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
-    }
-    .pengasuhan-table textarea {
-      width: 100%;
-      min-width: 200px;
-      min-height: 28px;   /* dulu 40px, sekarang lebih pendek */
-      max-height: 60px;
       box-sizing: border-box;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
-      line-height: 1.2;
-      resize: vertical;
+      outline: none;
     }
-    .pengasuhan-table textarea:focus {
+    .pengasuhan-table input[type="number"] {
+      text-align: center;
+    }
+    .pengasuhan-table input:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
-      outline: none;
     }
     .pengasuhan-table .readonly-cell {
       background: #f9fafb;
@@ -932,7 +917,14 @@
               value="${row.poin_pelanggaran ?? ""}"
             />
           </td>
-          <td><input type="text" class="catatan-pembinaan"></td>
+          <td>
+            <input
+              type="text"
+              data-field="catatan_pembinaan"
+              value="${row.catatan_pembinaan ?? ""}"
+              placeholder="(opsional) ringkasan pelanggaran"
+            />
+          </td>
         `;
         tbody.appendChild(tr);
       });
@@ -963,9 +955,9 @@
       };
 
       const getText = (tr, fieldName) => {
-        const ta = tr.querySelector(`textarea[data-field="${fieldName}"]`);
-        if (!ta) return null;
-        const val = ta.value.trim();
+        const el = tr.querySelector(`[data-field="${fieldName}"]`);
+        if (!el) return null;
+        const val = el.value.trim();
         return val === "" ? null : val;
       };
     
@@ -978,8 +970,8 @@
         const namaLengkap = namaCell.textContent.trim();
         if (!nis || !namaLengkap) continue;
     
-        const poin     = getNumber(tr, "poin_pelanggaran");
-        const catatan  = getText(tr, "catatan_pembinaan");
+        const poin    = getNumber(tr, "poin_pelanggaran");
+        const catatan = getText(tr, "catatan_pembinaan");
 
         if (poin === null && catatan === null) continue;
     
@@ -993,8 +985,8 @@
           paralel
         };
 
-        if (poin !== null) rowData.poin_pelanggaran   = poin;
-        if (catatan !== null) rowData.catatan_pembinaan = catatan;
+        if (poin !== null)    rowData.poin_pelanggaran    = poin;
+        if (catatan !== null) rowData.catatan_pembinaan   = catatan;
 
         payload.push(rowData);
       }
@@ -1021,7 +1013,3 @@
   </script>
 </body>
 </html>
-
-
-
-
