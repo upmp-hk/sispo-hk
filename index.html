@@ -870,6 +870,9 @@
 
   <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
   <script>
     const { createClient } = supabase;
 
@@ -951,7 +954,7 @@
         return;
       }
 
-      // cek apakah NIS ada di rekap_santri (tanpa filter dulu)
+      // cek apakah NIS ada di rekap_santri (tanpa filter lain dulu)
       const { data, error } = await db
         .from("rekap_santri")
         .select("nis")
@@ -989,7 +992,7 @@
 
     function updateStatusRingkasan() {
       const tahunValue = document.getElementById("filterTahun").value;
-      const tahunAjaran = tahunValue.replace("_", "/"); // asumsi format di DB: 2024/2025
+      const tahunAjaran = tahunValue.replace("_", "/");
       const jenjang = document.getElementById("filterJenjang").value;
       const kelas = document.getElementById("filterKelas").value;
       const paralel = document.getElementById("filterParalel").value;
@@ -1020,21 +1023,33 @@
       });
     }
 
+    function exportPDF() {
+      const original = document.querySelector('.app-shell');
+      const clone = original.cloneNode(true);
+      clone.querySelectorAll('.no-print').forEach(el => el.remove());
+
+      const opt = {
+        margin:       0.5,
+        filename:     'rapot-santri-hk.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(clone).save();
+    }
+
     async function loadDataSantri() {
       const nis = getCurrentNIS();
-      if (!nis) {
-        // belum login, jangan load apa-apa
-        return;
-      }
+      if (!nis) return; // belum login
 
       const tahunValue = document.getElementById("filterTahun").value;
       const tahunAjaran = tahunValue.replace("_", "/");
-      const jenjang = document.getElementById("filterJenjang").value;
-      const kelas = document.getElementById("filterKelas").value;
-      const paralel = document.getElementById("filterParalel").value;
-      const semester = document.getElementById("filterSemester").value;
+      const jenjangFilter = document.getElementById("filterJenjang").value;
+      const kelasFilter = document.getElementById("filterKelas").value;
+      const paralelFilter = document.getElementById("filterParalel").value;
+      const semesterStr = document.getElementById("filterSemester").value;
+      const semester = parseInt(semesterStr, 10);
 
-      // ==== BERSIHKAN TABEL DULU ====
       const tbodyNilai = document.querySelector("#tabelNilai tbody");
       const tbodyHafalan = document.querySelector("#tabelHafalan tbody");
       const tbodyPelanggaran = document.querySelector("#tabelPelanggaran tbody");
@@ -1049,16 +1064,13 @@
       tbodyMutabaah.innerHTML = "";
       totalPoinEl.textContent = "0";
 
-      // ==== 1. PROFIL / IDENTITAS DARI rekap_santri ====
+      // ====== 1. PROFIL / IDENTITAS dari rekap_santri ======
       const { data: profil, error: profilError } = await db
         .from("rekap_santri")
         .select("*")
         .eq("nis", nis)
         .eq("tahun_ajaran", tahunAjaran)
         .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
         .maybeSingle();
 
       if (profilError) {
@@ -1083,7 +1095,7 @@
       const fieldTelpIbu = document.getElementById("fieldTelpIbu");
 
       if (!profil) {
-        // kalau tidak ada profil untuk kombinasi filter ini
+        // tidak ada data untuk kombinasi nis + TA + sem ini
         fotoEl.src = "";
         fieldNama.textContent = "-";
         fieldNIS.textContent = nis;
@@ -1091,27 +1103,32 @@
         fieldGender.textContent = "-";
         fieldTempat.textContent = "-";
         fieldTglLahir.textContent = "-";
-        fieldJenjang.textContent = jenjang;
-        fieldKelas.textContent = kelas;
-        fieldParalel.textContent = paralel;
+        fieldJenjang.textContent = jenjangFilter;
+        fieldKelas.textContent = kelasFilter;
+        fieldParalel.textContent = paralelFilter;
         fieldAsrama.textContent = "-";
         fieldAlamat.textContent = "-";
         fieldAyah.textContent = "-";
         fieldTelpAyah.textContent = "-";
         fieldIbu.textContent = "-";
         fieldTelpIbu.textContent = "-";
+
+        const trInfo = document.createElement("tr");
+        trInfo.innerHTML = `<td colspan="3" class="label-left"><em>Data rapot belum tersedia untuk kombinasi ini.</em></td>`;
+        tbodyNilai.appendChild(trInfo);
+        return;
       } else {
         fotoEl.src = profil.foto_url || "";
-        fieldNama.textContent = profil.nama || "-";
+        fieldNama.textContent = profil.nama_lengkap || "-";
         fieldNIS.textContent = profil.nis || "-";
         fieldNISN.textContent = profil.nisn || "-";
         fieldGender.textContent = profil.jenis_kelamin || "-";
         fieldTempat.textContent = profil.tempat_lahir || "-";
         fieldTglLahir.textContent = profil.tanggal_lahir || "-";
-        fieldJenjang.textContent = profil.jenjang || jenjang;
-        fieldKelas.textContent = profil.kelas || kelas;
-        fieldParalel.textContent = profil.paralel || paralel;
-        fieldAsrama.textContent = profil.asrama || "-";
+        fieldJenjang.textContent = profil.jenjang || jenjangFilter;
+        fieldKelas.textContent = profil.kelas || kelasFilter;
+        fieldParalel.textContent = profil.paralel || paralelFilter;
+        fieldAsrama.textContent = profil.asrama || "-";   // kolom asrama belum ada di skema? kalau tidak ada, biarkan "-"
         fieldAlamat.textContent = profil.alamat || "-";
         fieldAyah.textContent = profil.nama_ayah || "-";
         fieldTelpAyah.textContent = profil.telp_ayah || "-";
@@ -1119,179 +1136,164 @@
         fieldTelpIbu.textContent = profil.telp_ibu || "-";
       }
 
-      // ==== 2. AKADEMIK ====
-      const { data: nilaiAkademik, error: nilaiError } = await db
-        .from("rekap_akademik")
-        .select("mapel, pengetahuan, keterampilan")
-        .eq("nis", nis)
-        .eq("tahun_ajaran", tahunAjaran)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("mapel", { ascending: true });
+      // ====== 2. AKADEMIK dari kolom nilai_*_p / nilai_*_k ======
+      const akademikMapel = [
+        { label: "Al-Qur'an Hadits (Tafsir)", p: "nilai_tafsir_p", k: "nilai_tafsir_k" },
+        { label: "Akidah Akhlak", p: "nilai_aqidah_akhlak_p", k: "nilai_aqidah_akhlak_k" },
+        { label: "Fikih", p: "nilai_fiqih_p", k: "nilai_fiqih_k" },
+        { label: "Sejarah Kebudayaan Islam", p: "nilai_ski_p", k: "nilai_ski_k" },
+        { label: "Pendidikan Kewarganegaraan", p: "nilai_pkn_p", k: "nilai_pkn_k" },
+        { label: "Bahasa Indonesia", p: "nilai_b_indonesia_p", k: "nilai_b_indonesia_k" },
+        { label: "Bahasa Arab", p: "nilai_b_arab_p", k: "nilai_b_arab_k" },
+        { label: "Matematika", p: "nilai_matematika_p", k: "nilai_matematika_k" },
+        { label: "Sejarah Indonesia", p: "nilai_sejarah_indo_p", k: "nilai_sejarah_indo_k" },
+        { label: "Bahasa Inggris", p: "nilai_b_inggris_p", k: "nilai_b_inggris_k" },
+        { label: "Fisika", p: "nilai_fisika_p", k: "nilai_fisika_k" },
+        { label: "Kimia", p: "nilai_kimia_p", k: "nilai_kimia_k" },
+        { label: "Biologi", p: "nilai_biologi_p", k: "nilai_biologi_k" },
+        { label: "Ekonomi", p: "nilai_ekonomi_p", k: "nilai_ekonomi_k" },
+        { label: "Geografi", p: "nilai_geografi_p", k: "nilai_geografi_k" },
+        { label: "Sosiologi", p: "nilai_sosiologi_p", k: "nilai_sosiologi_k" },
+        { label: "Informatika", p: "nilai_informatika_p", k: "nilai_informatika_k" },
+        { label: "Matematika Peminatan (IPA)", p: "nilai_mtk_ipa_p", k: "nilai_mtk_ipa_k" },
+        { label: "Fisika Peminatan", p: "nilai_fisika_ipa_p", k: "nilai_fisika_ipa_k" },
+        { label: "Kimia Peminatan", p: "nilai_kimia_ipa_p", k: "nilai_kimia_ipa_k" },
+        { label: "Biologi Peminatan", p: "nilai_biologi_ipa_p", k: "nilai_biologi_ipa_k" },
+        { label: "Sejarah Peminatan (IPS)", p: "nilai_sejarah_ips_p", k: "nilai_sejarah_ips_k" },
+        { label: "Ekonomi Peminatan (IPS)", p: "nilai_ekonomi_ips_p", k: "nilai_ekonomi_ips_k" },
+        { label: "Geografi Peminatan (IPS)", p: "nilai_geografi_ips_p", k: "nilai_geografi_ips_k" },
+        { label: "Sosiologi Peminatan (IPS)", p: "nilai_sosiologi_ips_p", k: "nilai_sosiologi_ips_k" },
+        { label: "Tafsir - Ilmu Tafsir", p: "nilai_ilmu_tafsir_p", k: "nilai_ilmu_tafsir_k" },
+        { label: "Hadis - Ilmu Hadis", p: "nilai_ilmu_hadits_p", k: "nilai_ilmu_hadits_k" },
+        { label: "Fiqih - Ushul Fiqih", p: "nilai_ushul_fiqih_p", k: "nilai_ushul_fiqih_k" },
+        { label: "Bahasa Arab Peminatan (Balaghoh)", p: "nilai_balaghoh_p", k: "nilai_balaghoh_k" },
+        { label: "Bahasa Inggris Tingkat Lanjut", p: "nilai_b_inggris_bhs_p", k: "nilai_b_inggris_bhs_k" },
+        { label: "Nahwu (Qawaid)", p: "nilai_qowaid_p", k: "nilai_qowaid_k" },
+        { label: "Hadits (Pesantren)", p: "nilai_hadits_p", k: "nilai_hadits_k" },
+        { label: "Faroidh", p: "nilai_faroidh_p", k: "nilai_faroidh_k" },
+        { label: "Bimbingan Konseling (BK)", p: "nilai_bk_p", k: "nilai_bk_k" }
+      ];
 
-      if (nilaiError) {
-        console.error(nilaiError);
-      }
+      let punyaAkademik = false;
+      akademikMapel.forEach(m => {
+        const p = profil[m.p];
+        const k = profil[m.k];
+        if (p == null && k == null) return; // skip mapel yang belum ada nilainya sama sekali
+        punyaAkademik = true;
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          `<td class="label-left">${m.label}</td>` +
+          `<td>${p ?? ""}</td>` +
+          `<td>${k ?? ""}</td>`;
+        tbodyNilai.appendChild(tr);
+      });
 
-      if (!nilaiAkademik || nilaiAkademik.length === 0) {
+      if (!punyaAkademik) {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td colspan="3" class="label-left"><em>Data nilai akademik belum tersedia.</em></td>`;
         tbodyNilai.appendChild(tr);
-      } else {
-        nilaiAkademik.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            `<td class="label-left">${row.mapel}</td>` +
-            `<td>${row.pengetahuan}</td>` +
-            `<td>${row.keterampilan}</td>`;
-          tbodyNilai.appendChild(tr);
-        });
       }
 
-      // ==== 3. TTQ ====
-      const { data: nilaiTTQ, error: ttqError } = await db
-        .from("rekap_ttq")
-        .select("komponen, nilai")
-        .eq("nis", nis)
-        .eq("tahun_ajaran", tahunAjaran)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("komponen", { ascending: true });
+      // ====== 3. TTQ ======
+      const ttqPairs = [
+        ["Hafalan Muqorror", "nilai_hafalan_muqorror", "Ujian Muqorror", "nilai_ujian_muqorror"],
+        ["Hafalan Murojaah", "nilai_hafalan_murojaah", "Hafalan Ziyadah", "nilai_hafalan_ziyadah"],
+        ["Ujian Ziyadah", "nilai_ujian_ziyadah", "", ""]
+      ];
 
-      if (ttqError) {
-        console.error(ttqError);
-      }
+      let punyaTTQ = false;
+      ttqPairs.forEach(([label1, key1, label2, key2]) => {
+        const v1 = profil[key1];
+        const v2 = key2 ? profil[key2] : null;
+        if (v1 == null && v2 == null && !label2) {
+          // baris terakhir bisa kosong semua, cek nanti
+        }
+        if (v1 != null || v2 != null) punyaTTQ = true;
 
-      if (!nilaiTTQ || nilaiTTQ.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td>`;
+        tr.innerHTML =
+          `<td class="label-left">${label1}</td><td>${v1 ?? ""}</td>` +
+          `<td class="label-left">${label2}</td><td>${v2 ?? ""}</td>`;
         tbodyHafalan.appendChild(tr);
-      } else {
-        // tampilkan berpasangan 2 kolom komponen per baris
-        for (let i = 0; i < nilaiTTQ.length; i += 2) {
-          const left = nilaiTTQ[i];
-          const right = nilaiTTQ[i+1];
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            `<td class="label-left">${left.komponen}</td><td>${left.nilai}</td>` +
-            `<td class="label-left">${right ? right.komponen : ""}</td><td>${right ? right.nilai : ""}</td>`;
-          tbodyHafalan.appendChild(tr);
-        }
+      });
+
+      if (!punyaTTQ) {
+        tbodyHafalan.innerHTML = `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
       }
 
-      // ==== 4. BAHASA ====
-      const { data: nilaiBahasa, error: bahasaError } = await db
-        .from("rekap_bahasa")
-        .select("aspek, nilai")
-        .eq("nis", nis)
-        .eq("tahun_ajaran", tahunAjaran)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("aspek", { ascending: true });
+      // ====== 4. BAHASA ======
+      const bahasaPairs = [
+        ["Muhadhoroh", "nilai_muhadhoroh", "Speaking", "nilai_speaking"],
+        ["Hiwar", "nilai_hiwar", "Conversation", "nilai_conversation"],
+        ["Mufrodat", "nilai_mufrodat", "Vocabulary", "nilai_vocabulary"]
+      ];
 
-      if (bahasaError) {
-        console.error(bahasaError);
-      }
+      let punyaBahasa = false;
+      bahasaPairs.forEach(([label1, key1, label2, key2]) => {
+        const v1 = profil[key1];
+        const v2 = profil[key2];
+        if (v1 != null || v2 != null) punyaBahasa = true;
 
-      if (!nilaiBahasa || nilaiBahasa.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td>`;
+        tr.innerHTML =
+          `<td class="label-left">${label1}</td><td>${v1 ?? ""}</td>` +
+          `<td class="label-left">${label2}</td><td>${v2 ?? ""}</td>`;
         tbodyBahasa.appendChild(tr);
-      } else {
-        for (let i = 0; i < nilaiBahasa.length; i += 2) {
-          const left = nilaiBahasa[i];
-          const right = nilaiBahasa[i+1];
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            `<td class="label-left">${left.aspek}</td><td>${left.nilai}</td>` +
-            `<td class="label-left">${right ? right.aspek : ""}</td><td>${right ? right.nilai : ""}</td>`;
-          tbodyBahasa.appendChild(tr);
-        }
+      });
+
+      if (!punyaBahasa) {
+        tbodyBahasa.innerHTML = `<tr><td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td></tr>`;
       }
 
-      // ==== 5. MUTABAAH ====
-      const { data: nilaiMutabaah, error: mutabaahError } = await db
-        .from("rekap_mutabaah")
-        .select("amalan, nilai")
-        .eq("nis", nis)
-        .eq("tahun_ajaran", tahunAjaran)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("amalan", { ascending: true });
+      // ====== 5. MUTABAAH ======
+      const mutabaahFields = [
+        ["Shalat Berjamaah", "nilai_shalat_berjamaah"],
+        ["Shalat Rawatib", "nilai_shalat_rawatib"],
+        ["Shalat Qiyamullail", "nilai_qiyamullail"],
+        ["Shalat Dhuha", "nilai_shalat_dhuha"],
+        ["Tilawah", "nilai_tilawah"],
+        ["Matsurat", "nilai_matsurat"],
+        ["Shaum Sunnah", "nilai_shaum_sunnah"],
+        ["Olahraga", "nilai_olahraga"]
+      ];
 
-      if (mutabaahError) {
-        console.error(mutabaahError);
-      }
-
-      if (!nilaiMutabaah || nilaiMutabaah.length === 0) {
+      let punyaMutabaah = false;
+      mutabaahFields.forEach(([label, key]) => {
+        const v = profil[key];
+        if (v == null) return;
+        punyaMutabaah = true;
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td colspan="2" class="label-left"><em>Data Mutabaah belum tersedia.</em></td>`;
+        tr.innerHTML = `<td class="label-left">${label}</td><td>${v}</td>`;
         tbodyMutabaah.appendChild(tr);
-      } else {
-        nilaiMutabaah.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td class="label-left">${row.amalan}</td><td>${row.nilai}</td>`;
-          tbodyMutabaah.appendChild(tr);
-        });
+      });
+
+      if (!punyaMutabaah) {
+        tbodyMutabaah.innerHTML = `<tr><td colspan="2" class="label-left"><em>Data Mutabaah belum tersedia.</em></td></tr>`;
       }
 
-      // ==== 6. PELANGGARAN ====
-      const { data: dataPelanggaran, error: pelanggaranError } = await db
-        .from("rekap_pelanggaran")
-        .select("jenis_pelanggaran, poin")
-        .eq("nis", nis)
-        .eq("tahun_ajaran", tahunAjaran)
-        .eq("semester", semester)
-        .eq("jenjang", jenjang)
-        .eq("kelas", kelas)
-        .eq("paralel", paralel)
-        .order("jenis_pelanggaran", { ascending: true });
+      // ====== 6. PELANGGARAN ======
+      const poin = profil.poin_pelanggaran;
+      const catatan = profil.catatan_pembinaan;
 
-      if (pelanggaranError) {
-        console.error(pelanggaranError);
-      }
-
-      let totalPoin = 0;
-      if (!dataPelanggaran || dataPelanggaran.length === 0) {
+      if (poin == null || poin === 0) {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td colspan="2" class="label-left"><em>Belum ada data pelanggaran.</em></td>`;
         tbodyPelanggaran.appendChild(tr);
+        totalPoinEl.textContent = "0";
       } else {
-        dataPelanggaran.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td class="label-left">${row.jenis_pelanggaran}</td><td>${row.poin}</td>`;
-          tbodyPelanggaran.appendChild(tr);
-          totalPoin += Number(row.poin || 0);
-        });
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td class="label-left">Akumulasi poin pelanggaran</td><td>${poin}</td>`;
+        tbodyPelanggaran.appendChild(tr);
+        totalPoinEl.textContent = poin;
+        if (catatan) {
+          const tr2 = document.createElement("tr");
+          tr2.innerHTML = `<td class="label-left">Catatan Pembinaan</td><td>${catatan}</td>`;
+          tbodyPelanggaran.appendChild(tr2);
+        }
       }
-      totalPoinEl.textContent = totalPoin;
-    }
-
-    function exportPDF() {
-      const original = document.querySelector('.app-shell');
-      const clone = original.cloneNode(true);
-      clone.querySelectorAll('.no-print').forEach(el => el.remove());
-
-      const opt = {
-        margin:       0.5,
-        filename:     'rapot-santri-hk.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(clone).save();
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      // event filter
       ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester"]
         .forEach(id => {
           const el = document.getElementById(id);
@@ -1303,17 +1305,16 @@
           }
         });
 
-      // restore session kalau masih valid
+      updateStatusRingkasan();
+
       const session = getCurrentSession();
       if (session && session.expiresAt && session.expiresAt > Date.now()) {
         applySantriLoginUI();
         scheduleSantriAutoLogout();
-        updateStatusRingkasan();
         loadDataSantri();
       } else {
         clearSantriSession();
         applySantriLogoutUI();
-        updateStatusRingkasan();
       }
     });
   </script>
