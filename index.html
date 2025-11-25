@@ -144,12 +144,8 @@
       border-color: var(--blue);
       box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
     }
-    .password-wrapper {
-      position: relative;
-    }
-    .toggle-password {
-      display: none; /* tidak dipakai karena login tanpa password */
-    }
+    .password-wrapper { position: relative; }
+    .toggle-password { display: none; } /* login tanpa password */
     .login-button {
       width: 100%;
       margin-top: 8px;
@@ -201,7 +197,7 @@
       gap: 14px;
       margin-top: 10px;
       margin-bottom: 10px;
-      align-items: stretch; /* supaya tiga kotak sejajar tingginya */
+      align-items: stretch;
     }
     @media (max-width: 1024px) {
       .profile {
@@ -222,19 +218,14 @@
       justify-content: center;
     }
     .profile-photo img {
-      width: 100%;          /* full lebar kotaknya */
-      height: 100%;         /* isi tinggi kotak */
-      max-height: 260px;    /* biar nggak kepanjangan */
-      object-fit: cover;
+      width: 100%;
+      height: auto;          /* biar tidak kepotong */
+      max-height: 280px;     /* kira-kira seukuran kotak status akademik */
+      object-fit: contain;   /* tampil utuh tanpa cropping */
       border-radius: 12px;
       border: 2px solid var(--white);
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       display: block;
-    }
-    .photo-label {
-      margin-top: 7px;
-      font-size: 12px;
-      opacity: 0.85;
     }
     .profile-data {
       border-radius: 14px;
@@ -547,7 +538,6 @@
           </div>
 
           <!-- PROFIL -->
-          <!-- PROFIL -->
           <section class="profile">
             <!-- STATUS AKADEMIK (kiri) -->
             <div class="academic-status no-print">
@@ -673,7 +663,6 @@
             <!-- FOTO (tengah) -->
             <div class="profile-photo">
               <img id="fotoSantri" src="" alt="Foto Santri">
-              <div class="photo-label">Foto Santri</div>
             </div>
 
             <!-- IDENTITAS (kanan) -->
@@ -1140,7 +1129,6 @@
         fieldTelpIbu.textContent  = profil.telp_ibu || "-";
       }
 
-      // ====== 2. AKADEMIK (sama seperti sebelumnya, tapi pakai profil yg ini) ======
       // ====== 2. AKADEMIK ======
       const akademikMapel = [
         { label: "Al-Qur'an Hadits (Tafsir)", p: "nilai_tafsir_p", k: "nilai_tafsir_k" },
@@ -1225,9 +1213,10 @@
       ];
 
       tbodyHafalan.innerHTML = "";
-      let sumTTQ = 0, cntTTQ = 0;
+      let sumTTQLeft = 0, cntTTQLeft = 0;
+      let sumTTQRight = 0, cntTTQRight = 0;
+      let punyaTTQ = false;
 
-      // kita tampilkan 2 komponen per baris (4 kolom total)
       for (let i = 0; i < ttqList.length; i += 2) {
         const [label1, key1] = ttqList[i];
         const item2          = ttqList[i + 1];
@@ -1239,10 +1228,17 @@
           v2     = profil[item2[1]];
         }
 
-        if (v1 != null) { sumTTQ += Number(v1); cntTTQ++; }
-        if (v2 != null) { sumTTQ += Number(v2); cntTTQ++; }
+        if (v1 != null) {
+          sumTTQLeft += Number(v1);
+          cntTTQLeft++;
+          punyaTTQ = true;
+        }
+        if (v2 != null) {
+          sumTTQRight += Number(v2);
+          cntTTQRight++;
+          punyaTTQ = true;
+        }
 
-        // kalau dua-duanya null dan tidak ada label2 (baris kosong), skip
         if (v1 == null && v2 == null && !item2) continue;
 
         const tr = document.createElement("tr");
@@ -1252,15 +1248,16 @@
         tbodyHafalan.appendChild(tr);
       }
 
-      if (cntTTQ === 0) {
+      if (!punyaTTQ) {
         tbodyHafalan.innerHTML =
           `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
       } else {
-        const avgTTQ = (sumTTQ / cntTTQ).toFixed(2);
+        const avgLeft  = cntTTQLeft  ? (sumTTQLeft  / cntTTQLeft ).toFixed(2) : "";
+        const avgRight = cntTTQRight ? (sumTTQRight / cntTTQRight).toFixed(2) : "";
         const trAvg = document.createElement("tr");
         trAvg.innerHTML =
-          `<td class="label-left"><strong>Rata-rata</strong></td>` +
-          `<td colspan="3"><strong>${avgTTQ}</strong></td>`;
+          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
+          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
         tbodyHafalan.appendChild(trAvg);
       }
 
@@ -1272,16 +1269,24 @@
       ];
 
       tbodyBahasa.innerHTML = "";
-      let sumBahasa = 0, cntBahasa = 0;
+      let sumBahasaLeft = 0, cntBahasaLeft = 0;
+      let sumBahasaRight = 0, cntBahasaRight = 0;
       let punyaBahasa = false;
 
       bahasaPairs.forEach(([label1, key1, label2, key2]) => {
         const v1 = profil[key1];
         const v2 = profil[key2];
-        if (v1 != null || v2 != null) punyaBahasa = true;
 
-        if (v1 != null) { sumBahasa += Number(v1); cntBahasa++; }
-        if (v2 != null) { sumBahasa += Number(v2); cntBahasa++; }
+        if (v1 != null) {
+          sumBahasaLeft += Number(v1);
+          cntBahasaLeft++;
+          punyaBahasa = true;
+        }
+        if (v2 != null) {
+          sumBahasaRight += Number(v2);
+          cntBahasaRight++;
+          punyaBahasa = true;
+        }
 
         const tr = document.createElement("tr");
         tr.innerHTML =
@@ -1294,11 +1299,12 @@
         tbodyBahasa.innerHTML =
           `<tr><td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td></tr>`;
       } else {
-        const avgBahasa = (sumBahasa / cntBahasa).toFixed(2);
+        const avgLeft  = cntBahasaLeft  ? (sumBahasaLeft  / cntBahasaLeft ).toFixed(2) : "";
+        const avgRight = cntBahasaRight ? (sumBahasaRight / cntBahasaRight).toFixed(2) : "";
         const trAvg = document.createElement("tr");
         trAvg.innerHTML =
-          `<td class="label-left"><strong>Rata-rata</strong></td>` +
-          `<td colspan="3"><strong>${avgBahasa}</strong></td>`;
+          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
+          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
         tbodyBahasa.appendChild(trAvg);
       }
 
@@ -1346,7 +1352,6 @@
 
       tbodyPelanggaran.innerHTML = "";
       let totalPoin = 0;
-      let countRow  = 0;
 
       if (poin == null && !catatan) {
         const tr = document.createElement("tr");
@@ -1362,19 +1367,10 @@
         tbodyPelanggaran.appendChild(tr);
 
         totalPoin = poin ?? 0;
-        countRow  = 1;
-
         totalPoinEl.textContent = totalPoin;
-
-        // baris rata-rata (saat ini sama dengan total, tapi siap kalau nanti ada multi-pelanggaran)
-        const avgPoin = (totalPoin / countRow).toFixed(2);
-        const trAvg = document.createElement("tr");
-        trAvg.innerHTML =
-          `<td class="label-left"><strong>Rata-rata poin pelanggaran</strong></td>` +
-          `<td><strong>${avgPoin}</strong></td>`;
-        tbodyPelanggaran.appendChild(trAvg);
+        // tidak perlu baris rata-rata; total sudah direkap di tfoot
       }
-    } // <=== PENUTUP async function loadDataSantri()
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
       ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester"]
