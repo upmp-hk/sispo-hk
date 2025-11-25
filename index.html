@@ -1,3 +1,4 @@
+salah ngedit lagi nih:
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1244,74 +1245,6 @@
           const vLeft  = row.leftKey  ? profil[row.leftKey]  : null;
           const vRight = row.rightKey ? profil[row.rightKey] : null;
         
-          if (vLeft != null) {
-            sumTTQLeft += Number(vLeft);
-            cntTTQLeft++;
-            punyaTTQ = true;
-          }
-          if (vRight != null) {
-            sumTTQRight += Number(vRight);
-            cntTTQRight++;
-            punyaTTQ = true;
-          }
-        
-          // kalau kedua sisi kosong, lewati
-          if (vLeft == null && vRight == null) return;
-        
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            `<td class="label-left">${row.leftLabel}</td><td>${vLeft ?? ""}</td>` +
-            `<td class="label-left">${row.rightLabel || ""}</td><td>${vRight ?? ""}</td>`;
-          tbodyHafalan.appendChild(tr);
-        });
-        
-        if (!punyaTTQ) {
-          tbodyHafalan.innerHTML =
-            `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
-        } else {
-          const avgLeft  = cntTTQLeft  ? (sumTTQLeft  / cntTTQLeft ).toFixed(2) : "";
-          const avgRight = cntTTQRight ? (sumTTQRight / cntTTQRight).toFixed(2) : "";
-        
-          const trAvg = document.createElement("tr");
-          trAvg.innerHTML =
-            `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
-            `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
-          tbodyHafalan.appendChild(trAvg);
-        }
-
-        if (v1 != null) {
-          sumTTQLeft += Number(v1);
-          cntTTQLeft++;
-          punyaTTQ = true;
-        }
-        if (v2 != null) {
-          sumTTQRight += Number(v2);
-          cntTTQRight++;
-          punyaTTQ = true;
-        }
-
-        if (v1 == null && v2 == null && !item2) continue;
-
-        const tr = document.createElement("tr");
-        tr.innerHTML =
-          `<td class="label-left">${label1}</td><td>${v1 ?? ""}</td>` +
-          `<td class="label-left">${label2}</td><td>${v2 ?? ""}</td>`;
-        tbodyHafalan.appendChild(tr);
-      }
-
-      if (!punyaTTQ) {
-        tbodyHafalan.innerHTML =
-          `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
-      } else {
-        const avgLeft  = cntTTQLeft  ? (sumTTQLeft  / cntTTQLeft ).toFixed(2) : "";
-        const avgRight = cntTTQRight ? (sumTTQRight / cntTTQRight).toFixed(2) : "";
-        const trAvg = document.createElement("tr");
-        trAvg.innerHTML =
-          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
-          `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
-        tbodyHafalan.appendChild(trAvg);
-      }
-
       // ====== 4. BAHASA ======
       const bahasaPairs = [
         ["Muhadhoroh", "nilai_muhadhoroh", "Speaking",     "nilai_speaking"],
