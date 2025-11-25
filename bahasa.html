@@ -41,7 +41,6 @@
       display: flex;
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     }
-    /* MAIN */
     .main {
       flex: 1;
       display: flex;
@@ -92,6 +91,26 @@
       background: linear-gradient(135deg, #ffffff, #eff6ff);
       overflow-y: auto;
     }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+
     /* LOGIN BAHASA */
     .login-page {
       max-width: 420px;
@@ -189,25 +208,17 @@
       text-align: center;
       opacity: 0.8;
     }
-    /* BAHASA MODE */
-    .bahasa-header {
-      margin-bottom: 10px;
-    }
-    .bahasa-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .bahasa-subtitle {
-      font-size: 11px;
-      opacity: 0.75;
-    }
-    .bahasa-form-wrapper {
-      max-width: 980px;
+
+    /* WRAPPER MODE BAHASA */
+    .bahasa-wrapper {
+      max-width: 1100px;
       margin: 0 auto;
-      display: flex;
+      display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
     }
+
+    /* FILTER */
     .bahasa-filter-card {
       background: var(--white);
       border-radius: 14px;
@@ -257,12 +268,24 @@
       font-size: 10.5px;
       opacity: 0.8;
     }
+
+    .bahasa-filter-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* TABEL NILAI BAHASA */
     .bahasa-table-card {
       background: var(--white);
       border-radius: 14px;
       padding: 10px 11px 9px;
       border: 1px solid var(--blue-soft2);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-top: 4px;
+      font-size: 11.5px;
     }
     .bahasa-table-title {
       font-size: 13.5px;
@@ -271,67 +294,22 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .bahasa-table-title small {
       font-size: 11px;
       opacity: 0.8;
     }
-    .template-tools {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 8px;
-      font-size: 11px;
-      flex-wrap: wrap;
-    }
-    .template-left {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .template-right {
-      font-style: italic;
-      opacity: 0.8;
-    }
-    .template-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .template-btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .template-btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .template-btn:hover {
-      opacity: 0.92;
-    }
-    .template-btn input[type="file"] {
-      display: none;
+    .bahasa-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
     }
     .bahasa-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 11.5px;
+      min-width: 860px;
     }
     .bahasa-table th,
     .bahasa-table td {
@@ -343,49 +321,38 @@
       background: var(--blue-soft2);
       font-weight: 600;
     }
-    .bahasa-table td.label-left {
+    .bahasa-table td.align-left {
       text-align: left;
     }
-    .bahasa-table input {
-      width: 70px;
+    .bahasa-table input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
-      text-align: center;
       outline: none;
+      text-align: center;
     }
-    .bahasa-table input:focus {
+    .bahasa-table input[type="number"]:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
     }
+    .bahasa-table .readonly-cell {
+      background: #f9fafb;
+    }
+    .bahasa-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
     .bahasa-actions {
       margin-top: 8px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-    }
-    .btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .btn:hover { opacity: 0.92; }
-    .bahasa-footer-note {
-      margin-top: 6px;
-      font-size: 10.5px;
-      opacity: 0.8;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -466,11 +433,11 @@
         <div class="main-header-left">
           <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
           <div class="main-subtitle">
-            Form input Nilai Bahasa Asing (Arab &amp; Inggris) Santri oleh Tim Bahasa.
+            Input Nilai Bahasa Arab &amp; Inggris oleh Tim Bahasa.
           </div>
         </div>
         <div class="main-header-right">
-          Mode: <span>Tim Bahasa</span>
+          Mode: <span>Bahasa</span>
           <span class="badge" id="statusBadgeBahasa">Login diperlukan</span>
           <button type="button"
                   id="logoutBahasaBtn"
@@ -484,24 +451,24 @@
 
       <main class="main-body">
         <!-- LOGIN BAHASA -->
-        <div id="bahasaLoginContainer" class="login-page">
+        <div id="loginBahasaContainer" class="login-page">
           <div class="login-header">
             <div class="login-badge">🔑 Login</div>
-            <div class="login-title">Tim Bahasa</div>
+            <div class="login-title">Bahasa</div>
             <div class="login-subtitle">
-              Gunakan akun Tim Bahasa untuk mengisi Nilai Bahasa Asing Santri.
+              Masuk dengan akun tim bahasa untuk mengisi nilai Muhadhoroh, Hiwar, Mufrodat, Speaking, Conversation, dan Vocabulary.
             </div>
           </div>
 
           <form id="loginBahasaForm" onsubmit="handleLoginBahasa(event)">
             <div class="login-form-group">
-              <label for="loginBahasaID">Username</label>
-              <input type="text" id="loginBahasaID" placeholder="admin" autocomplete="username" />
+              <label for="loginBahasaID">Email Pengguna Bahasa</label>
+              <input type="text" id="loginBahasaID" placeholder="nama@domain.com" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginBahasaPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginBahasaPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginBahasaPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -511,198 +478,161 @@
                 </button>
               </div>
             </div>
-            <button type="submit" class="login-button">Masuk</button>
+            <button class="login-button" type="submit">Masuk</button>
           </form>
 
           <div id="loginBahasaError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akun bahasa dikelola melalui dashboard Supabase.
           </div>
         </div>
 
-        <!-- FORM BAHASA -->
-        <div id="bahasaFormContainer" style="display:none;">
-          <div class="bahasa-header">
-            <div class="bahasa-title">Input Rapot Bahasa Arab &amp; Inggris</div>
-            <div class="bahasa-subtitle">
-              Tim Bahasa mengisi nilai Muhadhoroh, Speaking, Hiwar, Conversation, Mufrodat, dan Vocabulary.
+        <!-- MODE BAHASA -->
+        <div id="bahasaWrapper" class="bahasa-wrapper">
+          <!-- FILTER -->
+          <div class="bahasa-filter-card">
+            <div style="font-weight:700; font-size:13.5px; margin-bottom:6px;">
+              Filter Kelas Nilai Bahasa
+            </div>
+
+            <div class="bahasa-filter-grid">
+              <!-- Tahun Ajaran -->
+              <div class="bahasa-filter-item">
+                <label for="bahasaTahun">Tahun Ajaran</label>
+                <select id="bahasaTahun">
+                  <option value="2023_2024">2023/2024</option>
+                  <option value="2024_2025" selected>2024/2025</option>
+                  <option value="2025_2026">2025/2026</option>
+                </select>
+              </div>
+
+              <!-- Semester -->
+              <div class="bahasa-filter-item">
+                <label for="bahasaSemester">Semester</label>
+                <select id="bahasaSemester">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+
+              <!-- Jenjang -->
+              <div class="bahasa-filter-item">
+                <label for="bahasaJenjang">Jenjang</label>
+                <select id="bahasaJenjang">
+                  <option value="MTs (HK1)">MTs (HK1)</option>
+                  <option value="MTs (HK2)">MTs (HK2)</option>
+                  <option value="MA" selected>MA</option>
+                </select>
+              </div>
+
+              <!-- Kelas -->
+              <div class="bahasa-filter-item">
+                <label for="bahasaKelas">Kelas</label>
+                <select id="bahasaKelas">
+                  <option value="VII">VII</option>
+                  <option value="VIII">VIII</option>
+                  <option value="IX">IX</option>
+                  <option value="X">X</option>
+                  <option value="XI" selected>XI</option>
+                  <option value="XII">XII</option>
+                </select>
+              </div>
+
+              <!-- Paralel / Rombel -->
+              <div class="bahasa-filter-item">
+                <label for="bahasaParalel">Paralel / Rombel</label>
+                <select id="bahasaParalel">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="K">K</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                  <option value="S">S</option>
+                  <option value="T">T</option>
+                  <option value="U">U</option>
+                  <option value="V">V</option>
+                  <option value="W">W</option>
+                  <option value="X">X</option>
+                  <option value="Y">Y</option>
+                  <option value="Z">Z</option>
+                  <!-- contoh rombel khusus -->
+                  <option value="IPA 1">IPA 1</option>
+                  <option value="IPA 2">IPA 2</option>
+                  <option value="IPS 1">IPS 1</option>
+                  <option value="IPS 2">IPS 2</option>
+                  <option value="PK 1">PK 1</option>
+                  <option value="PK 2">PK 2</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="bahasa-filter-note">
+              Data identitas santri diambil dari tabel <code>rekap_santri</code> untuk
+              Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel yang dipilih di sini.
+            </div>
+
+            <div class="bahasa-filter-actions">
+              <button class="btn secondary" type="button" onclick="muatDataSantriBahasa()">
+                🔄 Muat Data Santri
+              </button>
             </div>
           </div>
 
-          <div class="bahasa-form-wrapper">
-            <!-- FILTER -->
-            <div class="bahasa-filter-card">
-              <div class="bahasa-filter-grid">
-                <!-- 1. Tahun Ajaran -->
-                <div class="bahasa-filter-item">
-                  <label for="bahasaTahun">Tahun Ajaran</label>
-                  <select id="bahasaTahun">
-                    <option value="2023_2024">2023/2024</option>
-                    <option value="2024_2025" selected>2024/2025</option>
-                    <option value="2025_2026">2025/2026</option>
-                  </select>
-                </div>
-                <!-- 2. Semester -->
-                <div class="bahasa-filter-item">
-                  <label for="bahasaSemester">Semester</label>
-                  <select id="bahasaSemester">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                  </select>
-                </div>
-                <!-- 3. Jenjang -->
-                <div class="bahasa-filter-item">
-                  <label for="bahasaJenjang">Jenjang</label>
-                  <select id="bahasaJenjang">
-                    <option value="MTs (HK1)">MTs (HK1)</option>
-                    <option value="MTs (HK2)">MTs (HK2)</option>
-                    <option value="MA" selected>MA</option>
-                  </select>
-                </div>
-                <!-- 4. Kelas -->
-                <div class="bahasa-filter-item">
-                  <label for="bahasaKelas">Kelas</label>
-                  <select id="bahasaKelas">
-                    <option value="VII">VII</option>
-                    <option value="VIII">VIII</option>
-                    <option value="IX">IX</option>
-                    <option value="X">X</option>
-                    <option value="XI" selected>XI</option>
-                    <option value="XII">XII</option>
-                  </select>
-                </div>
-                <!-- 5. Paralel / Rombel -->
-                <div class="bahasa-filter-item">
-                  <label for="bahasaParalel">Paralel / Rombel</label>
-                  <select id="bahasaParalel">
-                    <!-- A-Z -->
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
-                    <option value="P">P</option>
-                    <option value="Q">Q</option>
-                    <option value="R">R</option>
-                    <option value="S">S</option>
-                    <option value="T">T</option>
-                    <option value="U">U</option>
-                    <option value="V">V</option>
-                    <option value="W">W</option>
-                    <option value="X">X</option>
-                    <option value="Y">Y</option>
-                    <option value="Z">Z</option>
-                    <!-- IPA -->
-                    <option value="IPA 1">IPA 1</option>
-                    <option value="IPA 2">IPA 2</option>
-                    <option value="IPA 3">IPA 3</option>
-                    <option value="IPA 4">IPA 4</option>
-                    <option value="IPA 5">IPA 5</option>
-                    <option value="IPA 6">IPA 6</option>
-                    <option value="IPA 7">IPA 7</option>
-                    <option value="IPA 8">IPA 8</option>
-                    <option value="IPA 9">IPA 9</option>
-                    <option value="IPA 10">IPA 10</option>
-                    <option value="IPA 11">IPA 11</option>
-                    <option value="IPA 12">IPA 12</option>
-                    <option value="IPA 13">IPA 13</option>
-                    <option value="IPA 14">IPA 14</option>
-                    <option value="IPA 15">IPA 15</option>
-                    <!-- IPS -->
-                    <option value="IPS 1">IPS 1</option>
-                    <option value="IPS 2">IPS 2</option>
-                    <option value="IPS 3">IPS 3</option>
-                    <option value="IPS 4">IPS 4</option>
-                    <option value="IPS 5">IPS 5</option>
-                    <option value="IPS 6">IPS 6</option>
-                    <option value="IPS 7">IPS 7</option>
-                    <option value="IPS 8">IPS 8</option>
-                    <option value="IPS 9">IPS 9</option>
-                    <option value="IPS 10">IPS 10</option>
-                    <!-- PK -->
-                    <option value="PK 1">PK 1</option>
-                    <option value="PK 2">PK 2</option>
-                    <option value="PK 3">PK 3</option>
-                    <option value="PK 4">PK 4</option>
-                    <option value="PK 5">PK 5</option>
-                    <option value="PK 6">PK 6</option>
-                    <option value="PK 7">PK 7</option>
-                    <option value="PK 8">PK 8</option>
-                    <option value="PK 9">PK 9</option>
-                    <option value="PK 10">PK 10</option>
-                  </select>
-                </div>
-              </div>
-              <div class="bahasa-filter-note">
-                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
-              </div>
+          <!-- TABEL NILAI BAHASA -->
+          <div class="bahasa-table-card">
+            <div class="bahasa-table-title">
+              <span>Input Nilai Bahasa Arab &amp; Inggris</span>
+              <small>
+                Kelas: <span id="labelBahasaKelas">XI</span> /
+                TA <span id="labelBahasaTahun">2024/2025</span> /
+                Sem <span id="labelBahasaSemester">1</span>
+              </small>
             </div>
 
-            <!-- TABEL BAHASA -->
-            <div class="bahasa-table-card">
-              <div class="bahasa-table-title">
-                <span>Daftar Nilai Bahasa Arab &amp; Inggris</span>
-                <small>
-                  Kelas: <span id="labelBahasaKelas">XI</span> /
-                  TA <span id="labelBahasaTahun">2024/2025</span> /
-                  Sem <span id="labelBahasaSemester">1</span>
-                </small>
-              </div>
-
-              <!-- TOOLS TEMPLATE -->
-              <div class="template-tools">
-                <div class="template-left">
-                  <button type="button" class="template-btn" onclick="downloadTemplate()">
-                    ⬇ Download Template (.xls)
-                  </button>
-                  <label class="template-btn secondary">
-                    ⬆ Upload Template (.xls/.xlsx)
-                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
-                  </label>
-                </div>
-                <div class="template-right">
-                  Tim Bahasa bisa mengisi nilai di template Excel lalu upload kembali (simulasi).
-                </div>
-              </div>
-
-              <table class="bahasa-table" id="tabelBahasaNilai">
+            <div class="bahasa-table-wrapper">
+              <table class="bahasa-table" id="bahasaNilaiTable">
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>No.</th>
                     <th>NIS</th>
-                    <th>Nama Santri</th>
+                    <th>Nama Lengkap</th>
                     <th>Muhadhoroh</th>
-                    <th>Speaking</th>
                     <th>Hiwar</th>
-                    <th>Conversation</th>
                     <th>Mufrodat</th>
+                    <th>Speaking</th>
+                    <th>Conversation</th>
                     <th>Vocabulary</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- filled by JS -->
+                  <!-- Diisi JS -->
                 </tbody>
               </table>
+            </div>
 
-              <div class="bahasa-actions">
-                <button class="btn secondary" type="button" onclick="resetBahasaNilai()">🔄 Reset</button>
-                <button class="btn" type="button" onclick="simpanBahasaNilai()">💾 Simpan Nilai (Simulasi)</button>
-              </div>
-              <div class="bahasa-footer-note">
-                *Download Template: file .xls dengan kolom NIS, Nama Santri, Muhadhoroh, Speaking, Hiwar, Conversation, Mufrodat, Vocabulary.  
-                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
-              </div>
+            <div class="bahasa-actions">
+              <button class="btn" type="button" onclick="simpanNilaiBahasa()">
+                💾 Simpan Nilai Bahasa ke Database
+              </button>
+            </div>
+
+            <div class="bahasa-footer-note">
+              *Nilai dalam skala 0–100 atau sesuai kebijakan lembaga bahasa.  
+              *Penyimpanan menggunakan upsert berdasarkan (NIS, Tahun Ajaran, Semester).
             </div>
           </div>
         </div>
@@ -710,81 +640,101 @@
     </div>
   </div>
 
+  <!-- Supabase client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // LOGIN BAHASA (TESTING): username: admin, password: admin
+    const { createClient } = supabase;
+
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <script>
+    // --- SESSION LOGIN BAHASA ---
     const BAHASA_SESSION_KEY = "sispo_bahasa_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let bahasaLogoutTimer = null;
-    
-  async function handleLoginBahasa(event) {
-    event.preventDefault();
-    const id = document.getElementById("loginBahasaID").value.trim();
-    const pass = document.getElementById("loginBahasaPassword").value;
-    const errorEl = document.getElementById("loginBahasaError");
-  
-    if (!id || !pass) {
-      errorEl.textContent = "Username dan password wajib diisi.";
-      return;
+
+    let bahasaSantriData = [];
+
+    async function handleLoginBahasa(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginBahasaID").value.trim();
+      const pass  = document.getElementById("loginBahasaPassword").value.trim();
+      const errorEl = document.getElementById("loginBahasaError");
+
+      if (!email || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password: pass
+      });
+
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+        return;
+      }
+
+      // cek role bahasa
+      const { data: roleData, error: roleError } = await db
+        .from("user_roles")
+        .select("mode")
+        .eq("id", data.user.id)
+        .single();
+
+      if (roleError || !roleData) {
+        console.error(roleError);
+        errorEl.textContent = "Role pengguna tidak ditemukan.";
+        await db.auth.signOut();
+        return;
+      }
+
+      if (roleData.mode !== "bahasa") {
+        errorEl.textContent = "Akun ini bukan akun Bahasa.";
+        await db.auth.signOut();
+        return;
+      }
+
+      errorEl.textContent = "";
+      setBahasaSession();
+      applyBahasaLoginUI();
+      updateBahasaLabels();
+      scheduleBahasaAutoLogout();
     }
-  
-    const { data, error } = await db.auth.signInWithPassword({
-      email: id,
-      password: pass
-    });
-  
-    if (error) {
-      console.error(error);
-      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
-      return;
-    }
-  
-    const { data: roleData, error: roleError } = await db
-      .from('user_roles')
-      .select('mode')
-      .eq('id', data.user.id)
-      .single();
-  
-    if (roleError || !roleData) {
-      console.error(roleError);
-      errorEl.textContent = "Role pengguna tidak ditemukan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    if (roleData.mode !== 'bahasa') {
-      errorEl.textContent = "Akun ini bukan akun Bahasa.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    errorEl.textContent = "";
-    setBahasaSession();
-    applyBahasaLoginUI();
-    initBahasaTable();
-    scheduleBahasaAutoLogout();
-  }
 
     function applyBahasaLoginUI() {
-      document.getElementById("bahasaLoginContainer").style.display = "none";
-      document.getElementById("bahasaFormContainer").style.display = "block";
+      document.getElementById("loginBahasaContainer").style.display = "none";
+      document.getElementById("bahasaWrapper").style.display = "flex";
       document.getElementById("statusBadgeBahasa").textContent = "Login";
       const btn = document.getElementById("logoutBahasaBtn");
       if (btn) btn.style.display = "inline-block";
     }
-    
+
     function applyBahasaLogoutUI() {
-      document.getElementById("bahasaLoginContainer").style.display = "block";
-      document.getElementById("bahasaFormContainer").style.display = "none";
+      document.getElementById("loginBahasaContainer").style.display = "block";
+      document.getElementById("bahasaWrapper").style.display = "none";
       document.getElementById("statusBadgeBahasa").textContent = "Login diperlukan";
       const btn = document.getElementById("logoutBahasaBtn");
       if (btn) btn.style.display = "none";
+
+      const tbody = document.querySelector("#bahasaNilaiTable tbody");
+      if (tbody) tbody.innerHTML = "";
+      bahasaSantriData = [];
     }
-    
+
     function setBahasaSession() {
       const expiresAt = Date.now() + SESSION_DURATION_MS;
       localStorage.setItem(BAHASA_SESSION_KEY, JSON.stringify({ expiresAt }));
     }
-    
+
     function clearBahasaSession() {
       localStorage.removeItem(BAHASA_SESSION_KEY);
       if (bahasaLogoutTimer) {
@@ -792,11 +742,11 @@
         bahasaLogoutTimer = null;
       }
     }
-    
+
     function scheduleBahasaAutoLogout() {
       const raw = localStorage.getItem(BAHASA_SESSION_KEY);
       if (!raw) return;
-    
+
       try {
         const { expiresAt } = JSON.parse(raw);
         const remaining = expiresAt - Date.now();
@@ -810,35 +760,47 @@
         handleLogoutBahasa();
       }
     }
-    
-    function handleLogoutBahasa() {
+
+    async function handleLogoutBahasa() {
+      try {
+        await db.auth.signOut();
+      } catch (e) {
+        console.error(e);
+      }
       clearBahasaSession();
       applyBahasaLogoutUI();
-    
+
       const form = document.getElementById("loginBahasaForm");
       if (form) form.reset();
       const errorEl = document.getElementById("loginBahasaError");
       if (errorEl) errorEl.textContent = "";
     }
-    
+
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(BAHASA_SESSION_KEY);
-      if (!raw) return;
-    
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        if (expiresAt && expiresAt > Date.now()) {
-          applyBahasaLoginUI();
-          initBahasaTable();
-          scheduleBahasaAutoLogout();
-        } else {
+      if (raw) {
+        try {
+          const { expiresAt } = JSON.parse(raw);
+          if (expiresAt && expiresAt > Date.now()) {
+            applyBahasaLoginUI();
+            scheduleBahasaAutoLogout();
+          } else {
+            clearBahasaSession();
+          }
+        } catch (e) {
           clearBahasaSession();
-          applyBahasaLogoutUI();
         }
-      } catch (e) {
-        clearBahasaSession();
-        applyBahasaLogoutUI();
       }
+
+      ["bahasaTahun","bahasaKelas","bahasaSemester"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updateBahasaLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
+
+      updateBahasaLabels();
     });
 
     function togglePassword(btn) {
@@ -855,51 +817,6 @@
       }
     }
 
-    // DATA DUMMY SANTRI
-    const bahasaSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initBahasaTable() {
-      const tbody = document.querySelector("#tabelBahasaNilai tbody");
-      tbody.innerHTML = "";
-      bahasaSantriDummy.forEach((s, idx) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${s.nis}</td>
-          <td class="label-left">${s.nama}</td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="muhadhoroh"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="speaking"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="hiwar"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="conversation"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="mufrodat"></td>
-          <td><input type="number" min="0" max="100" value="${randInt(70,95)}" data-field="vocabulary"></td>
-        `;
-        tbody.appendChild(tr);
-      });
-      updateBahasaLabels();
-      setupBahasaFilterListeners();
-    }
-
-    function setupBahasaFilterListeners() {
-      ["bahasaTahun","bahasaKelas","bahasaSemester"].forEach(id=>{
-        const el = document.getElementById(id);
-        if (el && !el.dataset.listenerAttached) {
-          el.addEventListener("change", updateBahasaLabels);
-          el.dataset.listenerAttached = "true";
-        }
-      });
-    }
-
     function updateBahasaLabels() {
       const tahun = document.getElementById("bahasaTahun").value;
       const kelas = document.getElementById("bahasaKelas").value;
@@ -910,99 +827,158 @@
       document.getElementById("labelBahasaSemester").textContent = semester;
     }
 
-    function resetBahasaNilai() {
-      initBahasaTable();
-      alert("Nilai Bahasa dikembalikan ke nilai acak (simulasi).");
+    // --- MUAT DATA SANTRI DARI rekap_santri ---
+    async function muatDataSantriBahasa() {
+      const tahunRaw = document.getElementById("bahasaTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("bahasaSemester").value, 10);
+      const jenjang  = document.getElementById("bahasaJenjang").value;
+      const kelas    = document.getElementById("bahasaKelas").value;
+      const paralel  = document.getElementById("bahasaParalel").value;
+    
+      const tbody = document.querySelector("#bahasaNilaiTable tbody");
+      if (tbody) tbody.innerHTML = "";
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .select("*")
+        .eq("tahun_ajaran", tahun)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("nama_lengkap", { ascending: true });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal mengambil data santri: " + error.message);
+        return;
+      }
+    
+      if (!data || data.length === 0) {
+        bahasaSantriData = [];
+        alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
+        return;
+      }
+
+      bahasaSantriData = data;
+    
+      updateBahasaLabels();
+      renderBahasaTable();
+      alert("Data santri berhasil dimuat. Silakan isi nilai bahasa, lalu klik 'Simpan Nilai Bahasa ke Database'.");
     }
 
-    function simpanBahasaNilai() {
-      const rows = document.querySelectorAll("#tabelBahasaNilai tbody tr");
-      const hasil = [];
-      rows.forEach((tr, idx) => {
-        const nis = tr.children[1].textContent.trim();
-        const nama = tr.children[2].textContent.trim();
-        const muh = tr.querySelector('input[data-field="muhadhoroh"]').value;
-        const spk = tr.querySelector('input[data-field="speaking"]').value;
-        const hiw = tr.querySelector('input[data-field="hiwar"]').value;
-        const conv = tr.querySelector('input[data-field="conversation"]').value;
-        const muf = tr.querySelector('input[data-field="mufrodat"]').value;
-        const voc = tr.querySelector('input[data-field="vocabulary"]').value;
-        hasil.push({
-          no: idx+1, nis, nama,
-          muhadhoroh: muh,
-          speaking: spk,
-          hiwar: hiw,
-          conversation: conv,
-          mufrodat: muf,
-          vocabulary: voc
-        });
+    // Render tabel berdasarkan data santri
+    function renderBahasaTable() {
+      const tbody = document.querySelector("#bahasaNilaiTable tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      if (!bahasaSantriData || bahasaSantriData.length === 0) return;
+
+      bahasaSantriData.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
+          <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_muhadhoroh" value="${row.nilai_muhadhoroh ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_hiwar" value="${row.nilai_hiwar ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_mufrodat" value="${row.nilai_mufrodat ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_speaking" value="${row.nilai_speaking ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_conversation" value="${row.nilai_conversation ?? ""}"></td>
+          <td><input type="number" step="0.01" min="0" max="100" data-field="nilai_vocabulary" value="${row.nilai_vocabulary ?? ""}"></td>
+        `;
+        tbody.appendChild(tr);
       });
-      console.log("Data nilai Bahasa (simulasi):", hasil);
-      alert("Nilai Bahasa tersimpan (simulasi). Cek console browser untuk melihat data.");
     }
 
-    // DOWNLOAD TEMPLATE BAHASA (CSV-format, ekstensi .xls)
-    function downloadTemplateBahasa() {
-      const tahun = document.getElementById("bahasaTahun").value.replace("_","/");
-      const kelas = document.getElementById("bahasaKelas").value;
-      const semester = document.getElementById("bahasaSemester").value;
-      const paralel = document.getElementById("bahasaParalel").value;
+    // --- SIMPAN NILAI BAHASA KE rekap_santri (UPSERT) ---
+    async function simpanNilaiBahasa() {
+      const tbody = document.querySelector("#bahasaNilaiTable tbody");
+      if (!tbody) return;
+    
+      const tahunRaw = document.getElementById("bahasaTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("bahasaSemester").value, 10);
+      const jenjang  = document.getElementById("bahasaJenjang").value;
+      const kelas    = document.getElementById("bahasaKelas").value;
+      const paralel  = document.getElementById("bahasaParalel").value;
+    
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const payload = [];
+    
+      const getNilai = (tr, fieldName) => {
+        const input = tr.querySelector(`input[data-field="${fieldName}"]`);
+        if (!input) return null;
+        const val = input.value.trim();
+        if (val === "") return null;
+        const num = parseFloat(val.replace(",", "."));
+        return isNaN(num) ? null : num;
+      };
+    
+      for (const tr of rows) {
+        const nisCell  = tr.children[1];
+        const namaCell = tr.children[2];
+        if (!nisCell || !namaCell) continue;
 
-      let csv = "";
-      csv += `Tahun Ajaran,${tahun}\r\n`;
-      csv += `Semester,${semester}\r\n`;
-      csv += `Kelas,${kelas}\r\n`;
-      csv += `Paralel/Rombel,${paralel}\r\n`;
-      csv += `Jenis,Bahasa Arab & Inggris\r\n\r\n`;
-      csv += "NIS,Nama Santri,Muhadhoroh,Speaking,Hiwar,Conversation,Mufrodat,Vocabulary\r\n";
-
-      bahasaSantriDummy.forEach(s => {
-        csv += `${s.nis},${s.nama},,,,,,\r\n`;
-      });
-
-      const blob = new Blob([csv], {
-        type: "application/vnd.ms-excel"
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `template_Bahasa_kelas_${kelas}_${paralel}.xls`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // UPLOAD TEMPLATE BAHASA (simulasi)
-    function handleUploadTemplateBahasa(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      const reader = new FileReader();
-
-      if (ext === "xls" || ext === "xlsx") {
-        reader.onload = function(e) {
-          const buffer = e.target.result;
-          console.log("File Bahasa .xls/.xlsx ter-upload (simulasi), size:", buffer.byteLength, "bytes");
-          alert("Template Bahasa .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+        const nis         = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
+        const namaLengkap = namaCell.textContent.trim();
+        if (!nis || !namaLengkap) continue;
+    
+        const rowData = {
+          nis,
+          nama_lengkap: namaLengkap,
+          tahun_ajaran: tahun,
+          semester,
+          jenjang,
+          kelas,
+          paralel
         };
-        reader.readAsArrayBuffer(file);
+
+        const fields = [
+          "nilai_muhadhoroh",
+          "nilai_hiwar",
+          "nilai_mufrodat",
+          "nilai_speaking",
+          "nilai_conversation",
+          "nilai_vocabulary"
+        ];
+
+        let adaPerubahan = false;
+
+        for (const f of fields) {
+          const v = getNilai(tr, f);
+          if (v !== null) {
+            rowData[f] = v;
+            adaPerubahan = true;
+          }
+        }
+
+        if (!adaPerubahan) continue;
+
+        payload.push(rowData);
+      }
+    
+      if (payload.length === 0) {
+        alert("Tidak ada nilai bahasa yang diisi / diubah.");
+        return;
+      }
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .upsert(payload, {
+          onConflict: "nis,tahun_ajaran,semester"
+        });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan nilai bahasa santri: " + error.message);
       } else {
-        alert("Format file tidak dikenali. Gunakan file .xls atau .xlsx.");
+        alert("Nilai bahasa santri berhasil disimpan / diperbarui di rekap_santri.");
+        console.log("Data tersimpan:", data);
       }
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const { createClient } = supabase;
-  
-    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 </body>
 </html>
-
-
