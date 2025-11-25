@@ -392,19 +392,25 @@
       background: var(--green);
     }
     .btn:hover { opacity: 0.92; }
-    @media print {
-      .no-print { display: none !important; }
-      body {
-        background: var(--white);
-        padding: 0;
-      }
-      .app-shell {
-        box-shadow: none;
-        border-radius: 0;
-      }
-      .sidebar { display: none; }
-      .main-header { border-bottom: 1px solid #000; }
+  @media print {
+    body {
+      background: var(--white);
+      padding: 0;
     }
+    .app-shell {
+      box-shadow: none;
+      border-radius: 0;
+    }
+  
+    /* Sidebar tetap tidak ikut tercetak (opsional, tapi biasanya rapot lebih bersih) */
+    .sidebar { display: none; }
+  
+    /* INI KUNCI: cuma kotak Status Akademik yang dihilangkan di print */
+    .academic-status {
+      display: none !important;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -1024,8 +1030,11 @@
     function exportPDF() {
       const original = document.querySelector('.app-shell');
       const clone = original.cloneNode(true);
-      clone.querySelectorAll('.no-print').forEach(el => el.remove());
-
+    
+      // HANYA hilangkan kotak Status Akademik di PDF
+      const akademikBox = clone.querySelector('.academic-status');
+      if (akademikBox) akademikBox.remove();
+    
       const opt = {
         margin:       0.5,
         filename:     'rapot-santri-hk.pdf',
@@ -1035,6 +1044,7 @@
       };
       html2pdf().set(opt).from(clone).save();
     }
+
 
     async function loadDataSantri() {
       const nis = getCurrentNIS();
