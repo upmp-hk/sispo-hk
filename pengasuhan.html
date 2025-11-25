@@ -41,7 +41,6 @@
       display: flex;
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     }
-    /* MAIN */
     .main {
       flex: 1;
       display: flex;
@@ -92,6 +91,26 @@
       background: linear-gradient(135deg, #ffffff, #eff6ff);
       overflow-y: auto;
     }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.secondary {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+
     /* LOGIN PENGASUHAN */
     .login-page {
       max-width: 420px;
@@ -189,25 +208,17 @@
       text-align: center;
       opacity: 0.8;
     }
-    /* PENGASUHAN MODE */
-    .pengasuhan-header {
-      margin-bottom: 10px;
-    }
-    .pengasuhan-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .pengasuhan-subtitle {
-      font-size: 11px;
-      opacity: 0.75;
-    }
-    .pengasuhan-form-wrapper {
-      max-width: 980px;
+
+    /* WRAPPER MODE PENGASUHAN */
+    .pengasuhan-wrapper {
+      max-width: 1100px;
       margin: 0 auto;
-      display: flex;
+      display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
     }
+
+    /* FILTER */
     .pengasuhan-filter-card {
       background: var(--white);
       border-radius: 14px;
@@ -257,12 +268,24 @@
       font-size: 10.5px;
       opacity: 0.8;
     }
+
+    .pengasuhan-filter-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* TABEL PENGASUHAN */
     .pengasuhan-table-card {
       background: var(--white);
       border-radius: 14px;
       padding: 10px 11px 9px;
       border: 1px solid var(--blue-soft2);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-top: 4px;
+      font-size: 11.5px;
     }
     .pengasuhan-table-title {
       font-size: 13.5px;
@@ -271,67 +294,22 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .pengasuhan-table-title small {
       font-size: 11px;
       opacity: 0.8;
     }
-    .template-tools {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 8px;
-      font-size: 11px;
-      flex-wrap: wrap;
-    }
-    .template-left {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .template-right {
-      font-style: italic;
-      opacity: 0.8;
-    }
-    .template-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .template-btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .template-btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .template-btn:hover {
-      opacity: 0.92;
-    }
-    .template-btn input[type="file"] {
-      display: none;
+    .pengasuhan-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
     }
     .pengasuhan-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 11.5px;
+      min-width: 860px;
     }
     .pengasuhan-table th,
     .pengasuhan-table td {
@@ -343,58 +321,55 @@
       background: var(--blue-soft2);
       font-weight: 600;
     }
-    .pengasuhan-table td.label-left {
+    .pengasuhan-table td.align-left {
       text-align: left;
     }
     .pengasuhan-table input[type="number"] {
-      width: 70px;
+      width: 80px;
+      box-sizing: border-box;
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid var(--blue-soft2);
       font-size: 11px;
+      outline: none;
       text-align: center;
-      outline: none;
     }
-    .pengasuhan-table input[type="text"] {
-      width: 100%;
-      padding: 2px 4px;
-      border-radius: 6px;
-      border: 1px solid var(--blue-soft2);
-      font-size: 11px;
-      text-align: left;
-      outline: none;
-    }
-    .pengasuhan-table input:focus {
+    .pengasuhan-table input[type="number"]:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
     }
+    .pengasuhan-table textarea {
+      width: 100%;
+      min-width: 200px;
+      min-height: 40px;
+      max-height: 80px;
+      box-sizing: border-box;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid var(--blue-soft2);
+      font-size: 11px;
+      resize: vertical;
+    }
+    .pengasuhan-table textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
+      outline: none;
+    }
+    .pengasuhan-table .readonly-cell {
+      background: #f9fafb;
+    }
+    .pengasuhan-footer-note {
+      margin-top: 6px;
+      font-size: 10.5px;
+      opacity: 0.8;
+    }
+
     .pengasuhan-actions {
       margin-top: 8px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-    }
-    .btn {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--blue);
-      color: var(--white);
-      font-size: 11.5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn.secondary {
-      border-color: var(--green);
-      background: var(--green);
-    }
-    .btn:hover { opacity: 0.92; }
-    .pengasuhan-footer-note {
-      margin-top: 6px;
-      font-size: 10.5px;
-      opacity: 0.8;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -475,11 +450,11 @@
         <div class="main-header-left">
           <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
           <div class="main-subtitle">
-            Form input Poin Pelanggaran (Tata Tertib) Santri oleh Tim Pengasuhan.
+            Input Poin Pelanggaran &amp; Catatan Pembinaan oleh Pengasuhan.
           </div>
         </div>
         <div class="main-header-right">
-          Mode: <span>Tim Pengasuhan</span>
+          Mode: <span>Pengasuhan</span>
           <span class="badge" id="statusBadgePengasuhan">Login diperlukan</span>
           <button type="button"
                   id="logoutPengasuhanBtn"
@@ -493,24 +468,24 @@
 
       <main class="main-body">
         <!-- LOGIN PENGASUHAN -->
-        <div id="pengasuhanLoginContainer" class="login-page">
+        <div id="loginPengasuhanContainer" class="login-page">
           <div class="login-header">
             <div class="login-badge">🔑 Login</div>
-            <div class="login-title">Tim Pengasuhan</div>
+            <div class="login-title">Pengasuhan</div>
             <div class="login-subtitle">
-              Gunakan akun Tim Pengasuhan untuk mengisi Poin Pelanggaran santri.
+              Masuk dengan akun pengasuhan untuk mengisi poin pelanggaran dan catatan pembinaan santri.
             </div>
           </div>
 
           <form id="loginPengasuhanForm" onsubmit="handleLoginPengasuhan(event)">
             <div class="login-form-group">
-              <label for="loginPengasuhanID">Username</label>
-              <input type="text" id="loginPengasuhanID" placeholder="admin" autocomplete="username" />
+              <label for="loginPengasuhanID">Email Pengasuhan</label>
+              <input type="text" id="loginPengasuhanID" placeholder="nama@domain.com" autocomplete="username" />
             </div>
             <div class="login-form-group">
               <label for="loginPengasuhanPassword">Password</label>
               <div class="password-wrapper">
-                <input type="password" id="loginPengasuhanPassword" placeholder="admin" autocomplete="current-password" />
+                <input type="password" id="loginPengasuhanPassword" placeholder="password" autocomplete="current-password" />
                 <button
                   type="button"
                   class="toggle-password"
@@ -520,194 +495,158 @@
                 </button>
               </div>
             </div>
-            <button type="submit" class="login-button">Masuk</button>
+            <button class="login-button" type="submit">Masuk</button>
           </form>
 
           <div id="loginPengasuhanError" class="login-error"></div>
 
           <div class="login-footer">
-            Contoh akun: Username <b>admin</b>, Password <b>admin</b>.
+            Akun pengasuhan dikelola melalui dashboard Supabase.
           </div>
         </div>
 
-        <!-- FORM PELANGGARAN -->
-        <div id="pengasuhanFormContainer" style="display:none;">
-          <div class="pengasuhan-header">
-            <div class="pengasuhan-title">Input Rapot Pelanggaran (Tata Tertib)</div>
-            <div class="pengasuhan-subtitle">
-              Pengasuhan mengisi total poin pelanggaran santri per semester beserta keterangan singkat.
+        <!-- MODE PENGASUHAN -->
+        <div id="pengasuhanWrapper" class="pengasuhan-wrapper">
+          <!-- FILTER -->
+          <div class="pengasuhan-filter-card">
+            <div style="font-weight:700; font-size:13.5px; margin-bottom:6px;">
+              Filter Kelas Pengasuhan Santri
+            </div>
+
+            <div class="pengasuhan-filter-grid">
+              <!-- Tahun Ajaran -->
+              <div class="pengasuhan-filter-item">
+                <label for="pengasuhanTahun">Tahun Ajaran</label>
+                <select id="pengasuhanTahun">
+                  <option value="2023_2024">2023/2024</option>
+                  <option value="2024_2025" selected>2024/2025</option>
+                  <option value="2025_2026">2025/2026</option>
+                </select>
+              </div>
+
+              <!-- Semester -->
+              <div class="pengasuhan-filter-item">
+                <label for="pengasuhanSemester">Semester</label>
+                <select id="pengasuhanSemester">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+
+              <!-- Jenjang -->
+              <div class="pengasuhan-filter-item">
+                <label for="pengasuhanJenjang">Jenjang</label>
+                <select id="pengasuhanJenjang">
+                  <option value="MTs (HK1)">MTs (HK1)</option>
+                  <option value="MTs (HK2)">MTs (HK2)</option>
+                  <option value="MA" selected>MA</option>
+                </select>
+              </div>
+
+              <!-- Kelas -->
+              <div class="pengasuhan-filter-item">
+                <label for="pengasuhanKelas">Kelas</label>
+                <select id="pengasuhanKelas">
+                  <option value="VII">VII</option>
+                  <option value="VIII">VIII</option>
+                  <option value="IX">IX</option>
+                  <option value="X">X</option>
+                  <option value="XI" selected>XI</option>
+                  <option value="XII">XII</option>
+                </select>
+              </div>
+
+              <!-- Paralel / Rombel -->
+              <div class="pengasuhan-filter-item">
+                <label for="pengasuhanParalel">Paralel / Rombel</label>
+                <select id="pengasuhanParalel">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="K">K</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                  <option value="S">S</option>
+                  <option value="T">T</option>
+                  <option value="U">U</option>
+                  <option value="V">V</option>
+                  <option value="W">W</option>
+                  <option value="X">X</option>
+                  <option value="Y">Y</option>
+                  <option value="Z">Z</option>
+                  <!-- contoh rombel khusus -->
+                  <option value="IPA 1">IPA 1</option>
+                  <option value="IPA 2">IPA 2</option>
+                  <option value="IPS 1">IPS 1</option>
+                  <option value="IPS 2">IPS 2</option>
+                  <option value="PK 1">PK 1</option>
+                  <option value="PK 2">PK 2</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pengasuhan-filter-note">
+              Data identitas santri diambil dari tabel <code>rekap_santri</code> untuk
+              Tahun Ajaran, Semester, Jenjang, Kelas, dan Paralel yang dipilih di sini.
+            </div>
+
+            <div class="pengasuhan-filter-actions">
+              <button class="btn secondary" type="button" onclick="muatDataSantriPengasuhan()">
+                🔄 Muat Data Santri
+              </button>
             </div>
           </div>
 
-          <div class="pengasuhan-form-wrapper">
-            <!-- FILTER -->
-            <div class="pengasuhan-filter-card">
-              <div class="pengasuhan-filter-grid">
-                <!-- 1. Tahun Ajaran -->
-                <div class="pengasuhan-filter-item">
-                  <label for="pengasuhanTahun">Tahun Ajaran</label>
-                  <select id="pengasuhanTahun">
-                    <option value="2023_2024">2023/2024</option>
-                    <option value="2024_2025" selected>2024/2025</option>
-                    <option value="2025_2026">2025/2026</option>
-                  </select>
-                </div>
-                <!-- 2. Semester -->
-                <div class="pengasuhan-filter-item">
-                  <label for="pengasuhanSemester">Semester</label>
-                  <select id="pengasuhanSemester">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                  </select>
-                </div>
-                <!-- 3. Jenjang -->
-                <div class="pengasuhan-filter-item">
-                  <label for="pengasuhanJenjang">Jenjang</label>
-                  <select id="pengasuhanJenjang">
-                    <option value="MTs (HK1)">MTs (HK1)</option>
-                    <option value="MTs (HK2)">MTs (HK2)</option>
-                    <option value="MA" selected>MA</option>
-                  </select>
-                </div>
-                <!-- 4. Kelas -->
-                <div class="pengasuhan-filter-item">
-                  <label for="pengasuhanKelas">Kelas</label>
-                  <select id="pengasuhanKelas">
-                    <option value="VII">VII</option>
-                    <option value="VIII">VIII</option>
-                    <option value="IX">IX</option>
-                    <option value="X">X</option>
-                    <option value="XI" selected>XI</option>
-                    <option value="XII">XII</option>
-                  </select>
-                </div>
-                <!-- 5. Paralel / Rombel -->
-                <div class="pengasuhan-filter-item">
-                  <label for="pengasuhanParalel">Paralel / Rombel</label>
-                  <select id="pengasuhanParalel">
-                    <!-- A-Z -->
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
-                    <option value="P">P</option>
-                    <option value="Q">Q</option>
-                    <option value="R">R</option>
-                    <option value="S">S</option>
-                    <option value="T">T</option>
-                    <option value="U">U</option>
-                    <option value="V">V</option>
-                    <option value="W">W</option>
-                    <option value="X">X</option>
-                    <option value="Y">Y</option>
-                    <option value="Z">Z</option>
-                    <!-- IPA -->
-                    <option value="IPA 1">IPA 1</option>
-                    <option value="IPA 2">IPA 2</option>
-                    <option value="IPA 3">IPA 3</option>
-                    <option value="IPA 4">IPA 4</option>
-                    <option value="IPA 5">IPA 5</option>
-                    <option value="IPA 6">IPA 6</option>
-                    <option value="IPA 7">IPA 7</option>
-                    <option value="IPA 8">IPA 8</option>
-                    <option value="IPA 9">IPA 9</option>
-                    <option value="IPA 10">IPA 10</option>
-                    <option value="IPA 11">IPA 11</option>
-                    <option value="IPA 12">IPA 12</option>
-                    <option value="IPA 13">IPA 13</option>
-                    <option value="IPA 14">IPA 14</option>
-                    <option value="IPA 15">IPA 15</option>
-                    <!-- IPS -->
-                    <option value="IPS 1">IPS 1</option>
-                    <option value="IPS 2">IPS 2</option>
-                    <option value="IPS 3">IPS 3</option>
-                    <option value="IPS 4">IPS 4</option>
-                    <option value="IPS 5">IPS 5</option>
-                    <option value="IPS 6">IPS 6</option>
-                    <option value="IPS 7">IPS 7</option>
-                    <option value="IPS 8">IPS 8</option>
-                    <option value="IPS 9">IPS 9</option>
-                    <option value="IPS 10">IPS 10</option>
-                    <!-- PK -->
-                    <option value="PK 1">PK 1</option>
-                    <option value="PK 2">PK 2</option>
-                    <option value="PK 3">PK 3</option>
-                    <option value="PK 4">PK 4</option>
-                    <option value="PK 5">PK 5</option>
-                    <option value="PK 6">PK 6</option>
-                    <option value="PK 7">PK 7</option>
-                    <option value="PK 8">PK 8</option>
-                    <option value="PK 9">PK 9</option>
-                    <option value="PK 10">PK 10</option>
-                  </select>
-                </div>
-              </div>
-              <div class="pengasuhan-filter-note">
-                Catatan: Pada implementasi penuh, data santri akan diambil dari database sesuai filter di atas.
-              </div>
+          <!-- TABEL PENGASUHAN -->
+          <div class="pengasuhan-table-card">
+            <div class="pengasuhan-table-title">
+              <span>Input Poin Pelanggaran &amp; Catatan Pembinaan</span>
+              <small>
+                Kelas: <span id="labelPengasuhanKelas">XI</span> /
+                TA <span id="labelPengasuhanTahun">2024/2025</span> /
+                Sem <span id="labelPengasuhanSemester">1</span>
+              </small>
             </div>
 
-            <!-- TABEL PELANGGARAN -->
-            <div class="pengasuhan-table-card">
-              <div class="pengasuhan-table-title">
-                <span>Daftar Poin Pelanggaran Santri</span>
-                <small>
-                  Kelas: <span id="labelPengasuhanKelas">XI</span> /
-                  TA <span id="labelPengasuhanTahun">2024/2025</span> /
-                  Sem <span id="labelPengasuhanSemester">1</span>
-                </small>
-              </div>
-
-              <!-- TOOLS TEMPLATE -->
-              <div class="template-tools">
-                <div class="template-left">
-                  <button type="button" class="template-btn" onclick="downloadTemplate()">
-                    ⬇ Download Template (.xls)
-                  </button>
-                  <label class="template-btn secondary">
-                    ⬆ Upload Template (.xls/.xlsx)
-                    <input type="file" id="fileTemplate" accept=".xls,.xlsx" onchange="handleUploadTemplate(event)" />
-                  </label>
-                </div>
-                <div class="template-right">
-                  Pengasuhan bisa mengisi poin pelanggaran di template Excel lalu upload kembali (simulasi).
-                </div>
-              </div>
-
-              <table class="pengasuhan-table" id="tabelPengasuhanPelanggaran">
+            <div class="pengasuhan-table-wrapper">
+              <table class="pengasuhan-table" id="pengasuhanTable">
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>No.</th>
                     <th>NIS</th>
-                    <th>Nama Santri</th>
-                    <th>Total Poin</th>
-                    <th>Keterangan</th>
+                    <th>Nama Lengkap</th>
+                    <th>Poin Pelanggaran</th>
+                    <th>Catatan Pembinaan</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- filled by JS -->
+                  <!-- Diisi JS -->
                 </tbody>
               </table>
+            </div>
 
-              <div class="pengasuhan-actions">
-                <button class="btn secondary" type="button" onclick="resetPengasuhanPelanggaran()">🔄 Reset</button>
-                <button class="btn" type="button" onclick="simpanPengasuhanPelanggaran()">💾 Simpan Nilai (Simulasi)</button>
-              </div>
-              <div class="pengasuhan-footer-note">
-                *Download Template: file .xls dengan kolom NIS, Nama Santri, Total Poin, Keterangan singkat.  
-                *Upload Template saat ini masih simulasi (dibaca di browser &amp; ditampilkan di console).
-              </div>
+            <div class="pengasuhan-actions">
+              <button class="btn" type="button" onclick="simpanDataPengasuhan()">
+                💾 Simpan Pengasuhan ke Database
+              </button>
+            </div>
+
+            <div class="pengasuhan-footer-note">
+              *Poin pelanggaran mengikuti ketentuan unit pengasuhan.  
+              *Catatan pembinaan berisi ringkasan pembinaan, tindak lanjut, atau rekomendasi.  
+              *Penyimpanan menggunakan upsert berdasarkan (NIS, Tahun Ajaran, Semester).
             </div>
           </div>
         </div>
@@ -715,81 +654,101 @@
     </div>
   </div>
 
+  <!-- Supabase client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // LOGIN PENGASUHAN (TESTING): username: admin, password: admin
+    const { createClient } = supabase;
+
+    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
+    const SUPABASE_ANON_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
+
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <script>
+    // --- SESSION LOGIN PENGASUHAN ---
     const PENGASUHAN_SESSION_KEY = "sispo_pengasuhan_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let pengasuhanLogoutTimer = null;
-    
-  async function handleLoginPengasuhan(event) {
-    event.preventDefault();
-    const id = document.getElementById("loginPengasuhanID").value.trim();
-    const pass = document.getElementById("loginPengasuhanPassword").value;
-    const errorEl = document.getElementById("loginPengasuhanError");
-  
-    if (!id || !pass) {
-      errorEl.textContent = "Username dan password wajib diisi.";
-      return;
+
+    let pengasuhanSantriData = [];
+
+    async function handleLoginPengasuhan(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginPengasuhanID").value.trim();
+      const pass  = document.getElementById("loginPengasuhanPassword").value.trim();
+      const errorEl = document.getElementById("loginPengasuhanError");
+
+      if (!email || !pass) {
+        errorEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password: pass
+      });
+
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
+        return;
+      }
+
+      // cek role pengasuhan
+      const { data: roleData, error: roleError } = await db
+        .from("user_roles")
+        .select("mode")
+        .eq("id", data.user.id)
+        .single();
+
+      if (roleError || !roleData) {
+        console.error(roleError);
+        errorEl.textContent = "Role pengguna tidak ditemukan.";
+        await db.auth.signOut();
+        return;
+      }
+
+      if (roleData.mode !== "pengasuhan") {
+        errorEl.textContent = "Akun ini bukan akun Pengasuhan.";
+        await db.auth.signOut();
+        return;
+      }
+
+      errorEl.textContent = "";
+      setPengasuhanSession();
+      applyPengasuhanLoginUI();
+      updatePengasuhanLabels();
+      schedulePengasuhanAutoLogout();
     }
-  
-    const { data, error } = await db.auth.signInWithPassword({
-      email: id,
-      password: pass
-    });
-  
-    if (error) {
-      console.error(error);
-      errorEl.textContent = "Login gagal. Periksa kembali username dan password.";
-      return;
-    }
-  
-    const { data: roleData, error: roleError } = await db
-      .from('user_roles')
-      .select('mode')
-      .eq('id', data.user.id)
-      .single();
-  
-    if (roleError || !roleData) {
-      console.error(roleError);
-      errorEl.textContent = "Role pengguna tidak ditemukan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    if (roleData.mode !== 'pengasuhan') {
-      errorEl.textContent = "Akun ini bukan akun Pengasuhan.";
-      await db.auth.signOut();
-      return;
-    }
-  
-    errorEl.textContent = "";
-    setPengasuhanSession();
-    applyPengasuhanLoginUI();
-    initPengasuhanTable();
-    schedulePengasuhanAutoLogout();
-  }
 
     function applyPengasuhanLoginUI() {
-      document.getElementById("pengasuhanLoginContainer").style.display = "none";
-      document.getElementById("pengasuhanFormContainer").style.display = "block";
+      document.getElementById("loginPengasuhanContainer").style.display = "none";
+      document.getElementById("pengasuhanWrapper").style.display = "flex";
       document.getElementById("statusBadgePengasuhan").textContent = "Login";
       const btn = document.getElementById("logoutPengasuhanBtn");
       if (btn) btn.style.display = "inline-block";
     }
-    
+
     function applyPengasuhanLogoutUI() {
-      document.getElementById("pengasuhanLoginContainer").style.display = "block";
-      document.getElementById("pengasuhanFormContainer").style.display = "none";
+      document.getElementById("loginPengasuhanContainer").style.display = "block";
+      document.getElementById("pengasuhanWrapper").style.display = "none";
       document.getElementById("statusBadgePengasuhan").textContent = "Login diperlukan";
       const btn = document.getElementById("logoutPengasuhanBtn");
       if (btn) btn.style.display = "none";
+
+      const tbody = document.querySelector("#pengasuhanTable tbody");
+      if (tbody) tbody.innerHTML = "";
+      pengasuhanSantriData = [];
     }
-    
+
     function setPengasuhanSession() {
       const expiresAt = Date.now() + SESSION_DURATION_MS;
       localStorage.setItem(PENGASUHAN_SESSION_KEY, JSON.stringify({ expiresAt }));
     }
-    
+
     function clearPengasuhanSession() {
       localStorage.removeItem(PENGASUHAN_SESSION_KEY);
       if (pengasuhanLogoutTimer) {
@@ -797,11 +756,11 @@
         pengasuhanLogoutTimer = null;
       }
     }
-    
+
     function schedulePengasuhanAutoLogout() {
       const raw = localStorage.getItem(PENGASUHAN_SESSION_KEY);
       if (!raw) return;
-    
+
       try {
         const { expiresAt } = JSON.parse(raw);
         const remaining = expiresAt - Date.now();
@@ -815,35 +774,47 @@
         handleLogoutPengasuhan();
       }
     }
-    
-    function handleLogoutPengasuhan() {
+
+    async function handleLogoutPengasuhan() {
+      try {
+        await db.auth.signOut();
+      } catch (e) {
+        console.error(e);
+      }
       clearPengasuhanSession();
       applyPengasuhanLogoutUI();
-    
+
       const form = document.getElementById("loginPengasuhanForm");
       if (form) form.reset();
       const errorEl = document.getElementById("loginPengasuhanError");
       if (errorEl) errorEl.textContent = "";
     }
-    
+
     document.addEventListener("DOMContentLoaded", function () {
       const raw = localStorage.getItem(PENGASUHAN_SESSION_KEY);
-      if (!raw) return;
-    
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        if (expiresAt && expiresAt > Date.now()) {
-          applyPengasuhanLoginUI();
-          initPengasuhanTable();
-          schedulePengasuhanAutoLogout();
-        } else {
+      if (raw) {
+        try {
+          const { expiresAt } = JSON.parse(raw);
+          if (expiresAt && expiresAt > Date.now()) {
+            applyPengasuhanLoginUI();
+            schedulePengasuhanAutoLogout();
+          } else {
+            clearPengasuhanSession();
+          }
+        } catch (e) {
           clearPengasuhanSession();
-          applyPengasuhanLogoutUI();
         }
-      } catch (e) {
-        clearPengasuhanSession();
-        applyPengasuhanLogoutUI();
       }
+
+      ["pengasuhanTahun","pengasuhanKelas","pengasuhanSemester"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.listenerAttached) {
+          el.addEventListener("change", updatePengasuhanLabels);
+          el.dataset.listenerAttached = "true";
+        }
+      });
+
+      updatePengasuhanLabels();
     });
 
     function togglePassword(btn) {
@@ -860,47 +831,6 @@
       }
     }
 
-    // DATA DUMMY SANTRI
-    const pengasuhanSantriDummy = [
-      { nis: "2023.001234", nama: "Ahmad Husnul Karim" },
-      { nis: "2023.001235", nama: "Muhammad Fauzan" },
-      { nis: "2023.001236", nama: "Ridwan Hidayat" },
-      { nis: "2023.001237", nama: "Syahrul Ramadhan" },
-      { nis: "2023.001238", nama: "Zaki Maulana" }
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initPengasuhanTable() {
-      const tbody = document.querySelector("#tabelPengasuhanPelanggaran tbody");
-      tbody.innerHTML = "";
-      pengasuhanSantriDummy.forEach((s, idx) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${s.nis}</td>
-          <td class="label-left">${s.nama}</td>
-          <td><input type="number" min="0" max="200" value="${randInt(0,20)}" data-field="totalPoin"></td>
-          <td><input type="text" placeholder="(opsional) ringkasan pelanggaran" data-field="keterangan"></td>
-        `;
-        tbody.appendChild(tr);
-      });
-      updatePengasuhanLabels();
-      setupPengasuhanFilterListeners();
-    }
-
-    function setupPengasuhanFilterListeners() {
-      ["pengasuhanTahun","pengasuhanKelas","pengasuhanSemester"].forEach(id=>{
-        const el = document.getElementById(id);
-        if (el && !el.dataset.listenerAttached) {
-          el.addEventListener("change", updatePengasuhanLabels);
-          el.dataset.listenerAttached = "true";
-        }
-      });
-    }
-
     function updatePengasuhanLabels() {
       const tahun = document.getElementById("pengasuhanTahun").value;
       const kelas = document.getElementById("pengasuhanKelas").value;
@@ -911,90 +841,161 @@
       document.getElementById("labelPengasuhanSemester").textContent = semester;
     }
 
-    function resetPengasuhanPelanggaran() {
-      initPengasuhanTable();
-      alert("Data poin pelanggaran dikembalikan ke nilai awal (simulasi).");
+    // --- MUAT DATA SANTRI DARI rekap_santri ---
+    async function muatDataSantriPengasuhan() {
+      const tahunRaw = document.getElementById("pengasuhanTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("pengasuhanSemester").value, 10);
+      const jenjang  = document.getElementById("pengasuhanJenjang").value;
+      const kelas    = document.getElementById("pengasuhanKelas").value;
+      const paralel  = document.getElementById("pengasuhanParalel").value;
+    
+      const tbody = document.querySelector("#pengasuhanTable tbody");
+      if (tbody) tbody.innerHTML = "";
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .select("*")
+        .eq("tahun_ajaran", tahun)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("nama_lengkap", { ascending: true });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal mengambil data santri: " + error.message);
+        return;
+      }
+    
+      if (!data || data.length === 0) {
+        pengasuhanSantriData = [];
+        alert("Belum ada data santri untuk filter yang dipilih.\nPastikan admin sudah mengisi profil di rekap_santri.");
+        return;
+      }
+
+      pengasuhanSantriData = data;
+    
+      updatePengasuhanLabels();
+      renderPengasuhanTable();
+      alert("Data santri berhasil dimuat. Silakan isi poin pelanggaran & catatan pembinaan, lalu klik 'Simpan Pengasuhan ke Database'.");
     }
 
-    function simpanPengasuhanPelanggaran() {
-      const rows = document.querySelectorAll("#tabelPengasuhanPelanggaran tbody tr");
-      const hasil = [];
-      rows.forEach((tr, idx) => {
-        const nis = tr.children[1].textContent.trim();
-        const nama = tr.children[2].textContent.trim();
-        const totalPoin = tr.querySelector('input[data-field="totalPoin"]').value;
-        const keterangan = tr.querySelector('input[data-field="keterangan"]').value;
-        hasil.push({
-          no: idx+1, nis, nama, totalPoin, keterangan
-        });
+    // Render tabel berdasarkan data santri
+    function renderPengasuhanTable() {
+      const tbody = document.querySelector("#pengasuhanTable tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      if (!pengasuhanSantriData || pengasuhanSantriData.length === 0) return;
+
+      pengasuhanSantriData.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td class="readonly-cell" data-nis="${row.nis || ""}">${row.nis || ""}</td>
+          <td class="readonly-cell align-left">${row.nama_lengkap || ""}</td>
+          <td>
+            <input
+              type="number"
+              min="0"
+              max="999"
+              step="1"
+              data-field="poin_pelanggaran"
+              value="${row.poin_pelanggaran ?? ""}"
+            />
+          </td>
+          <td>
+            <textarea data-field="catatan_pembinaan">${
+              row.catatan_pembinaan ? (row.catatan_pembinaan.replace(/</g, "&lt;").replace(/>/g, "&gt;")) : ""
+            }</textarea>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
-      console.log("Data poin Pelanggaran (simulasi):", hasil);
-      alert("Data poin pelanggaran tersimpan (simulasi). Cek console browser untuk melihat data.");
     }
 
-    // DOWNLOAD TEMPLATE PELANGGARAN (CSV-format, ekstensi .xls)
-    function downloadTemplatePengasuhan() {
-      const tahun = document.getElementById("pengasuhanTahun").value.replace("_","/");
-      const kelas = document.getElementById("pengasuhanKelas").value;
-      const semester = document.getElementById("pengasuhanSemester").value;
-      const paralel = document.getElementById("pengasuhanParalel").value;
+    // --- SIMPAN DATA PENGASUHAN KE rekap_santri (UPSERT) ---
+    async function simpanDataPengasuhan() {
+      const tbody = document.querySelector("#pengasuhanTable tbody");
+      if (!tbody) return;
+    
+      const tahunRaw = document.getElementById("pengasuhanTahun").value;
+      const tahun    = tahunRaw.replace("_", "/");
+      const semester = parseInt(document.getElementById("pengasuhanSemester").value, 10);
+      const jenjang  = document.getElementById("pengasuhanJenjang").value;
+      const kelas    = document.getElementById("pengasuhanKelas").value;
+      const paralel  = document.getElementById("pengasuhanParalel").value;
+    
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const payload = [];
+    
+      const getNumber = (tr, fieldName) => {
+        const input = tr.querySelector(`input[data-field="${fieldName}"]`);
+        if (!input) return null;
+        const val = input.value.trim();
+        if (val === "") return null;
+        const num = parseInt(val, 10);
+        return isNaN(num) ? null : num;
+      };
 
-      let csv = "";
-      csv += `Tahun Ajaran,${tahun}\r\n`;
-      csv += `Semester,${semester}\r\n`;
-      csv += `Kelas,${kelas}\r\n`;
-      csv += `Paralel/Rombel,${paralel}\r\n`;
-      csv += `Jenis,Pelanggaran (Tatib)\r\n\r\n`;
-      csv += "NIS,Nama Santri,Total Poin,Keterangan\r\n";
+      const getText = (tr, fieldName) => {
+        const ta = tr.querySelector(`textarea[data-field="${fieldName}"]`);
+        if (!ta) return null;
+        const val = ta.value.trim();
+        return val === "" ? null : val;
+      };
+    
+      for (const tr of rows) {
+        const nisCell  = tr.children[1];
+        const namaCell = tr.children[2];
+        if (!nisCell || !namaCell) continue;
 
-      pengasuhanSantriDummy.forEach(s => {
-        csv += `${s.nis},${s.nama},,\r\n`;
-      });
+        const nis         = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
+        const namaLengkap = namaCell.textContent.trim();
+        if (!nis || !namaLengkap) continue;
+    
+        const poin     = getNumber(tr, "poin_pelanggaran");
+        const catatan  = getText(tr, "catatan_pembinaan");
 
-      const blob = new Blob([csv], {
-        type: "application/vnd.ms-excel"
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `template_Pelanggaran_kelas_${kelas}_${paralel}.xls`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // UPLOAD TEMPLATE PELANGGARAN (simulasi)
-    function handleUploadTemplatePengasuhan(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const ext = file.name.toLowerCase().split(".").pop();
-      const reader = new FileReader();
-
-      if (ext === "xls" || ext === "xlsx") {
-        reader.onload = function(e) {
-          const buffer = e.target.result;
-          console.log("File Pelanggaran .xls/.xlsx ter-upload (simulasi), size:", buffer.byteLength, "bytes");
-          alert("Template Pelanggaran .xls/.xlsx ter-upload (simulasi). Parsing detail butuh library tambahan di backend.");
+        if (poin === null && catatan === null) continue;
+    
+        const rowData = {
+          nis,
+          nama_lengkap: namaLengkap,
+          tahun_ajaran: tahun,
+          semester,
+          jenjang,
+          kelas,
+          paralel
         };
-        reader.readAsArrayBuffer(file);
+
+        if (poin !== null) rowData.poin_pelanggaran   = poin;
+        if (catatan !== null) rowData.catatan_pembinaan = catatan;
+
+        payload.push(rowData);
+      }
+    
+      if (payload.length === 0) {
+        alert("Tidak ada data pengasuhan yang diisi / diubah.");
+        return;
+      }
+    
+      const { data, error } = await db
+        .from("rekap_santri")
+        .upsert(payload, {
+          onConflict: "nis,tahun_ajaran,semester"
+        });
+    
+      if (error) {
+        console.error(error);
+        alert("Gagal menyimpan data pengasuhan santri: " + error.message);
       } else {
-        alert("Format file tidak dikenali. Gunakan file .xls atau .xlsx.");
+        alert("Data pengasuhan santri berhasil disimpan / diperbarui di rekap_santri.");
+        console.log("Data tersimpan:", data);
       }
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const { createClient } = supabase;
-  
-    const SUPABASE_URL = 'https://esravodnlmwstdtudism.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
-  
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 </body>
 </html>
-
-
-
