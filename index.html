@@ -147,19 +147,8 @@
     .password-wrapper {
       position: relative;
     }
-    .password-wrapper input {
-      padding-right: 80px;
-    }
     .toggle-password {
-      position: absolute;
-      right: 9px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-size: 11px;
-      padding: 2px 4px;
+      display: none; /* tidak dipakai karena login tanpa password */
     }
     .login-button {
       width: 100%;
@@ -413,18 +402,6 @@
       .sidebar { display: none; }
       .main-header { border-bottom: 1px solid #000; }
     }
-    .header-logout-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--blue);
-      background: var(--white);
-      font-size: 11px;
-      cursor: pointer;
-      margin-left: 8px;
-    }
   </style>
 </head>
 <body>
@@ -534,27 +511,14 @@
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Santri & Wali Santri</div>
             <div class="login-subtitle">
-              Masukkan email dan password yang terdaftar untuk melihat Rapot Santri.
+              Masukkan NIS santri untuk melihat Rapot Santri.
             </div>
           </div>
 
           <form id="loginForm" onsubmit="handleLoginSantri(event)">
             <div class="login-form-group">
-              <label for="loginUsername">Email Santri/Wali</label>
-              <input type="text" id="loginUsername" placeholder="nama@domain.com" autocomplete="username" />
-            </div>
-            <div class="login-form-group">
-              <label for="loginPassword">Password</label>
-              <div class="password-wrapper">
-                <input type="password" id="loginPassword" placeholder="password" autocomplete="current-password" />
-                <button 
-                  type="button" 
-                  class="toggle-password" 
-                  data-target="loginPassword" 
-                  onclick="togglePassword(this)">
-                  Show
-                </button>
-              </div>
+              <label for="loginNIS">NIS Santri</label>
+              <input type="text" id="loginNIS" placeholder="2023.001234" autocomplete="off" />
             </div>
             <button type="submit" class="login-button">Masuk</button>
           </form>
@@ -562,7 +526,7 @@
           <div id="loginError" class="login-error"></div>
 
           <div class="login-footer">
-            Akun santri & wali dikelola melalui dashboard Supabase.
+            NIS harus sesuai dengan data di sistem. Tanpa NIS yang valid, rapot tidak dapat ditampilkan.
           </div>
         </div>
 
@@ -579,7 +543,7 @@
           <section class="profile">
             <!-- FOTO -->
             <div class="profile-photo">
-              <img src="https://uploads.onecompiler.io/444e96suz/444e96fm2/Bio%20Royyan%20Rusnandi%20OPK_4808%20copy.jpg" alt="Foto Santri">
+              <img id="fotoSantri" src="" alt="Foto Santri">
               <div class="photo-label">Foto Santri</div>
             </div>
 
@@ -588,63 +552,63 @@
               <table class="profile-table">
                 <tr>
                   <td class="label">Nama</td><td class="sep">:</td>
-                  <td id="fieldNama">Ahmad Husnul Karim</td>
+                  <td id="fieldNama">-</td>
                 </tr>
                 <tr>
                   <td class="label">NIS</td><td class="sep">:</td>
-                  <td id="fieldNIS">2023.001234</td>
+                  <td id="fieldNIS">-</td>
                 </tr>
                 <tr>
                   <td class="label">NISN</td><td class="sep">:</td>
-                  <td id="fieldNISN">1234567890</td>
+                  <td id="fieldNISN">-</td>
                 </tr>
                 <tr>
                   <td class="label">Jenis Kelamin</td><td class="sep">:</td>
-                  <td id="fieldGender">Ikhwan</td>
+                  <td id="fieldGender">-</td>
                 </tr>
                 <tr>
                   <td class="label">Tempat Lahir</td><td class="sep">:</td>
-                  <td id="fieldTempat">Kuningan</td>
+                  <td id="fieldTempat">-</td>
                 </tr>
                 <tr>
                   <td class="label">Tanggal Lahir</td><td class="sep">:</td>
-                  <td id="fieldTglLahir">15 Agustus 2008</td>
+                  <td id="fieldTglLahir">-</td>
                 </tr>
                 <tr>
                   <td class="label">Jenjang</td><td class="sep">:</td>
-                  <td id="fieldJenjang">MA</td>
+                  <td id="fieldJenjang">-</td>
                 </tr>
                 <tr>
                   <td class="label">Kelas</td><td class="sep">:</td>
-                  <td id="fieldKelas">XI</td>
+                  <td id="fieldKelas">-</td>
                 </tr>
                 <tr>
                   <td class="label">Paralel/Rombel</td><td class="sep">:</td>
-                  <td id="fieldParalel">A</td>
+                  <td id="fieldParalel">-</td>
                 </tr>
                 <tr>
                   <td class="label">Asrama</td><td class="sep">:</td>
-                  <td id="fieldAsrama">Utsman Bin Affan</td>
+                  <td id="fieldAsrama">-</td>
                 </tr>
                 <tr>
                   <td class="label">Alamat</td><td class="sep">:</td>
-                  <td id="fieldAlamat">Desa X, Kecamatan Y, Kabupaten Kuningan</td>
+                  <td id="fieldAlamat">-</td>
                 </tr>
                 <tr>
                   <td class="label">Nama Ayah</td><td class="sep">:</td>
-                  <td id="fieldAyah">Abdullah</td>
+                  <td id="fieldAyah">-</td>
                 </tr>
                 <tr>
                   <td class="label">No. Telp. Ayah</td><td class="sep">:</td>
-                  <td id="fieldTelpAyah">0812-3456-7890</td>
+                  <td id="fieldTelpAyah">-</td>
                 </tr>
                 <tr>
                   <td class="label">Nama Ibu</td><td class="sep">:</td>
-                  <td id="fieldIbu">Fatimah</td>
+                  <td id="fieldIbu">-</td>
                 </tr>
                 <tr>
                   <td class="label">No. Telp. Ibu</td><td class="sep">:</td>
-                  <td id="fieldTelpIbu">0813-9876-5432</td>
+                  <td id="fieldTelpIbu">-</td>
                 </tr>
               </table>
             </div>
@@ -767,42 +731,16 @@
                 </select>
               </div>
 
-              <!-- 6. Jenis Kelamin -->
-              <div class="field-row">
-                <label for="filterGender">Jenis Kelamin</label>
-                <select id="filterGender">
-                  <option value="Ikhwan" selected>Ikhwan</option>
-                  <option value="Akhwat">Akhwat</option>
-                </select>
-              </div>
-
-              <!-- 7. Asrama -->
-              <div class="field-row">
-                <label for="filterAsrama">Asrama</label>
-                <select id="filterAsrama">
-                  <option value="Ali Bin Abi Thalib">Ali Bin Abi Thalib</option>
-                  <option value="Utsman Bin Affan" selected>Utsman Bin Affan</option>
-                  <option value="Umar Bin Khattab">Umar Bin Khattab</option>
-                  <option value="Abu Bakar Ash Shiddiq">Abu Bakar Ash Shiddiq</option>
-                  <option value="Fathimah Az Zahra">Fathimah Az Zahra</option>
-                  <option value="Asma Binti Abu Bakar">Asma Binti Abu Bakar</option>
-                  <option value="Aisyah Binti Abu Bakar">Aisyah Binti Abu Bakar</option>
-                  <option value="Ummu Kultsum binti Rasulullah SAW">Ummu Kultsum binti Rasulullah SAW</option>
-                  <option value="Hafshoh binti Umar bin Khattab">Hafshoh binti Umar bin Khattab</option>
-                  <option value="Khodijah">Khodijah</option>
-                </select>
-              </div>
-
               <div class="academic-status-info" id="statusRingkasan"></div>
             </div>
           </section>
 
           <div class="semester-info">
-            Menampilkan: TA <span id="labelTahun">2024/2025</span>,
-            Jenjang <span id="labelJenjangInfo">MA</span>,
-            Kelas <span id="labelKelasInfo">XI</span>,
-            Paralel <span id="labelParalelInfo">A</span>,
-            Semester <span id="labelSemester">1</span>.
+            Menampilkan: TA <span id="labelTahun">-</span>,
+            Jenjang <span id="labelJenjangInfo">-</span>,
+            Kelas <span id="labelKelasInfo">-</span>,
+            Paralel <span id="labelParalelInfo">-</span>,
+            Semester <span id="labelSemester">-</span>.
           </div>
 
           <!-- DATA RAPOT -->
@@ -812,7 +750,7 @@
               <div class="card">
                 <div class="card-title">
                   <span>Rapot Akademik</span>
-                  <small>TA <span id="miniTahun1">2024/2025</span> &mdash; Sem <span id="miniSem1">1</span></small>
+                  <small>TA <span id="miniTahun1">-</span> &mdash; Sem <span id="miniSem1">-</span></small>
                 </div>
                 <table class="card-table" id="tabelNilai">
                   <thead>
@@ -825,7 +763,7 @@
                   <tbody></tbody>
                 </table>
                 <div class="card-footer">
-                  *Daftar mapel mengikuti struktur kurikulum Pontren Husnul Khotimah (data simulasi).
+                  *Data diambil dari rekap nilai akademik sesuai tahun ajaran, semester, jenjang, kelas, dan paralel.
                 </div>
               </div>
             </div>
@@ -835,7 +773,7 @@
               <div class="card">
                 <div class="card-title">
                   <span>Rapot Tahsin dan Tahfidz Qur'an (TTQ)</span>
-                  <small>TA <span id="miniTahun2">2024/2025</span> &mdash; Sem <span id="miniSem2">1</span></small>
+                  <small>TA <span id="miniTahun2">-</span> &mdash; Sem <span id="miniSem2">-</span></small>
                 </div>
                 <table class="card-table table-4col" id="tabelHafalan">
                   <thead>
@@ -849,14 +787,14 @@
                   <tbody></tbody>
                 </table>
                 <div class="card-footer">
-                  *Meliputi Hafalan Muqorror, Ujian Muqorror, Hafalan Murojaah, Hafalan Ziyadah, Ujian Ziyadah.
+                  *Data diambil dari rekap TTQ sesuai filter akademik.
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-title">
                   <span>Rapot Bahasa Asing (Arab dan Inggris)</span>
-                  <small>TA <span id="miniTahun4">2024/2025</span> &mdash; Sem <span id="miniSem4">1</span></small>
+                  <small>TA <span id="miniTahun4">-</span> &mdash; Sem <span id="miniSem4">-</span></small>
                 </div>
                 <table class="card-table table-4col" id="tabelBahasa">
                   <thead>
@@ -870,14 +808,14 @@
                   <tbody></tbody>
                 </table>
                 <div class="card-footer">
-                  *Muhadhoroh &mdash; Speaking, Hiwar &mdash; Conversation, Mufrodat &mdash; Vocabulary.
+                  *Data diambil dari rekap Bahasa sesuai filter akademik.
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-title">
                   <span>Rapot Mutabaah Yaumiyyah</span>
-                  <small>TA <span id="miniTahun5">2024/2025</span> &mdash; Sem <span id="miniSem5">1</span></small>
+                  <small>TA <span id="miniTahun5">-</span> &mdash; Sem <span id="miniSem5">-</span></small>
                 </div>
                 <table class="card-table" id="tabelMutabaah">
                   <thead>
@@ -889,14 +827,14 @@
                   <tbody></tbody>
                 </table>
                 <div class="card-footer">
-                  *Shalat berjamaah, rawatib, qiyamullail, dhuha, tilawah, matsurat, shaum sunnah, olahraga.
+                  *Data mutabaah diambil dari rekap sesuai filter akademik.
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-title">
                   <span>Rapot Pelanggaran (Tata Tertib)</span>
-                  <small>TA <span id="miniTahun3">2024/2025</span> &mdash; Sem <span id="miniSem3">1</span></small>
+                  <small>TA <span id="miniTahun3">-</span> &mdash; Sem <span id="miniSem3">-</span></small>
                 </div>
                 <table class="card-table" id="tabelPelanggaran">
                   <thead>
@@ -914,7 +852,7 @@
                   </tfoot>
                 </table>
                 <div class="card-footer">
-                  *Akumulasi poin pelanggaran pada semester terpilih (data simulasi).
+                  *Akumulasi poin pelanggaran pada semester terpilih.
                 </div>
               </div>
             </div>
@@ -940,70 +878,51 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzcmF2b2RubG13c3RkdHVkaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDE1ODUsImV4cCI6MjA3OTQxNzU4NX0.rWxlzueSdUvd6Vc6VKaGwZv47djT-3HvyhgfI3BpxAY';
 
     const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
 
-  <!-- html2pdf.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-  <script>
-    // KONSTAN DATA DEMO PROFIL (sementara masih dummy)
-    const DEMO_NIS  = "2023.001234";
-    const DEMO_NISN = "1234567890";
-
-    // SESSION LOGIN SANTRI/WALI – 5 MENIT (selaras mode lain)
+    // SESSION LOGIN SANTRI/WALI – 5 MENIT
     const SANTRI_SESSION_KEY = "sispo_santri_session";
     const SESSION_DURATION_MS = 5 * 60 * 1000;
     let santriLogoutTimer = null;
 
-    // LOGIN via SUPABASE AUTH + user_roles.mode = 'santri'
-    async function handleLoginSantri(event) {
-      event.preventDefault();
-      const email = document.getElementById("loginUsername").value.trim();
-      const pass  = document.getElementById("loginPassword").value.trim();
-      const errorEl = document.getElementById("loginError");
-
-      if (!email || !pass) {
-        errorEl.textContent = "Email dan password wajib diisi.";
-        return;
+    function getCurrentSession() {
+      const raw = localStorage.getItem(SANTRI_SESSION_KEY);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
       }
+    }
 
-      const { data, error } = await db.auth.signInWithPassword({
-        email,
-        password: pass
-      });
+    function getCurrentNIS() {
+      const session = getCurrentSession();
+      return session?.nis || null;
+    }
 
-      if (error) {
-        console.error(error);
-        errorEl.textContent = "Login gagal. Periksa kembali email dan password.";
-        return;
+    function setSantriSession(nis) {
+      const expiresAt = Date.now() + SESSION_DURATION_MS;
+      localStorage.setItem(SANTRI_SESSION_KEY, JSON.stringify({ nis, expiresAt }));
+    }
+
+    function clearSantriSession() {
+      localStorage.removeItem(SANTRI_SESSION_KEY);
+      if (santriLogoutTimer) {
+        clearTimeout(santriLogoutTimer);
+        santriLogoutTimer = null;
       }
+    }
 
-      // cek role di tabel user_roles
-      const { data: roleData, error: roleError } = await db
-        .from("user_roles")
-        .select("mode")
-        .eq("id", data.user.id)
-        .single();
+    function scheduleSantriAutoLogout() {
+      const session = getCurrentSession();
+      if (!session || !session.expiresAt) return;
 
-      if (roleError || !roleData) {
-        console.error(roleError);
-        errorEl.textContent = "Role pengguna tidak ditemukan.";
-        await db.auth.signOut();
-        return;
+      const remaining = session.expiresAt - Date.now();
+      if (remaining <= 0) {
+        handleLogoutSantri();
+      } else {
+        if (santriLogoutTimer) clearTimeout(santriLogoutTimer);
+        santriLogoutTimer = setTimeout(handleLogoutSantri, remaining);
       }
-
-      // sesuaikan nilai 'santri' ini dengan yang Tim buat di user_roles
-      if (roleData.mode !== "santri") {
-        errorEl.textContent = "Akun ini bukan akun Santri/Wali.";
-        await db.auth.signOut();
-        return;
-      }
-
-      errorEl.textContent = "";
-      setSantriSession();
-      applySantriLoginUI();
-      scheduleSantriAutoLogout();
-
-      // di tahap berikutnya, di sini bisa ditambahkan fetch rapot dari Supabase
     }
 
     function applySantriLoginUI() {
@@ -1022,43 +941,43 @@
       if (btn) btn.style.display = "none";
     }
 
-    function setSantriSession() {
-      const expiresAt = Date.now() + SESSION_DURATION_MS;
-      localStorage.setItem(SANTRI_SESSION_KEY, JSON.stringify({ expiresAt }));
-    }
+    async function handleLoginSantri(event) {
+      event.preventDefault();
+      const nisInput = document.getElementById("loginNIS").value.trim();
+      const errorEl = document.getElementById("loginError");
 
-    function clearSantriSession() {
-      localStorage.removeItem(SANTRI_SESSION_KEY);
-      if (santriLogoutTimer) {
-        clearTimeout(santriLogoutTimer);
-        santriLogoutTimer = null;
+      if (!nisInput) {
+        errorEl.textContent = "NIS wajib diisi.";
+        return;
       }
-    }
 
-    function scheduleSantriAutoLogout() {
-      const raw = localStorage.getItem(SANTRI_SESSION_KEY);
-      if (!raw) return;
+      // cek apakah NIS ada di rekap_santri (tanpa filter dulu)
+      const { data, error } = await db
+        .from("rekap_santri")
+        .select("nis")
+        .eq("nis", nisInput)
+        .limit(1);
 
-      try {
-        const { expiresAt } = JSON.parse(raw);
-        const remaining = expiresAt - Date.now();
-        if (remaining <= 0) {
-          handleLogoutSantri();
-        } else {
-          if (santriLogoutTimer) clearTimeout(santriLogoutTimer);
-          santriLogoutTimer = setTimeout(handleLogoutSantri, remaining);
-        }
-      } catch (e) {
-        handleLogoutSantri();
+      if (error) {
+        console.error(error);
+        errorEl.textContent = "Terjadi kesalahan saat memeriksa NIS.";
+        return;
       }
+
+      if (!data || data.length === 0) {
+        errorEl.textContent = "NIS tidak ditemukan di sistem.";
+        return;
+      }
+
+      errorEl.textContent = "";
+      setSantriSession(nisInput);
+      applySantriLoginUI();
+      scheduleSantriAutoLogout();
+      updateStatusRingkasan();
+      loadDataSantri();
     }
 
     async function handleLogoutSantri() {
-      try {
-        await db.auth.signOut();
-      } catch (e) {
-        console.error(e);
-      }
       clearSantriSession();
       applySantriLogoutUI();
 
@@ -1068,157 +987,24 @@
       if (errorEl) errorEl.textContent = "";
     }
 
-    // Restore session bila masih valid (berbasis localStorage, sama seperti mode lain)
-    document.addEventListener("DOMContentLoaded", function () {
-      const raw = localStorage.getItem(SANTRI_SESSION_KEY);
-      if (raw) {
-        try {
-          const { expiresAt } = JSON.parse(raw);
-          if (expiresAt && expiresAt > Date.now()) {
-            applySantriLoginUI();
-            scheduleSantriAutoLogout();
-          } else {
-            clearSantriSession();
-            applySantriLogoutUI();
-          }
-        } catch (e) {
-          clearSantriSession();
-          applySantriLogoutUI();
-        }
-      } else {
-        applySantriLogoutUI();
-      }
-    });
-
-    function togglePassword(btn) {
-      const targetId = btn.getAttribute("data-target");
-      const input = document.getElementById(targetId);
-      if (!input) return;
-
-      if (input.type === "password") {
-        input.type = "text";
-        btn.textContent = "Hide";
-      } else {
-        input.type = "password";
-        btn.textContent = "Show";
-      }
-    }
-
-    // DATA SIMULASI RAPOT (sementara belum tarik dari Supabase)
-    const MAPEL_AKADEMIK = [
-      "Al-Qur'an Hadits (Tafsir)",
-      "Akidah Akhlak",
-      "Fikih",
-      "Sejarah Kebudayaan Islam",
-      "Pendidikan Kewarganegaraan",
-      "Bahasa Indonesia",
-      "Bahasa Arab",
-      "Matematika",
-      "Sejarah Indonesia",
-      "Bahasa Inggris",
-      "Fisika",
-      "Kimia",
-      "Biologi",
-      "Ekonomi",
-      "Geografi",
-      "Sosiologi",
-      "Informatika",
-      "Matematika Peminatan (IPA)",
-      "Fisika Peminatan",
-      "Kimia Peminatan",
-      "Biologi Peminatan",
-      "Sejarah Peminatan",
-      "Ekonomi Peminatan",
-      "Geografi Peminatan",
-      "Sosiologi Peminatan",
-      "Tafsir - Ilmu Tafsir",
-      "Hadis - Ilmu Hadis",
-      "Fiqih - Ushul Fiqih",
-      "Bahasa Arab Peminatan (Balaghoh)",
-      "Tahfidz Al-Qur'an",
-      "Bahasa Inggris Tingkat Lanjut",
-      "Nahwu (Qawaid)",
-      "Hadits (Pesantren)",
-      "Faroidh",
-      "Bimbingan Konseling (BK)"
-    ];
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function generateDummyData(tahun, jenjang, kelas, paralel, semester) {
-      const nilai = MAPEL_AKADEMIK.map(nama => ({
-        mapel: nama,
-        pengetahuan: randInt(70, 95),
-        keterampilan: randInt(70, 95)
-      }));
-
-      const hafalan = {
-        muqorror: randInt(70, 95),
-        murojaah: randInt(70, 95),
-        ujianMuqorror: randInt(70, 95),
-        ziyadah: randInt(70, 95),
-        ujianZiyadah: randInt(70, 95)
-      };
-
-      const semuaPelanggaran = [
-        "Terlambat Shalat Jamaah",
-        "Tidak Ikut Muhadharah",
-        "Tidak Mengisi Mutabaah",
-        "Tidak Izin Keluar Asrama"
-      ];
-      const jumlahPelanggaran = randInt(1, 3);
-      const pelanggaran = [];
-      for (let i = 0; i < jumlahPelanggaran; i++) {
-        const jenis = semuaPelanggaran[i];
-        pelanggaran.push({ jenis, poin: randInt(2, 10) });
-      }
-
-      const bahasa = {
-        muhadhoroh: randInt(70, 95),
-        speaking: randInt(70, 95),
-        hiwar: randInt(70, 95),
-        conversation: randInt(70, 95),
-        mufrodat: randInt(70, 95),
-        vocabulary: randInt(70, 95)
-      };
-
-      const mutabaah = {
-        berjamaah: randInt(70, 100),
-        rawatib: randInt(60, 100),
-        qiyamullail: randInt(50, 100),
-        dhuha: randInt(60, 100),
-        tilawah: randInt(70, 100),
-        matsurat: randInt(60, 100),
-        shaumSunnah: randInt(50, 100),
-        olahraga: randInt(60, 100)
-      };
-
-      return { nilai, hafalan, pelanggaran, bahasa, mutabaah };
-    }
-
     function updateStatusRingkasan() {
-      const tahun = document.getElementById("filterTahun").value;
+      const tahunValue = document.getElementById("filterTahun").value;
+      const tahunAjaran = tahunValue.replace("_", "/"); // asumsi format di DB: 2024/2025
       const jenjang = document.getElementById("filterJenjang").value;
       const kelas = document.getElementById("filterKelas").value;
       const paralel = document.getElementById("filterParalel").value;
       const semester = document.getElementById("filterSemester").value;
-      const gender = document.getElementById("filterGender").value;
-      const asrama = document.getElementById("filterAsrama").value;
 
       const statusEl = document.getElementById("statusRingkasan");
       statusEl.innerHTML = `
-        <span>${tahun.replace("_", "/")}</span>
+        <span>${tahunAjaran}</span>
         <span>Semester ${semester}</span>
         <span>${jenjang}</span>
         <span>Kelas ${kelas}</span>
         <span>Paralel/Rombel ${paralel}</span>
-        <span>${gender}</span>
-        <span>${asrama}</span>
       `;
 
-      document.getElementById("labelTahun").textContent = tahun.replace("_", "/");
+      document.getElementById("labelTahun").textContent = tahunAjaran;
       document.getElementById("labelJenjangInfo").textContent = jenjang;
       document.getElementById("labelKelasInfo").textContent = kelas;
       document.getElementById("labelParalelInfo").textContent = paralel;
@@ -1226,7 +1012,7 @@
 
       ["miniTahun1","miniTahun2","miniTahun3","miniTahun4","miniTahun5"].forEach(id=>{
         const el = document.getElementById(id);
-        if (el) el.textContent = tahun.replace("_","/");
+        if (el) el.textContent = tahunAjaran;
       });
       ["miniSem1","miniSem2","miniSem3","miniSem4","miniSem5"].forEach(id=>{
         const el = document.getElementById(id);
@@ -1234,15 +1020,52 @@
       });
     }
 
-    function loadDataSantri() {
-      const tahun = document.getElementById("filterTahun").value;
+    async function loadDataSantri() {
+      const nis = getCurrentNIS();
+      if (!nis) {
+        // belum login, jangan load apa-apa
+        return;
+      }
+
+      const tahunValue = document.getElementById("filterTahun").value;
+      const tahunAjaran = tahunValue.replace("_", "/");
       const jenjang = document.getElementById("filterJenjang").value;
       const kelas = document.getElementById("filterKelas").value;
       const paralel = document.getElementById("filterParalel").value;
       const semester = document.getElementById("filterSemester").value;
-      const genderSelected = document.getElementById("filterGender").value;
-      const asramaSelected = document.getElementById("filterAsrama").value;
 
+      // ==== BERSIHKAN TABEL DULU ====
+      const tbodyNilai = document.querySelector("#tabelNilai tbody");
+      const tbodyHafalan = document.querySelector("#tabelHafalan tbody");
+      const tbodyPelanggaran = document.querySelector("#tabelPelanggaran tbody");
+      const tbodyBahasa = document.querySelector("#tabelBahasa tbody");
+      const tbodyMutabaah = document.querySelector("#tabelMutabaah tbody");
+      const totalPoinEl = document.getElementById("totalPoin");
+
+      tbodyNilai.innerHTML = "";
+      tbodyHafalan.innerHTML = "";
+      tbodyPelanggaran.innerHTML = "";
+      tbodyBahasa.innerHTML = "";
+      tbodyMutabaah.innerHTML = "";
+      totalPoinEl.textContent = "0";
+
+      // ==== 1. PROFIL / IDENTITAS DARI rekap_santri ====
+      const { data: profil, error: profilError } = await db
+        .from("rekap_santri")
+        .select("*")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .maybeSingle();
+
+      if (profilError) {
+        console.error(profilError);
+      }
+
+      const fotoEl = document.getElementById("fotoSantri");
       const fieldNama = document.getElementById("fieldNama");
       const fieldNIS = document.getElementById("fieldNIS");
       const fieldNISN = document.getElementById("fieldNISN");
@@ -1259,104 +1082,196 @@
       const fieldIbu = document.getElementById("fieldIbu");
       const fieldTelpIbu = document.getElementById("fieldTelpIbu");
 
-      const tbodyNilai = document.querySelector("#tabelNilai tbody");
-      const tbodyHafalan = document.querySelector("#tabelHafalan tbody");
-      const tbodyPelanggaran = document.querySelector("#tabelPelanggaran tbody");
-      const tbodyBahasa = document.querySelector("#tabelBahasa tbody");
-      const tbodyMutabaah = document.querySelector("#tabelMutabaah tbody");
-      const totalPoinEl = document.getElementById("totalPoin");
+      if (!profil) {
+        // kalau tidak ada profil untuk kombinasi filter ini
+        fotoEl.src = "";
+        fieldNama.textContent = "-";
+        fieldNIS.textContent = nis;
+        fieldNISN.textContent = "-";
+        fieldGender.textContent = "-";
+        fieldTempat.textContent = "-";
+        fieldTglLahir.textContent = "-";
+        fieldJenjang.textContent = jenjang;
+        fieldKelas.textContent = kelas;
+        fieldParalel.textContent = paralel;
+        fieldAsrama.textContent = "-";
+        fieldAlamat.textContent = "-";
+        fieldAyah.textContent = "-";
+        fieldTelpAyah.textContent = "-";
+        fieldIbu.textContent = "-";
+        fieldTelpIbu.textContent = "-";
+      } else {
+        fotoEl.src = profil.foto_url || "";
+        fieldNama.textContent = profil.nama || "-";
+        fieldNIS.textContent = profil.nis || "-";
+        fieldNISN.textContent = profil.nisn || "-";
+        fieldGender.textContent = profil.jenis_kelamin || "-";
+        fieldTempat.textContent = profil.tempat_lahir || "-";
+        fieldTglLahir.textContent = profil.tanggal_lahir || "-";
+        fieldJenjang.textContent = profil.jenjang || jenjang;
+        fieldKelas.textContent = profil.kelas || kelas;
+        fieldParalel.textContent = profil.paralel || paralel;
+        fieldAsrama.textContent = profil.asrama || "-";
+        fieldAlamat.textContent = profil.alamat || "-";
+        fieldAyah.textContent = profil.nama_ayah || "-";
+        fieldTelpAyah.textContent = profil.telp_ayah || "-";
+        fieldIbu.textContent = profil.nama_ibu || "-";
+        fieldTelpIbu.textContent = profil.telp_ibu || "-";
+      }
 
-      tbodyNilai.innerHTML = "";
-      tbodyHafalan.innerHTML = "";
-      tbodyPelanggaran.innerHTML = "";
-      tbodyBahasa.innerHTML = "";
-      tbodyMutabaah.innerHTML = "";
-      totalPoinEl.textContent = "0";
+      // ==== 2. AKADEMIK ====
+      const { data: nilaiAkademik, error: nilaiError } = await db
+        .from("rekap_akademik")
+        .select("mapel, pengetahuan, keterampilan")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("mapel", { ascending: true });
 
-      // identitas contoh (nantinya bisa diisi dari Supabase)
-      fieldNama.textContent = "Ahmad Husnul Karim";
-      fieldNIS.textContent = DEMO_NIS;
-      fieldNISN.textContent = DEMO_NISN;
-      fieldGender.textContent = genderSelected;
-      fieldTempat.textContent = "Kuningan";
-      fieldTglLahir.textContent = "15 Agustus 2008";
-      fieldJenjang.textContent = jenjang;
-      fieldKelas.textContent = kelas;
-      fieldParalel.textContent = paralel;
-      fieldAsrama.textContent = asramaSelected;
-      fieldAlamat.textContent = "Desa X, Kecamatan Y, Kabupaten Kuningan";
-      fieldAyah.textContent = "Abdullah";
-      fieldTelpAyah.textContent = "0812-3456-7890";
-      fieldIbu.textContent = "Fatimah";
-      fieldTelpIbu.textContent = "0813-9876-5432";
+      if (nilaiError) {
+        console.error(nilaiError);
+      }
 
-      const semData = generateDummyData(tahun, jenjang, kelas, paralel, semester);
-
-      // Akademik
-      semData.nilai.forEach(n => {
+      if (!nilaiAkademik || nilaiAkademik.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML =
-          `<td class="label-left">${n.mapel}</td>` +
-          `<td>${n.pengetahuan}</td>` +
-          `<td>${n.keterampilan}</td>`;
+        tr.innerHTML = `<td colspan="3" class="label-left"><em>Data nilai akademik belum tersedia.</em></td>`;
         tbodyNilai.appendChild(tr);
-      });
+      } else {
+        nilaiAkademik.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            `<td class="label-left">${row.mapel}</td>` +
+            `<td>${row.pengetahuan}</td>` +
+            `<td>${row.keterampilan}</td>`;
+          tbodyNilai.appendChild(tr);
+        });
+      }
 
-      // TTQ
-      const h = semData.hafalan;
-      const ttqPairs = [
-        ["Hafalan Muqorror", h.muqorror, "Hafalan Ziyadah", h.ziyadah],
-        ["Ujian Muqorror", h.ujianMuqorror, "Ujian Ziyadah", h.ujianZiyadah],
-        ["Hafalan Murojaah", h.murojaah, "", ""]
-      ];
-      ttqPairs.forEach(([c1, v1, c2, v2]) => {
+      // ==== 3. TTQ ====
+      const { data: nilaiTTQ, error: ttqError } = await db
+        .from("rekap_ttq")
+        .select("komponen, nilai")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("komponen", { ascending: true });
+
+      if (ttqError) {
+        console.error(ttqError);
+      }
+
+      if (!nilaiTTQ || nilaiTTQ.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML =
-          `<td class="label-left">${c1}</td><td>${v1}</td>` +
-          `<td class="label-left">${c2}</td><td>${v2}</td>`;
+        tr.innerHTML = `<td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td>`;
         tbodyHafalan.appendChild(tr);
-      });
+      } else {
+        // tampilkan berpasangan 2 kolom komponen per baris
+        for (let i = 0; i < nilaiTTQ.length; i += 2) {
+          const left = nilaiTTQ[i];
+          const right = nilaiTTQ[i+1];
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            `<td class="label-left">${left.komponen}</td><td>${left.nilai}</td>` +
+            `<td class="label-left">${right ? right.komponen : ""}</td><td>${right ? right.nilai : ""}</td>`;
+          tbodyHafalan.appendChild(tr);
+        }
+      }
 
-      // Bahasa
-      const b = semData.bahasa;
-      const pasanganBahasa = [
-        ["Muhadhoroh", b.muhadhoroh, "Speaking", b.speaking],
-        ["Hiwar", b.hiwar, "Conversation", b.conversation],
-        ["Mufrodat", b.mufrodat, "Vocabulary", b.vocabulary]
-      ];
-      pasanganBahasa.forEach(([a1, n1, a2, n2]) => {
+      // ==== 4. BAHASA ====
+      const { data: nilaiBahasa, error: bahasaError } = await db
+        .from("rekap_bahasa")
+        .select("aspek, nilai")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("aspek", { ascending: true });
+
+      if (bahasaError) {
+        console.error(bahasaError);
+      }
+
+      if (!nilaiBahasa || nilaiBahasa.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML =
-          `<td class="label-left">${a1}</td><td>${n1}</td>` +
-          `<td class="label-left">${a2}</td><td>${n2}</td>`;
+        tr.innerHTML = `<td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td>`;
         tbodyBahasa.appendChild(tr);
-      });
+      } else {
+        for (let i = 0; i < nilaiBahasa.length; i += 2) {
+          const left = nilaiBahasa[i];
+          const right = nilaiBahasa[i+1];
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            `<td class="label-left">${left.aspek}</td><td>${left.nilai}</td>` +
+            `<td class="label-left">${right ? right.aspek : ""}</td><td>${right ? right.nilai : ""}</td>`;
+          tbodyBahasa.appendChild(tr);
+        }
+      }
 
-      // Mutabaah
-      const m = semData.mutabaah;
-      [
-        ["Shalat Berjamaah", m.berjamaah],
-        ["Shalat Rawatib", m.rawatib],
-        ["Shalat Qiyamullail", m.qiyamullail],
-        ["Shalat Dhuha", m.dhuha],
-        ["Tilawah", m.tilawah],
-        ["Matsurat", m.matsurat],
-        ["Shaum Sunnah", m.shaumSunnah],
-        ["Olahraga", m.olahraga],
-      ].forEach(([label, nilai]) => {
+      // ==== 5. MUTABAAH ====
+      const { data: nilaiMutabaah, error: mutabaahError } = await db
+        .from("rekap_mutabaah")
+        .select("amalan, nilai")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("amalan", { ascending: true });
+
+      if (mutabaahError) {
+        console.error(mutabaahError);
+      }
+
+      if (!nilaiMutabaah || nilaiMutabaah.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td class="label-left">${label}</td><td>${nilai}</td>`;
+        tr.innerHTML = `<td colspan="2" class="label-left"><em>Data Mutabaah belum tersedia.</em></td>`;
         tbodyMutabaah.appendChild(tr);
-      });
+      } else {
+        nilaiMutabaah.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td class="label-left">${row.amalan}</td><td>${row.nilai}</td>`;
+          tbodyMutabaah.appendChild(tr);
+        });
+      }
 
-      // Pelanggaran
+      // ==== 6. PELANGGARAN ====
+      const { data: dataPelanggaran, error: pelanggaranError } = await db
+        .from("rekap_pelanggaran")
+        .select("jenis_pelanggaran, poin")
+        .eq("nis", nis)
+        .eq("tahun_ajaran", tahunAjaran)
+        .eq("semester", semester)
+        .eq("jenjang", jenjang)
+        .eq("kelas", kelas)
+        .eq("paralel", paralel)
+        .order("jenis_pelanggaran", { ascending: true });
+
+      if (pelanggaranError) {
+        console.error(pelanggaranError);
+      }
+
       let totalPoin = 0;
-      semData.pelanggaran.forEach(p => {
+      if (!dataPelanggaran || dataPelanggaran.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td class="label-left">${p.jenis}</td><td>${p.poin}</td>`;
+        tr.innerHTML = `<td colspan="2" class="label-left"><em>Belum ada data pelanggaran.</em></td>`;
         tbodyPelanggaran.appendChild(tr);
-        totalPoin += p.poin;
-      });
+      } else {
+        dataPelanggaran.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td class="label-left">${row.jenis_pelanggaran}</td><td>${row.poin}</td>`;
+          tbodyPelanggaran.appendChild(tr);
+          totalPoin += Number(row.poin || 0);
+        });
+      }
       totalPoinEl.textContent = totalPoin;
     }
 
@@ -1376,7 +1291,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester","filterGender","filterAsrama"]
+      // event filter
+      ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester"]
         .forEach(id => {
           const el = document.getElementById(id);
           if (el) {
@@ -1387,9 +1303,22 @@
           }
         });
 
-      updateStatusRingkasan();
-      loadDataSantri();
+      // restore session kalau masih valid
+      const session = getCurrentSession();
+      if (session && session.expiresAt && session.expiresAt > Date.now()) {
+        applySantriLoginUI();
+        scheduleSantriAutoLogout();
+        updateStatusRingkasan();
+        loadDataSantri();
+      } else {
+        clearSantriSession();
+        applySantriLogoutUI();
+        updateStatusRingkasan();
+      }
     });
   </script>
+
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </body>
 </html>
