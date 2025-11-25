@@ -222,13 +222,13 @@
       justify-content: center;
     }
     .profile-photo img {
-      width: 140px;          /* diperkecil */
-      height: 180px;
+      width: 100%;          /* full lebar kotaknya */
+      height: 100%;         /* isi tinggi kotak */
+      max-height: 260px;    /* biar nggak kepanjangan */
       object-fit: cover;
       border-radius: 12px;
       border: 2px solid var(--white);
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      margin: 0 auto;
       display: block;
     }
     .photo-label {
@@ -1141,49 +1141,57 @@
       }
 
       // ====== 2. AKADEMIK (sama seperti sebelumnya, tapi pakai profil yg ini) ======
+      // ====== 2. AKADEMIK ======
       const akademikMapel = [
         { label: "Al-Qur'an Hadits (Tafsir)", p: "nilai_tafsir_p", k: "nilai_tafsir_k" },
-        { label: "Akidah Akhlak", p: "nilai_aqidah_akhlak_p", k: "nilai_aqidah_akhlak_k" },
-        { label: "Fikih", p: "nilai_fiqih_p", k: "nilai_fiqih_k" },
+        { label: "Akidah Akhlak",            p: "nilai_aqidah_akhlak_p", k: "nilai_aqidah_akhlak_k" },
+        { label: "Fikih",                    p: "nilai_fiqih_p", k: "nilai_fiqih_k" },
         { label: "Sejarah Kebudayaan Islam", p: "nilai_ski_p", k: "nilai_ski_k" },
         { label: "Pendidikan Kewarganegaraan", p: "nilai_pkn_p", k: "nilai_pkn_k" },
-        { label: "Bahasa Indonesia", p: "nilai_b_indonesia_p", k: "nilai_b_indonesia_k" },
-        { label: "Bahasa Arab", p: "nilai_b_arab_p", k: "nilai_b_arab_k" },
-        { label: "Matematika", p: "nilai_matematika_p", k: "nilai_matematika_k" },
-        { label: "Sejarah Indonesia", p: "nilai_sejarah_indo_p", k: "nilai_sejarah_indo_k" },
-        { label: "Bahasa Inggris", p: "nilai_b_inggris_p", k: "nilai_b_inggris_k" },
-        { label: "Fisika", p: "nilai_fisika_p", k: "nilai_fisika_k" },
-        { label: "Kimia", p: "nilai_kimia_p", k: "nilai_kimia_k" },
-        { label: "Biologi", p: "nilai_biologi_p", k: "nilai_biologi_k" },
-        { label: "Ekonomi", p: "nilai_ekonomi_p", k: "nilai_ekonomi_k" },
-        { label: "Geografi", p: "nilai_geografi_p", k: "nilai_geografi_k" },
-        { label: "Sosiologi", p: "nilai_sosiologi_p", k: "nilai_sosiologi_k" },
-        { label: "Informatika", p: "nilai_informatika_p", k: "nilai_informatika_k" },
+        { label: "Bahasa Indonesia",         p: "nilai_b_indonesia_p", k: "nilai_b_indonesia_k" },
+        { label: "Bahasa Arab",              p: "nilai_b_arab_p", k: "nilai_b_arab_k" },
+        { label: "Matematika",               p: "nilai_matematika_p", k: "nilai_matematika_k" },
+        { label: "Sejarah Indonesia",        p: "nilai_sejarah_indo_p", k: "nilai_sejarah_indo_k" },
+        { label: "Bahasa Inggris",           p: "nilai_b_inggris_p", k: "nilai_b_inggris_k" },
+        { label: "Fisika",                   p: "nilai_fisika_p", k: "nilai_fisika_k" },
+        { label: "Kimia",                    p: "nilai_kimia_p", k: "nilai_kimia_k" },
+        { label: "Biologi",                  p: "nilai_biologi_p", k: "nilai_biologi_k" },
+        { label: "Ekonomi",                  p: "nilai_ekonomi_p", k: "nilai_ekonomi_k" },
+        { label: "Geografi",                 p: "nilai_geografi_p", k: "nilai_geografi_k" },
+        { label: "Sosiologi",                p: "nilai_sosiologi_p", k: "nilai_sosiologi_k" },
+        { label: "Informatika",              p: "nilai_informatika_p", k: "nilai_informatika_k" },
         { label: "Matematika Peminatan (IPA)", p: "nilai_mtk_ipa_p", k: "nilai_mtk_ipa_k" },
-        { label: "Fisika Peminatan", p: "nilai_fisika_ipa_p", k: "nilai_fisika_ipa_k" },
-        { label: "Kimia Peminatan", p: "nilai_kimia_ipa_p", k: "nilai_kimia_ipa_k" },
-        { label: "Biologi Peminatan", p: "nilai_biologi_ipa_p", k: "nilai_biologi_ipa_k" },
-        { label: "Sejarah Peminatan (IPS)", p: "nilai_sejarah_ips_p", k: "nilai_sejarah_ips_k" },
-        { label: "Ekonomi Peminatan (IPS)", p: "nilai_ekonomi_ips_p", k: "nilai_ekonomi_ips_k" },
+        { label: "Fisika Peminatan",         p: "nilai_fisika_ipa_p", k: "nilai_fisika_ipa_k" },
+        { label: "Kimia Peminatan",          p: "nilai_kimia_ipa_p", k: "nilai_kimia_ipa_k" },
+        { label: "Biologi Peminatan",        p: "nilai_biologi_ipa_p", k: "nilai_biologi_ipa_k" },
+        { label: "Sejarah Peminatan (IPS)",  p: "nilai_sejarah_ips_p", k: "nilai_sejarah_ips_k" },
+        { label: "Ekonomi Peminatan (IPS)",  p: "nilai_ekonomi_ips_p", k: "nilai_ekonomi_ips_k" },
         { label: "Geografi Peminatan (IPS)", p: "nilai_geografi_ips_p", k: "nilai_geografi_ips_k" },
-        { label: "Sosiologi Peminatan (IPS)", p: "nilai_sosiologi_ips_p", k: "nilai_sosiologi_ips_k" },
-        { label: "Tafsir - Ilmu Tafsir", p: "nilai_ilmu_tafsir_p", k: "nilai_ilmu_tafsir_k" },
-        { label: "Hadis - Ilmu Hadis", p: "nilai_ilmu_hadits_p", k: "nilai_ilmu_hadits_k" },
-        { label: "Fiqih - Ushul Fiqih", p: "nilai_ushul_fiqih_p", k: "nilai_ushul_fiqih_k" },
+        { label: "Sosiologi Peminatan (IPS)",p: "nilai_sosiologi_ips_p", k: "nilai_sosiologi_ips_k" },
+        { label: "Tafsir - Ilmu Tafsir",     p: "nilai_ilmu_tafsir_p", k: "nilai_ilmu_tafsir_k" },
+        { label: "Hadis - Ilmu Hadis",       p: "nilai_ilmu_hadits_p", k: "nilai_ilmu_hadits_k" },
+        { label: "Fiqih - Ushul Fiqih",      p: "nilai_ushul_fiqih_p", k: "nilai_ushul_fiqih_k" },
         { label: "Bahasa Arab Peminatan (Balaghoh)", p: "nilai_balaghoh_p", k: "nilai_balaghoh_k" },
-        { label: "Bahasa Inggris Tingkat Lanjut", p: "nilai_b_inggris_bhs_p", k: "nilai_b_inggris_bhs_k" },
-        { label: "Nahwu (Qawaid)", p: "nilai_qowaid_p", k: "nilai_qowaid_k" },
-        { label: "Hadits (Pesantren)", p: "nilai_hadits_p", k: "nilai_hadits_k" },
-        { label: "Faroidh", p: "nilai_faroidh_p", k: "nilai_faroidh_k" },
+        { label: "Bahasa Inggris Tingkat Lanjut",    p: "nilai_b_inggris_bhs_p", k: "nilai_b_inggris_bhs_k" },
+        { label: "Nahwu (Qawaid)",           p: "nilai_qowaid_p", k: "nilai_qowaid_k" },
+        { label: "Hadits (Pesantren)",       p: "nilai_hadits_p", k: "nilai_hadits_k" },
+        { label: "Faroidh",                  p: "nilai_faroidh_p", k: "nilai_faroidh_k" },
         { label: "Bimbingan Konseling (BK)", p: "nilai_bk_p", k: "nilai_bk_k" }
       ];
 
       let punyaAkademik = false;
+      let sumP = 0, cntP = 0;
+      let sumK = 0, cntK = 0;
+
       akademikMapel.forEach(m => {
         const p = profil[m.p];
         const k = profil[m.k];
         if (p == null && k == null) return;
         punyaAkademik = true;
+
+        if (p != null) { sumP += Number(p); cntP++; }
+        if (k != null) { sumK += Number(k); cntK++; }
+
         const tr = document.createElement("tr");
         tr.innerHTML =
           `<td class="label-left">${m.label}</td>` +
@@ -1196,44 +1204,84 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `<td colspan="3" class="label-left"><em>Data nilai akademik belum tersedia.</em></td>`;
         tbodyNilai.appendChild(tr);
+      } else {
+        const avgP = cntP ? (sumP / cntP).toFixed(2) : "";
+        const avgK = cntK ? (sumK / cntK).toFixed(2) : "";
+        const trAvg = document.createElement("tr");
+        trAvg.innerHTML =
+          `<td class="label-left"><strong>Rata-rata</strong></td>` +
+          `<td><strong>${avgP}</strong></td>` +
+          `<td><strong>${avgK}</strong></td>`;
+        tbodyNilai.appendChild(trAvg);
       }
 
       // ====== 3. TTQ ======
-      const ttqPairs = [
-        ["Hafalan Muqorror", "nilai_hafalan_muqorror", "Ujian Muqorror", "nilai_ujian_muqorror"],
-        ["Hafalan Murojaah", "nilai_hafalan_murojaah", "Hafalan Ziyadah", "nilai_hafalan_ziyadah"],
-        ["Ujian Ziyadah", "nilai_ujian_ziyadah", "", ""]
+      const ttqList = [
+        ["Hafalan Muqorror",  "nilai_hafalan_muqorror"],
+        ["Hafalan Murojaah",  "nilai_hafalan_murojaah"],
+        ["Ujian Muqorror",    "nilai_ujian_muqorror"],
+        ["Hafalan Ziyadah",   "nilai_hafalan_ziyadah"],
+        ["Ujian Ziyadah",     "nilai_ujian_ziyadah"]
       ];
 
-      let punyaTTQ = false;
-      ttqPairs.forEach(([label1, key1, label2, key2]) => {
+      tbodyHafalan.innerHTML = "";
+      let sumTTQ = 0, cntTTQ = 0;
+
+      // kita tampilkan 2 komponen per baris (4 kolom total)
+      for (let i = 0; i < ttqList.length; i += 2) {
+        const [label1, key1] = ttqList[i];
+        const item2          = ttqList[i + 1];
+
         const v1 = profil[key1];
-        const v2 = key2 ? profil[key2] : null;
-        if (v1 != null || v2 != null) punyaTTQ = true;
+        let label2 = "", v2 = null;
+        if (item2) {
+          label2 = item2[0];
+          v2     = profil[item2[1]];
+        }
+
+        if (v1 != null) { sumTTQ += Number(v1); cntTTQ++; }
+        if (v2 != null) { sumTTQ += Number(v2); cntTTQ++; }
+
+        // kalau dua-duanya null dan tidak ada label2 (baris kosong), skip
+        if (v1 == null && v2 == null && !item2) continue;
 
         const tr = document.createElement("tr");
         tr.innerHTML =
           `<td class="label-left">${label1}</td><td>${v1 ?? ""}</td>` +
           `<td class="label-left">${label2}</td><td>${v2 ?? ""}</td>`;
         tbodyHafalan.appendChild(tr);
-      });
+      }
 
-      if (!punyaTTQ) {
-        tbodyHafalan.innerHTML = `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
+      if (cntTTQ === 0) {
+        tbodyHafalan.innerHTML =
+          `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
+      } else {
+        const avgTTQ = (sumTTQ / cntTTQ).toFixed(2);
+        const trAvg = document.createElement("tr");
+        trAvg.innerHTML =
+          `<td class="label-left"><strong>Rata-rata</strong></td>` +
+          `<td colspan="3"><strong>${avgTTQ}</strong></td>`;
+        tbodyHafalan.appendChild(trAvg);
       }
 
       // ====== 4. BAHASA ======
       const bahasaPairs = [
-        ["Muhadhoroh", "nilai_muhadhoroh", "Speaking", "nilai_speaking"],
-        ["Hiwar", "nilai_hiwar", "Conversation", "nilai_conversation"],
-        ["Mufrodat", "nilai_mufrodat", "Vocabulary", "nilai_vocabulary"]
+        ["Muhadhoroh", "nilai_muhadhoroh", "Speaking",     "nilai_speaking"],
+        ["Hiwar",      "nilai_hiwar",      "Conversation", "nilai_conversation"],
+        ["Mufrodat",   "nilai_mufrodat",   "Vocabulary",   "nilai_vocabulary"]
       ];
 
+      tbodyBahasa.innerHTML = "";
+      let sumBahasa = 0, cntBahasa = 0;
       let punyaBahasa = false;
+
       bahasaPairs.forEach(([label1, key1, label2, key2]) => {
         const v1 = profil[key1];
         const v2 = profil[key2];
         if (v1 != null || v2 != null) punyaBahasa = true;
+
+        if (v1 != null) { sumBahasa += Number(v1); cntBahasa++; }
+        if (v2 != null) { sumBahasa += Number(v2); cntBahasa++; }
 
         const tr = document.createElement("tr");
         tr.innerHTML =
@@ -1243,42 +1291,67 @@
       });
 
       if (!punyaBahasa) {
-        tbodyBahasa.innerHTML = `<tr><td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td></tr>`;
+        tbodyBahasa.innerHTML =
+          `<tr><td colspan="4" class="label-left"><em>Data Bahasa belum tersedia.</em></td></tr>`;
+      } else {
+        const avgBahasa = (sumBahasa / cntBahasa).toFixed(2);
+        const trAvg = document.createElement("tr");
+        trAvg.innerHTML =
+          `<td class="label-left"><strong>Rata-rata</strong></td>` +
+          `<td colspan="3"><strong>${avgBahasa}</strong></td>`;
+        tbodyBahasa.appendChild(trAvg);
       }
 
       // ====== 5. MUTABAAH ======
       const mutabaahFields = [
         ["Shalat Berjamaah", "nilai_shalat_berjamaah"],
-        ["Shalat Rawatib", "nilai_shalat_rawatib"],
-        ["Shalat Qiyamullail", "nilai_qiyamullail"],
-        ["Shalat Dhuha", "nilai_shalat_dhuha"],
-        ["Tilawah", "nilai_tilawah"],
-        ["Matsurat", "nilai_matsurat"],
-        ["Shaum Sunnah", "nilai_shaum_sunnah"],
-        ["Olahraga", "nilai_olahraga"]
+        ["Shalat Rawatib",   "nilai_shalat_rawatib"],
+        ["Shalat Qiyamullail","nilai_qiyamullail"],
+        ["Shalat Dhuha",     "nilai_shalat_dhuha"],
+        ["Tilawah",          "nilai_tilawah"],
+        ["Matsurat",         "nilai_matsurat"],
+        ["Shaum Sunnah",     "nilai_shaum_sunnah"],
+        ["Olahraga",         "nilai_olahraga"]
       ];
 
-      let punyaMutabaah = false;
+      tbodyMutabaah.innerHTML = "";
+      let sumMut = 0, cntMut = 0;
+
       mutabaahFields.forEach(([label, key]) => {
         const v = profil[key];
         if (v == null) return;
-        punyaMutabaah = true;
+        sumMut += Number(v);
+        cntMut++;
+
         const tr = document.createElement("tr");
         tr.innerHTML = `<td class="label-left">${label}</td><td>${v}</td>`;
         tbodyMutabaah.appendChild(tr);
       });
 
-      if (!punyaMutabaah) {
-        tbodyMutabaah.innerHTML = `<tr><td colspan="2" class="label-left"><em>Data Mutabaah belum tersedia.</em></td></tr>`;
+      if (cntMut === 0) {
+        tbodyMutabaah.innerHTML =
+          `<tr><td colspan="2" class="label-left"><em>Data Mutabaah belum tersedia.</em></td></tr>`;
+      } else {
+        const avgMut = (sumMut / cntMut).toFixed(2);
+        const trAvg = document.createElement("tr");
+        trAvg.innerHTML =
+          `<td class="label-left"><strong>Rata-rata</strong></td>` +
+          `<td><strong>${avgMut}</strong></td>`;
+        tbodyMutabaah.appendChild(trAvg);
       }
 
       // ====== 6. PELANGGARAN ======
       const poin    = profil.poin_pelanggaran;
       const catatan = profil.catatan_pembinaan;
 
+      tbodyPelanggaran.innerHTML = "";
+      let totalPoin = 0;
+      let countRow  = 0;
+
       if (poin == null && !catatan) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td colspan="2" class="label-left"><em>Belum ada data pelanggaran.</em></td>`;
+        tr.innerHTML =
+          `<td colspan="2" class="label-left"><em>Belum ada data pelanggaran.</em></td>`;
         tbodyPelanggaran.appendChild(tr);
         totalPoinEl.textContent = "0";
       } else {
@@ -1287,9 +1360,21 @@
           `<td class="label-left">${catatan || "Pelanggaran (detail tidak diisi)"}</td>` +
           `<td>${poin ?? 0}</td>`;
         tbodyPelanggaran.appendChild(tr);
-        totalPoinEl.textContent = poin ?? 0;
+
+        totalPoin = poin ?? 0;
+        countRow  = 1;
+
+        totalPoinEl.textContent = totalPoin;
+
+        // baris rata-rata (saat ini sama dengan total, tapi siap kalau nanti ada multi-pelanggaran)
+        const avgPoin = (totalPoin / countRow).toFixed(2);
+        const trAvg = document.createElement("tr");
+        trAvg.innerHTML =
+          `<td class="label-left"><strong>Rata-rata poin pelanggaran</strong></td>` +
+          `<td><strong>${avgPoin}</strong></td>`;
+        tbodyPelanggaran.appendChild(trAvg);
       }
-    }
+
 
     document.addEventListener('DOMContentLoaded', function() {
       ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester"]
