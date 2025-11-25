@@ -1202,9 +1202,9 @@
         const avgK = cntK ? (sumK / cntK).toFixed(2) : "";
         const trAvg = document.createElement("tr");
         trAvg.innerHTML =
-          `<td><strong>Rata-rata</strong></td>` +
-          `<td><strong>${avgP}</strong></td>` +
-          `<td><strong>${avgK}</strong></td>`;
+          `<th>Rata-rata</th>` +
+          `<th>${avgP}</th>` +
+          `<th>${avgK}</th>`;
 
         tbodyNilai.appendChild(trAvg);
       }
@@ -1271,8 +1271,8 @@
         
           const trAvg = document.createElement("tr");
           trAvg.innerHTML =
-            `<td><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
-            `<td><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
+            `<th>Rata-rata</th><th>${avgLeft}</th>` +
+            `<th>Rata-rata</th><th>${avgRight}</th>`;
           tbodyHafalan.appendChild(trAvg);
         }
         
@@ -1318,8 +1318,8 @@
         const avgRight = cntBahasaRight ? (sumBahasaRight / cntBahasaRight).toFixed(2) : "";
         const trAvg = document.createElement("tr");
         trAvg.innerHTML =
-          `<td><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
-          `<td><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
+          `<th>Rata-rata</strong></th><th>${avgLeft}</th>` +
+          `<th>Rata-rata</strong></th><th>${avgRight}</th>`;
         tbodyBahasa.appendChild(trAvg);
       }
 
@@ -1356,8 +1356,8 @@
         const avgMut = (sumMut / cntMut).toFixed(2);
         const trAvg = document.createElement("tr");
         trAvg.innerHTML =
-          `<td><strong>Rata-rata</strong></td>` +
-          `<td><strong>${avgMut}</strong></td>`;
+          `<th>Rata-rata</th>` +
+          `<th>${avgMut}</th>`;
         tbodyMutabaah.appendChild(trAvg);
       }
 
