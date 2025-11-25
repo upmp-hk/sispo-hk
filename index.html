@@ -1365,7 +1365,6 @@
         countRow  = 1;
 
         totalPoinEl.textContent = totalPoin;
-      }
 
         // baris rata-rata (saat ini sama dengan total, tapi siap kalau nanti ada multi-pelanggaran)
         const avgPoin = (totalPoin / countRow).toFixed(2);
@@ -1375,7 +1374,7 @@
           `<td><strong>${avgPoin}</strong></td>`;
         tbodyPelanggaran.appendChild(trAvg);
       }
-
+    } // <=== PENUTUP async function loadDataSantri()
 
     document.addEventListener('DOMContentLoaded', function() {
       ["filterTahun","filterJenjang","filterKelas","filterParalel","filterSemester"]
@@ -1402,8 +1401,5 @@
       }
     });
   </script>
-
-  <!-- html2pdf.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </body>
 </html>
