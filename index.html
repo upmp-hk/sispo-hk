@@ -209,22 +209,26 @@
       .profile { grid-template-columns: 1fr; }
     }
     .profile-photo {
-      background: var(--blue-soft2);
+      /* jadi satu kartu saja, seperti card lain */
+      background: var(--white);
       border-radius: 14px;
       padding: 10px;
+      border: 1px solid var(--blue-soft2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
       text-align: center;
       display: flex;
-      flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
+    
     .profile-photo img {
       width: 100%;
-      height: auto;          /* biar tidak kepotong */
-      max-height: 280px;     /* kira-kira seukuran kotak status akademik */
-      object-fit: contain;   /* tampil utuh tanpa cropping */
-      border-radius: 12px;
-      border: 2px solid var(--white);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      height: auto;          /* supaya tidak kepotong */
+      max-height: 280px;     /* kurang-lebih seukuran kotak status akademik */
+      object-fit: contain;   /* foto utuh, tidak ter-crop */
+      border-radius: 10px;
+      border: none;          /* HAPUS border putih yang bikin kotak kedua */
+      box-shadow: none;      /* HAPUS shadow tambahan di dalam */
       display: block;
     }
     .profile-data {
@@ -350,6 +354,10 @@
     .card-table td.label-left {
       text-align: left;
     }
+  #tabelPelanggaran tfoot th {
+    font-weight: 700;
+  }
+
     .table-4col th,
     .table-4col td {
       width: 25%;
@@ -1203,29 +1211,72 @@
         tbodyNilai.appendChild(trAvg);
       }
 
-      // ====== 3. TTQ ======
-      const ttqList = [
-        ["Hafalan Muqorror",  "nilai_hafalan_muqorror"],
-        ["Hafalan Murojaah",  "nilai_hafalan_murojaah"],
-        ["Ujian Muqorror",    "nilai_ujian_muqorror"],
-        ["Hafalan Ziyadah",   "nilai_hafalan_ziyadah"],
-        ["Ujian Ziyadah",     "nilai_ujian_ziyadah"]
-      ];
-
-      tbodyHafalan.innerHTML = "";
-      let sumTTQLeft = 0, cntTTQLeft = 0;
-      let sumTTQRight = 0, cntTTQRight = 0;
-      let punyaTTQ = false;
-
-      for (let i = 0; i < ttqList.length; i += 2) {
-        const [label1, key1] = ttqList[i];
-        const item2          = ttqList[i + 1];
-
-        const v1 = profil[key1];
-        let label2 = "", v2 = null;
-        if (item2) {
-          label2 = item2[0];
-          v2     = profil[item2[1]];
+        // ====== 3. TTQ ======
+        // Kiri: Hafalan Muqorror, Ujian Muqorror, Hafalan Murojaah
+        // Kanan: Hafalan Ziyadah, Ujian Ziyadah
+        const ttqRows = [
+          {
+            leftLabel:  "Hafalan Muqorror",
+            leftKey:    "nilai_hafalan_muqorror",
+            rightLabel: "Hafalan Ziyadah",
+            rightKey:   "nilai_hafalan_ziyadah"
+          },
+          {
+            leftLabel:  "Ujian Muqorror",
+            leftKey:    "nilai_ujian_muqorror",
+            rightLabel: "Ujian Ziyadah",
+            rightKey:   "nilai_ujian_ziyadah"
+          },
+          {
+            leftLabel:  "Hafalan Murojaah",
+            leftKey:    "nilai_hafalan_murojaah",
+            rightLabel: "",
+            rightKey:   null
+          }
+        ];
+        
+        tbodyHafalan.innerHTML = "";
+        let sumTTQLeft = 0, cntTTQLeft = 0;
+        let sumTTQRight = 0, cntTTQRight = 0;
+        let punyaTTQ = false;
+        
+        ttqRows.forEach(row => {
+          const vLeft  = row.leftKey  ? profil[row.leftKey]  : null;
+          const vRight = row.rightKey ? profil[row.rightKey] : null;
+        
+          if (vLeft != null) {
+            sumTTQLeft += Number(vLeft);
+            cntTTQLeft++;
+            punyaTTQ = true;
+          }
+          if (vRight != null) {
+            sumTTQRight += Number(vRight);
+            cntTTQRight++;
+            punyaTTQ = true;
+          }
+        
+          // kalau kedua sisi kosong, lewati
+          if (vLeft == null && vRight == null) return;
+        
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            `<td class="label-left">${row.leftLabel}</td><td>${vLeft ?? ""}</td>` +
+            `<td class="label-left">${row.rightLabel || ""}</td><td>${vRight ?? ""}</td>`;
+          tbodyHafalan.appendChild(tr);
+        });
+        
+        if (!punyaTTQ) {
+          tbodyHafalan.innerHTML =
+            `<tr><td colspan="4" class="label-left"><em>Data TTQ belum tersedia.</em></td></tr>`;
+        } else {
+          const avgLeft  = cntTTQLeft  ? (sumTTQLeft  / cntTTQLeft ).toFixed(2) : "";
+          const avgRight = cntTTQRight ? (sumTTQRight / cntTTQRight).toFixed(2) : "";
+        
+          const trAvg = document.createElement("tr");
+          trAvg.innerHTML =
+            `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgLeft}</strong></td>` +
+            `<td class="label-left"><strong>Rata-rata</strong></td><td><strong>${avgRight}</strong></td>`;
+          tbodyHafalan.appendChild(trAvg);
         }
 
         if (v1 != null) {
