@@ -324,16 +324,16 @@
     .pengasuhan-table td.align-left {
       text-align: left;
     }
-    .pengasuhan-table input[type="number"] {
-      width: 80px;
-      box-sizing: border-box;
-      padding: 2px 4px;
-      border-radius: 6px;
+    .pengasuhan-table input[type="text"] {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 999px;
       border: 1px solid var(--blue-soft2);
-      font-size: 11px;
-      outline: none;
-      text-align: center;
+      font-size: 12px;
+      height: 32px;   /* samakan dengan mode bahasa */
+      box-sizing: border-box;
     }
+
     .pengasuhan-table input[type="number"]:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
@@ -451,7 +451,7 @@
         <div class="main-header-left">
           <div class="main-title">Sistem Informasi Santri Pontren Husnul Khotimah</div>
           <div class="main-subtitle">
-            Input Poin Pelanggaran &amp; Catatan Pembinaan oleh Pengasuhan.
+            Input Poin Pelanggaran &amp; Catatan Pelanggaran oleh Pengasuhan.
           </div>
         </div>
         <div class="main-header-right">
@@ -474,7 +474,7 @@
             <div class="login-badge">🔑 Login</div>
             <div class="login-title">Tim Pengasuhan</div>
             <div class="login-subtitle">
-              Masuk dengan akun tim pengasuhan untuk mengisi poin pelanggaran dan catatan pembinaan santri.
+              Masuk dengan akun tim pengasuhan untuk mengisi poin pelanggaran dan catatan pelanggaran santri.
             </div>
           </div>
 
@@ -638,7 +638,7 @@
           <!-- TABEL PENGASUHAN -->
           <div class="pengasuhan-table-card">
             <div class="pengasuhan-table-title">
-              <span>Input Poin Pelanggaran &amp; Catatan Pembinaan</span>
+              <span>Input Poin Pelanggaran &amp; Jenis Pelanggaran</span>
               <small>
                 Kelas: <span id="labelPengasuhanKelas">XI</span> /
                 TA <span id="labelPengasuhanTahun">2024/2025</span> /
@@ -654,7 +654,7 @@
                     <th>NIS</th>
                     <th>Nama Lengkap</th>
                     <th>Poin Pelanggaran</th>
-                    <th>Catatan Pembinaan</th>
+                    <th>Jenis Pelanggaran</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -932,11 +932,7 @@
               value="${row.poin_pelanggaran ?? ""}"
             />
           </td>
-          <td>
-            <textarea data-field="catatan_pembinaan">${
-              row.catatan_pembinaan ? (row.catatan_pembinaan.replace(/</g, "&lt;").replace(/>/g, "&gt;")) : ""
-            }</textarea>
-          </td>
+          <td><input type="text" class="catatan-pembinaan"></td>
         `;
         tbody.appendChild(tr);
       });
@@ -1025,6 +1021,7 @@
   </script>
 </body>
 </html>
+
 
 
 
