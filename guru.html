@@ -1188,6 +1188,9 @@
       const tahunRaw = document.getElementById("guruTahun").value;
       const tahun    = tahunRaw.replace("_", "/");
       const semester = parseInt(document.getElementById("guruSemester").value, 10);
+      const jenjang  = document.getElementById("guruJenjang").value;
+      const kelas    = document.getElementById("guruKelas").value;
+      const paralel  = document.getElementById("guruParalel").value;
       const mapelKey = document.getElementById("guruMapel").value;
     
       const cfg = MAPEL_CONFIG[mapelKey];
@@ -1209,10 +1212,15 @@
       };
     
       for (const tr of rows) {
-        const nisCell = tr.children[1];
-        if (!nisCell) continue;
-        const nis = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
-        if (!nis) continue;
+        const nisCell  = tr.children[1];
+        const namaCell = tr.children[2];
+        if (!nisCell || !namaCell) continue;
+  
+        const nis          = nisCell.getAttribute("data-nis") || nisCell.textContent.trim();
+        const namaLengkap  = namaCell.textContent.trim();
+  
+        // kalau nis atau nama kosong, skip saja (biar aman)
+        if (!nis || !namaLengkap) continue;
     
         const nilaiP = getNilai(tr, cfg.kolomP);
         const nilaiK = getNilai(tr, cfg.kolomK);
@@ -1222,8 +1230,12 @@
     
         const rowData = {
           nis,
+          nama_lengkap: namaLengkap,
           tahun_ajaran: tahun,
-          semester
+          semester,
+          jenjang,
+          kelas,
+          paralel
         };
     
         if (nilaiP !== null) rowData[cfg.kolomP] = nilaiP;
@@ -1254,3 +1266,4 @@
   </script>
 </body>
 </html>
+
