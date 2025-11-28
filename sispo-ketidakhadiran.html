@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>SISPO HK - Ketidakhadiran Santri (S/I/A)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --blue: #1d4ed8;
+      --blue-soft: #bfdbfe;
+      --blue-soft2: #dbeafe;
+      --green: #10b981;
+      --green-soft: #bbf7d0;
+      --green-soft2: #dcfce7;
+      --red: #ef4444;
+      --gray-soft: #f3f4f6;
+      --gray: #6b7280;
+      --dark: #0f172a;
+      --white: #ffffff;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #dcfce7);
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      color: var(--dark);
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1150px;
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22);
+      padding: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 1.75rem 2rem;
+      }
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #eff6ff, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eff6ff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.5);
+    }
+
+    .brand-text h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .mode-pill-group {
+      display: inline-flex;
+      border-radius: 999px;
+      background: #e5e7eb;
+      padding: 0.15rem;
+      gap: 0.15rem;
+    }
+
+    .mode-pill {
+      border-radius: 999px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .mode-pill.active {
+      background: var(--white);
+      color: #111827;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+    }
+
+    .mode-pill .tag-role {
+      font-size: 0.65rem;
+      padding: 0.05rem 0.4rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 0.4rem;
+    }
+
+    .hint-mode {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-bottom: 0.8rem;
+    }
+
+    .hint-mode strong {
+      color: #111827;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      font-size: 0.8rem;
+      min-width: 140px;
+    }
+
+    .field label {
+      color: var(--gray);
+    }
+
+    .field input,
+    .field select {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.85rem;
+      background: #f9fafb;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+      background: #fff;
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-left: auto;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: transform 0.08s ease, box-shadow 0.08s ease,
+        background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    button:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--dark);
+      border: 1px solid #e5e7eb;
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: white;
+    }
+
+    .btn-disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .table-card {
+      margin-top: 0.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+      background: #f9fafb;
+    }
+
+    .table-header {
+      padding: 0.55rem 0.9rem;
+      background: var(--blue-soft2);
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .table-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .table-header span {
+      font-size: 0.75rem;
+      color: #4b5563;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    thead {
+      background: var(--blue-soft2);
+    }
+
+    th,
+    td {
+      padding: 0.5rem 0.6rem;
+      font-size: 0.8rem;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      font-weight: 600;
+      color: #1f2933;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: #eff6ff;
+    }
+
+    .col-no {
+      width: 32px;
+    }
+
+    .col-status {
+      width: 115px;
+      text-align: center;
+    }
+
+    .col-aksi {
+      width: 70px;
+      text-align: center;
+    }
+
+    .nama-input,
+    .ket-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      background: white;
+      outline: none;
+    }
+
+    .nama-input:focus,
+    .ket-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+    }
+
+    .kelas-text,
+    .paralel-text {
+      font-size: 0.8rem;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .kelas-sub,
+    .paralel-sub {
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0.15rem 0.45rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #1f2937;
+      background: #e5e7eb;
+    }
+
+    .status-group {
+      display: flex;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.15rem;
+      border-radius: 999px;
+      padding: 0.16rem 0.4rem;
+      font-size: 0.7rem;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .status-pill input {
+      accent-color: var(--blue);
+    }
+
+    .status-pill span {
+      font-weight: 600;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.7rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .legend {
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+
+    .legend strong {
+      color: #111827;
+    }
+
+    .footer-note {
+      margin-top: 0.6rem;
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+
+    .icon {
+      font-size: 0.9rem;
+    }
+
+    /* Autocomplete suggestions */
+    .autocomplete-wrapper {
+      position: relative;
+    }
+
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      z-index: 20;
+      max-height: 190px;
+      overflow-y: auto;
+      margin-top: 0.2rem;
+      display: none;
+    }
+
+    .suggestion-item {
+      padding: 0.35rem 0.6rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .suggestion-item:hover {
+      background: #eff6ff;
+    }
+
+    .suggestion-name {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .suggestion-meta {
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+
+    .badge-jenjang {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--blue-soft2);
+      color: #1e40af;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-kelas {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--green-soft2);
+      color: #166534;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Mode: kesiswaan = read only look */
+    body[data-mode="kesiswaan"] .editable-only {
+      display: none !important;
+    }
+
+    body[data-mode="kesiswaan"] .nama-input,
+    body[data-mode="kesiswaan"] .ket-input {
+      background: #f3f4f6;
+    }
+
+    body[data-mode="kesiswaan"] .status-pill {
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    /* Print mode */
+    @media print {
+      body {
+        padding: 0;
+        background: white;
+      }
+      .app {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: 100%;
+      }
+      .top-bar,
+      .toolbar-buttons,
+      .btn-row button {
+        display: none !important;
+      }
+      .table-card {
+        border: none;
+      }
+      .table-header {
+        background: white;
+        border-bottom: none;
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body data-mode="wali">
+  <div class="app">
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-badge">HK</div>
+        <div class="brand-text">
+          <h1>SISPO HK - Ketidakhadiran Santri</h1>
+          <p>Mode Kesiswaan & Wali Asrama · Sakit · Izin · Alfa (S/I/A)</p>
+        </div>
+      </div>
+      <div class="mode-pill-group">
+        <button class="mode-pill active" id="modeWaliBtn">
+          <span>Wali Asrama</span>
+          <span class="tag-role">Input Harian</span>
+        </button>
+        <button class="mode-pill" id="modeKesiswaanBtn">
+          <span>Kesiswaan</span>
+          <span class="tag-role">Rekap / Monitoring</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="subtitle">
+      Catat ketidakhadiran santri (Sakit, Izin, Alfa) per hari. Data disimpan per tanggal dan bisa
+      dibuka kembali sewaktu-waktu.
+    </p>
+    <p class="hint-mode">
+      <strong>Mode Wali Asrama:</strong> form bisa diedit dan disimpan. 
+      <strong>Mode Kesiswaan:</strong> form hanya untuk melihat, tombol edit dinonaktifkan.
+    </p>
+
+    <div class="filter-row">
+      <div class="field">
+        <label for="tanggalInput">Tanggal</label>
+        <input type="date" id="tanggalInput" />
+      </div>
+
+      <div class="field">
+        <label for="filterKelas">Filter Kelas</label>
+        <input
+          type="text"
+          id="filterKelas"
+          placeholder="Opsional, misal: X IPA 1"
+        />
+      </div>
+
+      <div class="field">
+        <label for="filterParalel">Filter Paralel</label>
+        <input
+          type="text"
+          id="filterParalel"
+          placeholder="Opsional, misal: A / B"
+        />
+      </div>
+
+      <div class="toolbar-buttons">
+        <button class="btn-outline" id="btnLoad">
+          <span class="icon">🔍</span> Tampilkan
+        </button>
+        <button class="btn-primary editable-only" id="btnAddRow">
+          <span class="icon">➕</span> Tambah Baris
+        </button>
+        <button class="btn-secondary editable-only" id="btnSave">
+          <span class="icon">💾</span> Simpan
+        </button>
+        <button class="btn-outline" id="btnPrint">
+          <span class="icon">📄</span> Download PDF
+        </button>
+      </div>
+    </div>
+
+    <section class="table-card">
+      <div class="table-header">
+        <div>
+          <h2>Daftar Ketidakhadiran Santri</h2>
+          <span id="captionTanggal">Tanggal aktif: -</span>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-no">No</th>
+              <th>Nama Santri</th>
+              <th>Kelas</th>
+              <th>Paralel</th>
+              <th class="col-status">S / I / A</th>
+              <th>Keterangan Ketidakhadiran</th>
+              <th class="col-aksi editable-only">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- baris via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="btn-row">
+      <div class="legend">
+        <strong>Keterangan:</strong>
+        <span class="tag">S = Sakit</span>
+        <span class="tag">I = Izin</span>
+        <span class="tag">A = Alfa</span>
+      </div>
+      <div class="editable-only">
+        <button class="btn-primary" id="btnAddRowBottom">
+          <span class="icon">➕</span> Tambah Baris
+        </button>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Rekap ketidakhadiran dapat diakses kembali dengan memilih tanggal lalu menekan
+      <strong>Tampilkan</strong>. Untuk laporan PDF, gunakan tombol <strong>Download PDF</strong>
+      (pilih “Save as PDF” di menu print browser).
+    </p>
+  </div>
+
+  <script>
+    // =======================
+    // 1. DATA SANTRI (MASTER)
+    // =======================
+    // Ganti dengan data sungguhan (import dari DB / Supabase).
+    const santriMaster = [
+      {
+        id: 1,
+        nis: "20230001",
+        nama: "Ahmad Fulan",
+        tahunAjaran: "2025/2026",
+        semester: "Ganjil",
+        jenjang: "MTs",
+        kelas: "VII",
+        paralel: "A",
+      },
+      {
+        id: 2,
+        nis: "20230002",
+        nama: "Muhammad Yusuf",
+        tahunAjaran: "2025/2026",
+        semester: "Ganjil",
+        jenjang: "MTs",
+        kelas: "VII",
+        paralel: "B",
+      },
+      {
+        id: 3,
+        nis: "20220011",
+        nama: "Siti Aisyah",
+        tahunAjaran: "2025/2026",
+        semester: "Ganjil",
+        jenjang: "MA",
+        kelas: "X IPA 1",
+        paralel: "A",
+      },
+      // dst...
+    ];
+
+    // =======================
+    // 2. LOCALSTORAGE UTIL
+    // =======================
+    const STORAGE_KEY = "rekap_ketidakhadiran_santri";
+
+    function loadAllLogs() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        console.error("Gagal parse data:", e);
+        return {};
+      }
+    }
+
+    function saveAllLogs(allLogs) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allLogs));
+    }
+
+    function loadLogsByDate(dateStr) {
+      if (!dateStr) return [];
+      const all = loadAllLogs();
+      return all[dateStr] || [];
+    }
+
+    function saveLogsByDate(dateStr, logs) {
+      if (!dateStr) return;
+      const all = loadAllLogs();
+      all[dateStr] = logs;
+      saveAllLogs(all);
+    }
+
+    // =======================
+    // 3. DOM ELEMENTS
+    // =======================
+    const bodyEl = document.body;
+    const tanggalInput = document.getElementById("tanggalInput");
+    const filterKelasInput = document.getElementById("filterKelas");
+    const filterParalelInput = document.getElementById("filterParalel");
+    const tableBody = document.getElementById("tableBody");
+    const captionTanggal = document.getElementById("captionTanggal");
+
+    const btnLoad = document.getElementById("btnLoad");
+    const btnAddRow = document.getElementById("btnAddRow");
+    const btnAddRowBottom = document.getElementById("btnAddRowBottom");
+    const btnSave = document.getElementById("btnSave");
+    const btnPrint = document.getElementById("btnPrint");
+
+    const modeWaliBtn = document.getElementById("modeWaliBtn");
+    const modeKesiswaanBtn = document.getElementById("modeKesiswaanBtn");
+
+    let currentMode = "wali";
+
+    // Set default tanggal = hari ini
+    (function setDefaultDate() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      tanggalInput.value = `${yyyy}-${mm}-${dd}`;
+      updateCaptionTanggal();
+    })();
+
+    function updateCaptionTanggal() {
+      const t = tanggalInput.value || "-";
+      captionTanggal.textContent = "Tanggal aktif: " + t;
+    }
+
+    // =======================
+    // 4. MODE SWITCH
+    // =======================
+    function setMode(mode) {
+      currentMode = mode;
+      bodyEl.setAttribute("data-mode", mode);
+
+      if (mode === "wali") {
+        modeWaliBtn.classList.add("active");
+        modeKesiswaanBtn.classList.remove("active");
+      } else {
+        modeKesiswaanBtn.classList.add("active");
+        modeWaliBtn.classList.remove("active");
+      }
+
+      // Radio & input tetap dibuat non-interaktif di mode kesiswaan
+      const isEditable = mode === "wali";
+
+      // Nonaktifkan input jika bukan wali
+      const nameInputs = document.querySelectorAll(".nama-input");
+      const ketInputs = document.querySelectorAll(".ket-input");
+      const radios = document.querySelectorAll(".status-pill input[type='radio']");
+      const deleteButtons = document.querySelectorAll(".btn-danger");
+
+      nameInputs.forEach((i) => (i.disabled = !isEditable));
+      ketInputs.forEach((i) => (i.disabled = !isEditable));
+      radios.forEach((r) => (r.disabled = !isEditable));
+      deleteButtons.forEach((b) => (b.disabled = !isEditable));
+    }
+
+    modeWaliBtn.addEventListener("click", () => setMode("wali"));
+    modeKesiswaanBtn.addEventListener("click", () => setMode("kesiswaan"));
+
+    // =======================
+    // 5. TABEL & BARIS
+    // =======================
+    function clearTable() {
+      tableBody.innerHTML = "";
+    }
+
+    function createStatusCell(selectedStatus = "") {
+      const td = document.createElement("td");
+      td.classList.add("col-status");
+
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("status-group");
+
+      const statuses = [
+        { value: "S", label: "S" },
+        { value: "I", label: "I" },
+        { value: "A", label: "A" },
+      ];
+
+      statuses.forEach((s) => {
+        const label = document.createElement("label");
+        label.classList.add("status-pill");
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "";
+        input.value = s.value;
+        if (selectedStatus === s.value) {
+          input.checked = true;
+        }
+
+        const span = document.createElement("span");
+        span.textContent = s.label;
+
+        label.appendChild(input);
+        label.appendChild(span);
+        wrapper.appendChild(label);
+      });
+
+      td.appendChild(wrapper);
+      return td;
+    }
+
+    function createRow(data = {}) {
+      const tr = document.createElement("tr");
+
+      const tdNo = document.createElement("td");
+      tdNo.classList.add("col-no");
+      tdNo.textContent = "-";
+      tr.appendChild(tdNo);
+
+      // Nama + autocomplete
+      const tdNama = document.createElement("td");
+      const namaWrapper = document.createElement("div");
+      namaWrapper.classList.add("autocomplete-wrapper");
+
+      const namaInput = document.createElement("input");
+      namaInput.type = "text";
+      namaInput.classList.add("nama-input");
+      namaInput.placeholder = "Ketik nama santri yang tidak hadir...";
+      namaInput.value = data.nama || "";
+
+      const hiddenSantriId = document.createElement("input");
+      hiddenSantriId.type = "hidden";
+      hiddenSantriId.classList.add("santri-id");
+      hiddenSantriId.value = data.santriId || "";
+
+      const suggestions = document.createElement("div");
+      suggestions.classList.add("suggestions");
+
+      namaWrapper.appendChild(namaInput);
+      namaWrapper.appendChild(hiddenSantriId);
+      namaWrapper.appendChild(suggestions);
+      tdNama.appendChild(namaWrapper);
+      tr.appendChild(tdNama);
+
+      // Kelas
+      const tdKelas = document.createElement("td");
+      const kelasMain = document.createElement("div");
+      kelasMain.classList.add("kelas-text");
+      kelasMain.textContent = data.kelas || "-";
+      const kelasSub = document.createElement("div");
+      kelasSub.classList.add("kelas-sub");
+      kelasSub.textContent = data.jenjang ? data.jenjang : "";
+      tdKelas.appendChild(kelasMain);
+      tdKelas.appendChild(kelasSub);
+      tr.appendChild(tdKelas);
+
+      // Paralel
+      const tdParalel = document.createElement("td");
+      const paralelMain = document.createElement("div");
+      paralelMain.classList.add("paralel-text");
+      paralelMain.textContent = data.paralel || "-";
+      const paralelSub = document.createElement("div");
+      paralelSub.classList.add("paralel-sub");
+      paralelSub.textContent = data.tahunAjaran || "";
+      tdParalel.appendChild(paralelMain);
+      tdParalel.appendChild(paralelSub);
+      tr.appendChild(tdParalel);
+
+      // Status
+      const tdStatus = createStatusCell(data.status || "");
+      tr.appendChild(tdStatus);
+
+      // Keterangan
+      const tdKet = document.createElement("td");
+      const ketInput = document.createElement("input");
+      ketInput.type = "text";
+      ketInput.classList.add("ket-input");
+      ketInput.placeholder =
+        "Keterangan ketidakhadiran (misal: demam, izin pulang...)";
+      ketInput.value = data.keterangan || "";
+      tdKet.appendChild(ketInput);
+      tr.appendChild(tdKet);
+
+      // Aksi
+      const tdAksi = document.createElement("td");
+      tdAksi.classList.add("col-aksi", "editable-only");
+      const btnDelete = document.createElement("button");
+      btnDelete.type = "button";
+      btnDelete.classList.add("btn-danger");
+      btnDelete.style.fontSize = "0.7rem";
+      btnDelete.textContent = "Hapus";
+      btnDelete.addEventListener("click", () => {
+        tr.remove();
+        renumberRows();
+      });
+      tdAksi.appendChild(btnDelete);
+      tr.appendChild(tdAksi);
+
+      setupAutocomplete(namaInput, hiddenSantriId, tdKelas, tdParalel, suggestions);
+
+      return tr;
+    }
+
+    function addRow(data = {}) {
+      const tr = createRow(data);
+      tableBody.appendChild(tr);
+
+      const radios = tr.querySelectorAll(".status-pill input[type='radio']");
+      const rowIndex = tableBody.querySelectorAll("tr").length;
+      radios.forEach((r) => {
+        r.name = "status_row_" + rowIndex;
+      });
+
+      renumberRows();
+      // Pastikan mode sekarang diterapkan (disable kalau kesiswaan)
+      setMode(currentMode);
+    }
+
+    function renumberRows() {
+      const rows = tableBody.querySelectorAll("tr");
+      rows.forEach((row, idx) => {
+        const tdNo = row.querySelector("td.col-no");
+        if (tdNo) tdNo.textContent = idx + 1;
+        const radios = row.querySelectorAll(".status-pill input[type='radio']");
+        radios.forEach((r) => {
+          r.name = "status_row_" + (idx + 1);
+        });
+      });
+    }
+
+    // =======================
+    // 6. AUTOCOMPLETE NAMA
+    // =======================
+    function setupAutocomplete(inputEl, hiddenIdEl, tdKelas, tdParalel, suggestionsEl) {
+      function hideSuggestions() {
+        suggestionsEl.style.display = "none";
+        suggestionsEl.innerHTML = "";
+      }
+
+      inputEl.addEventListener("input", () => {
+        const query = inputEl.value.trim().toLowerCase();
+        hiddenIdEl.value = "";
+        if (!query) {
+          hideSuggestions();
+          tdKelas.querySelector(".kelas-text").textContent = "-";
+          tdKelas.querySelector(".kelas-sub").textContent = "";
+          tdParalel.querySelector(".paralel-text").textContent = "-";
+          tdParalel.querySelector(".paralel-sub").textContent = "";
+          return;
+        }
+
+        const matches = santriMaster.filter((s) =>
+          s.nama.toLowerCase().includes(query)
+        );
+
+        if (matches.length === 0) {
+          hideSuggestions();
+          return;
+        }
+
+        suggestionsEl.innerHTML = "";
+        matches.slice(0, 20).forEach((s) => {
+          const item = document.createElement("div");
+          item.classList.add("suggestion-item");
+
+          const left = document.createElement("div");
+          const nameDiv = document.createElement("div");
+          nameDiv.classList.add("suggestion-name");
+          nameDiv.textContent = s.nama;
+          const metaDiv = document.createElement("div");
+          metaDiv.classList.add("suggestion-meta");
+          metaDiv.textContent = `Kelas ${s.kelas} • Paralel ${s.paralel}`;
+
+          left.appendChild(nameDiv);
+          left.appendChild(metaDiv);
+
+          const right = document.createElement("div");
+          right.style.display = "flex";
+          right.style.gap = "0.25rem";
+          const badgeJenjang = document.createElement("span");
+          badgeJenjang.classList.add("badge-jenjang");
+          badgeJenjang.textContent = s.jenjang;
+          const badgeKelas = document.createElement("span");
+          badgeKelas.classList.add("badge-kelas");
+          badgeKelas.textContent = s.tahunAjaran;
+
+          right.appendChild(badgeJenjang);
+          right.appendChild(badgeKelas);
+
+          item.appendChild(left);
+          item.appendChild(right);
+
+          item.addEventListener("click", () => {
+            inputEl.value = s.nama;
+            hiddenIdEl.value = s.id;
+
+            tdKelas.querySelector(".kelas-text").textContent = s.kelas || "-";
+            tdKelas.querySelector(".kelas-sub").textContent = s.jenjang || "";
+
+            tdParalel.querySelector(".paralel-text").textContent =
+              s.paralel || "-";
+            tdParalel.querySelector(".paralel-sub").textContent =
+              s.tahunAjaran || "";
+
+            hideSuggestions();
+          });
+
+          suggestionsEl.appendChild(item);
+        });
+
+        suggestionsEl.style.display = "block";
+      });
+
+      inputEl.addEventListener("blur", () => {
+        setTimeout(() => hideSuggestions(), 180);
+      });
+    }
+
+    // =======================
+    // 7. AMBIL & RENDER DATA
+    // =======================
+    function getRowsDataFromTable() {
+      const rows = tableBody.querySelectorAll("tr");
+      const tanggal = tanggalInput.value;
+      const kelasFilter = filterKelasInput.value.trim().toLowerCase();
+      const paralelFilter = filterParalelInput.value.trim().toLowerCase();
+
+      const data = [];
+
+      rows.forEach((row) => {
+        const namaInput = row.querySelector(".nama-input");
+        const santriIdInput = row.querySelector(".santri-id");
+        const kelasText = row.querySelector(".kelas-text");
+        const kelasSub = row.querySelector(".kelas-sub");
+        const paralelText = row.querySelector(".paralel-text");
+        const paralelSub = row.querySelector(".paralel-sub");
+        const ketInput = row.querySelector(".ket-input");
+        const radios = row.querySelectorAll(
+          ".status-pill input[type='radio']"
+        );
+
+        const nama = namaInput.value.trim();
+        if (!nama) return;
+
+        let status = "";
+        radios.forEach((r) => {
+          if (r.checked) status = r.value;
+        });
+
+        const kelas = kelasText.textContent === "-" ? "" : kelasText.textContent;
+        const jenjang = kelasSub.textContent || "";
+        const paralel =
+          paralelText.textContent === "-" ? "" : paralelText.textContent;
+        const tahunAjaran = paralelSub.textContent || "";
+
+        const rowData = {
+          tanggal,
+          santriId: santriIdInput.value || null,
+          nama,
+          kelas,
+          jenjang,
+          paralel,
+          tahunAjaran,
+          status,
+          keterangan: ketInput.value.trim(),
+        };
+
+        if (kelasFilter && !kelas.toLowerCase().includes(kelasFilter)) return;
+        if (
+          paralelFilter &&
+          !paralel.toLowerCase().includes(paralelFilter)
+        )
+          return;
+
+        data.push(rowData);
+      });
+
+      return data;
+    }
+
+    function renderLogsToTable(logs) {
+      clearTable();
+      logs.forEach((log) => {
+        addRow(log);
+      });
+      if (logs.length === 0) {
+        addRow();
+      }
+    }
+
+    // =======================
+    // 8. EVENT
+    // =======================
+    btnAddRow.addEventListener("click", () => {
+      if (currentMode !== "wali") return;
+      addRow();
+    });
+
+    btnAddRowBottom.addEventListener("click", () => {
+      if (currentMode !== "wali") return;
+      addRow();
+      tableBody.parentElement.scrollTop = tableBody.parentElement.scrollHeight;
+    });
+
+    btnSave.addEventListener("click", () => {
+      if (currentMode !== "wali") return;
+
+      const tanggal = tanggalInput.value;
+      if (!tanggal) {
+        alert("Silakan pilih tanggal terlebih dahulu.");
+        return;
+      }
+
+      const data = getRowsDataFromTable();
+      if (data.length === 0) {
+        alert("Belum ada data ketidakhadiran santri yang diisi.");
+        return;
+      }
+
+      saveLogsByDate(tanggal, data);
+      alert("Data ketidakhadiran berhasil disimpan untuk tanggal " + tanggal);
+    });
+
+    btnLoad.addEventListener("click", () => {
+      const tanggal = tanggalInput.value;
+      if (!tanggal) {
+        alert("Silakan pilih tanggal terlebih dahulu.");
+        return;
+      }
+      updateCaptionTanggal();
+      const logs = loadLogsByDate(tanggal);
+      renderLogsToTable(logs);
+    });
+
+    btnPrint.addEventListener("click", () => {
+      if (!tanggalInput.value) {
+        alert("Pilih tanggal dulu sebelum download PDF.");
+        return;
+      }
+      window.print();
+    });
+
+    tanggalInput.addEventListener("change", updateCaptionTanggal);
+
+    // awal: load hari ini
+    window.addEventListener("load", () => {
+      const tanggal = tanggalInput.value;
+      const logs = loadLogsByDate(tanggal);
+      renderLogsToTable(logs);
+      setMode("wali");
+    });
+  </script>
+</body>
+</html>
